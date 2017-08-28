@@ -6,12 +6,42 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <title>o(^▽^)o</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+  <meta name="description" content="StartCom 申请 SSL 证书及 Nginx HTTPS 支持配置全攻略
+StartSSL 方面首先介绍在 StartSSL 方面的操作，因为这才是真正获得证书认证的关键流程。
+
+注意：因为此文操作全程在 Win10 平台进行，所以在证书申请的全过程中，推荐使用 IE 浏览器（方便证书的导入导出），如果使用其他浏览器，遇到的任何问题将超出本文讨论范围。
+
+注册登录已经注册过会员的童鞋请跳过此">
+<meta property="og:type" content="article">
 <meta property="og:title" content="o(^▽^)o">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/08/28/FreeSSLConfig/index.html">
 <meta property="og:site_name" content="o(^▽^)o">
+<meta property="og:description" content="StartCom 申请 SSL 证书及 Nginx HTTPS 支持配置全攻略
+StartSSL 方面首先介绍在 StartSSL 方面的操作，因为这才是真正获得证书认证的关键流程。
+
+注意：因为此文操作全程在 Win10 平台进行，所以在证书申请的全过程中，推荐使用 IE 浏览器（方便证书的导入导出），如果使用其他浏览器，遇到的任何问题将超出本文讨论范围。
+
+注册登录已经注册过会员的童鞋请跳过此">
+<meta property="og:image" content="http://i.imgur.com/voEo8xP.jpg">
+<meta property="og:image" content="http://i.imgur.com/xaIPacV.jpg">
+<meta property="og:image" content="http://i.imgur.com/tybzYw1.jpg">
+<meta property="og:image" content="http://i.imgur.com/dDmuX1S.jpg">
+<meta property="og:image" content="http://i.imgur.com/yOzXik2.jpg">
+<meta property="og:image" content="http://i.imgur.com/N4bOIAM.jpg">
+<meta property="og:image" content="http://i.imgur.com/jMiRSWB.jpg">
+<meta property="og:image" content="http://i.imgur.com/tb8UE1M.jpg">
+<meta property="og:image" content="http://i.imgur.com/3SWZuMd.jpg">
+<meta property="og:image" content="http://i.imgur.com/ZwwkEgv.jpg">
+<meta property="og:updated_time" content="2017-08-28T08:53:06.887Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="o(^▽^)o">
+<meta name="twitter:description" content="StartCom 申请 SSL 证书及 Nginx HTTPS 支持配置全攻略
+StartSSL 方面首先介绍在 StartSSL 方面的操作，因为这才是真正获得证书认证的关键流程。
+
+注意：因为此文操作全程在 Win10 平台进行，所以在证书申请的全过程中，推荐使用 IE 浏览器（方便证书的导入导出），如果使用其他浏览器，遇到的任何问题将超出本文讨论范围。
+
+注册登录已经注册过会员的童鞋请跳过此">
+<meta name="twitter:image" content="http://i.imgur.com/voEo8xP.jpg">
   
     <link rel="alternative" href="/atom.xml" title="o(^▽^)o" type="application/atom+xml">
   
@@ -133,9 +163,7 @@
 </nav>
 
       <div class="body-wrap">
-        
-  
-    <article id="post-FreeSSLConfig" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-FreeSSLConfig" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -248,391 +276,64 @@
   </div>
 </article>
 
-
-
-
-
-
-
-
-
-
   
-    <article id="post-Server" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/10/Server/">服务器多网站配置</a>
-    </h1>
   
+    <a href="/2017/05/10/Server/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">服务器多网站配置</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="关于linux服务器配置多个网站例子"><a href="#关于linux服务器配置多个网站例子" class="headerlink" title="关于linux服务器配置多个网站例子"></a>关于linux服务器配置多个网站例子</h2><p>Linux下Apache虚拟主机的三种配置。这样可以实现一台主机架构多个独立域名网站。其中基于域名的最为常见。性价比也最高。Linux下Apache虚拟主机配置的具体步骤。</p>
-<h2 id="基于多ip地址的虚拟主机"><a href="#基于多ip地址的虚拟主机" class="headerlink" title="基于多ip地址的虚拟主机"></a>基于多ip地址的虚拟主机</h2><pre><code>Listen 80
-&lt;VirtualHost 12.34.56.78&gt;
-DocumentRoot /home/httpd/html1
-ServerName www.ok1.com
-ErrorLog /usr/local/apache/logs/error1_log
-CustomLog /usr/local/apache/logs/access1_log combined
-&lt;/VirtualHost&gt;
-&lt;VirtualHost 87.65.43.21&gt;
-DocumentRoot /home/httpd/html2
-ServerName www.ok2.com
-ErrorLog /usr/local/apache/logs/error2_log
-CustomLog /usr/local/apache/logs/access2_log combined
-&lt;/VirtualHost&gt;
-</code></pre><h2 id="基于多IP-和多端口的虚拟主机配置"><a href="#基于多IP-和多端口的虚拟主机配置" class="headerlink" title="基于多IP 和多端口的虚拟主机配置"></a>基于多IP 和多端口的虚拟主机配置</h2><pre><code>Listen 12.34.56.78:80
-Listen 12.34.56.78:8080
-Listen 87.65.43.21:80
-Listen 87.65.43.21:8080
 
-&lt;VirtualHost 12.34.56.78:80&gt;
-DocumentRoot /www/example1-80
-ServerName www.example1.com
-&lt;/VirtualHost&gt;
-&lt;VirtualHost 12.34.56.78:8080&gt;
 
-DocumentRoot /www/example1-8080
-ServerName www.example1.com
-&lt;/VirtualHost&gt;
-&lt;VirtualHost 87.65.43.21:80&gt;
-DocumentRoot /www/example2-80
-ServerName www.example1.org
-&lt;/VirtualHost&gt;
-&lt;VirtualHost 87.65.43.21:8080&gt;
-DocumentRoot /www/example2-8080
-ServerName www.example2.org
-&lt;/VirtualHost&gt;
-</code></pre><h2 id="单个IP-地址的服务器上基于域名的虚拟主机配置"><a href="#单个IP-地址的服务器上基于域名的虚拟主机配置" class="headerlink" title="单个IP 地址的服务器上基于域名的虚拟主机配置"></a>单个IP 地址的服务器上基于域名的虚拟主机配置</h2><pre><code># Ensure that Apache listens on port 80
-Listen 80
-# Listen for virtual host requests on all IP addresses
-NameVirtualHost *:80
-&lt;VirtualHost *:80&gt;
-DocumentRoot /www/example1
-ServerName www.example1.com
-ServerAlias example1.com. *.example1.com
-# Other directives here
-&lt;/VirtualHost&gt;
-&lt;VirtualHost *:80&gt;
-DocumentRoot /www/example2
-ServerName www.example2.org
-# Other directives here
-&lt;/VirtualHost&gt;
-</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/05/10/Server/" class="archive-article-date">
-  	<time datetime="2017-05-09T16:38:45.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-05-10</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
-      
 
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
 
 
 
 
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="FreeSSLConfig" data-title="" data-url="http://yoursite.com/2017/08/28/FreeSSLConfig/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
 
 
 
-
-
-
-  
-    <article id="post-blog" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/02/blog/">科学上网之 Shadowsocks 安装及优化加速</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<ol>
-<li>服务器安装</li>
-</ol>
-<p>CentOS:</p>
-<pre><code>yum install python-setuptools &amp;&amp; easy_install pip 
-pip install shadowsocks
-</code></pre><p>然后直接在后台运行：</p>
-<hr>
-<pre><code>ssserver -p 8000 -k password -m rc4-md5 -d start
-</code></pre><p>当然也可以使用配置文件进行配置，方法创建/etc/shadowsocks.json文件，填入如下内容：</p>
-<hr>
-<pre><code>{
-&quot;server&quot;:&quot;my_server_ip&quot;,
-&quot;server_port&quot;:8000,
-&quot;local_address&quot;: &quot;127.0.0.1&quot;,
-&quot;local_port&quot;:1080,
-&quot;password&quot;:&quot;mypassword&quot;,
-&quot;timeout&quot;:300,
-&quot;method&quot;:&quot;rc4-md5&quot;}
-</code></pre><hr>
-<p>然后使用配置文件在后台运行：</p>
-<hr>
-<pre><code>ssserver -c /etc/shadowsocks.json -d start
-</code></pre><hr>
-<p>如果要停止运行，将命令中的start改成stop。</p>
-<p>TIPS: 加密方式推荐使用rc4-md5，因为 RC4 比 AES 速度快好几倍，如果用在路由器上会带来显著性能提升。旧的 RC4 加密之所以不安全是因为 Shadowsocks 在每个连接上重复使用 key，没有使用 IV。现在已经重新正确实现，可以放心使用。更多可以看 issue。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/05/02/blog/" class="archive-article-date">
-  	<time datetime="2017-05-02T15:53:05.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-05-02</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Markdown-Study/">Markdown Study</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-hexo操作相关命令" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/28/hexo操作相关命令/">hexo提交博客常用命令</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<h2 id="简写"><a href="#简写" class="headerlink" title="简写"></a>简写</h2><ol>
-<li>hexo n “我的博客” == hexo new “我的博客” #新建文章</li>
-<li>hexo p == hexo publish</li>
-<li>hexo g == hexo generate#生成</li>
-<li>hexo s == hexo server #启动服务预览</li>
-<li>hexo d == hexo deploy#部署</li>
-</ol>
-<h2 id="完成后部署"><a href="#完成后部署" class="headerlink" title="完成后部署"></a>完成后部署</h2><pre><code>两个命令的作用是相同的
-hexo generate --deploy
-hexo deploy --generate
-</code></pre><h2 id="草稿"><a href="#草稿" class="headerlink" title="草稿"></a>草稿</h2><pre><code>hexo publish [layout] &lt;title&gt;
-</code></pre><h2 id="模版"><a href="#模版" class="headerlink" title="模版"></a>模版</h2><ul>
-<li>hexo new “postName” #新建文章</li>
-<li>hexo new page “pageName” #新建页面</li>
-<li>hexo generate #生成静态页面至public目录</li>
-<li>hexo server #开启预览访问端口（默认端口4000，’ctrl + c’关闭server）</li>
-<li>hexo deploy #将.deploy目录部署到GitHub</li>
-<li>hexo new [layout] <title></title></li>
-<li>hexo new photo “My Gallery”</li>
-<li>hexo new “Hello World” –lang tw</li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/11/28/hexo操作相关命令/" class="archive-article-date">
-  	<time datetime="2016-11-28T10:11:56.167Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-28</time>
-</a>
-      
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Markdown-Study" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/27/Markdown-Study/">Markdown Study</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<blockquote>
-<p>这个世界满是苍白<br><br>而你是我唯一的色彩<br></p>
-</blockquote>
-<hr>
-<p><strong>( •̀ ω •́ )y</strong><br><br><span style="color:red;font-size:18px"><br>    知之为知之，不知为不知，是知也。<br></span></p>
-<p style="color:green"><br>    知不足者，好学。<br><br>    耻下问者，自满。<br><br></p>
-
-
-<h2 id="代码模块"><a href="#代码模块" class="headerlink" title="代码模块"></a>代码模块</h2><hr>
-<pre><code>public static void main(String[] args) {
-    Test t =new Test();//代码风格颜色有点渣
-    t.start();
-}
-</code></pre><hr>
-<pre><code>&lt;div&gt;蒹葭苍苍，白露为霜。&lt;/div&gt;
-&lt;div&gt;所谓伊人，在水一方。&lt;/div&gt;
-</code></pre><hr>
-<ol>
-<li>好好学习，天天向上。</li>
-<li>感觉这个list和word没什么区别。</li>
-<li>自定义list怎么玩。</li>
-</ol>
-<hr>
-<ul>
-<li>无序列表</li>
-<li>第二项</li>
-<li>第三项<br><br>//无序列表，完全支持html代码。</li>
-</ul>
-<hr>
-<html><br><head><br><style><br>    .test{<br>    width:100%;<br>    height:60px;<br>    border:1px solid red;<br>    border-radius:5px 5px 5px 5px;<br>    background-color:#00ff00;<br>}<br></style><br>    <div class="test">编辑器里面支持css样式。发布不知道支持不，连css写的样式都能用。这是一个div层。</div><br>    <div style="width:100%;height:60px;border:1px solid #0000ff;border-radius:5px 5px 5px 5px;">css样式写在div的style里面</div><br></head></html>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/09/27/Markdown-Study/" class="archive-article-date">
-  	<time datetime="2016-09-27T09:55:06.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-27</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Markdown-Study/">Markdown Study</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/23/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/09/23/hello-world/" class="archive-article-date">
-  	<time datetime="2016-09-23T02:24:38.003Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-23</time>
-</a>
-      
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-  
 
 
       </div>
@@ -654,8 +355,8 @@ hexo deploy --generate
 		fancybox: true,
 		mathjax: true,
 		animate: true,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
