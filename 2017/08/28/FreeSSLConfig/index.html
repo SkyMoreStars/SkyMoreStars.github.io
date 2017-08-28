@@ -4,24 +4,24 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>o(^▽^)o</title>
+  <title>StartCom 申请 SSL 证书及 Nginx HTTPS 支持配置全攻略 | o(^▽^)o</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="StartCom 申请 SSL 证书及 Nginx HTTPS 支持配置全攻略
-StartSSL 方面首先介绍在 StartSSL 方面的操作，因为这才是真正获得证书认证的关键流程。
+  <meta name="description" content="StartSSL 方面首先介绍在 StartSSL 方面的操作，因为这才是真正获得证书认证的关键流程。
 
 注意：因为此文操作全程在 Win10 平台进行，所以在证书申请的全过程中，推荐使用 IE 浏览器（方便证书的导入导出），如果使用其他浏览器，遇到的任何问题将超出本文讨论范围。
 
-注册登录已经注册过会员的童鞋请跳过此">
+注册登录已经注册过会员的童鞋请跳过此步骤。
+首先需要说明一点，StartSSL 继续沿用了以往的登录方式：证书登录">
 <meta property="og:type" content="article">
-<meta property="og:title" content="o(^▽^)o">
+<meta property="og:title" content="StartCom 申请 SSL 证书及 Nginx HTTPS 支持配置全攻略">
 <meta property="og:url" content="http://yoursite.com/2017/08/28/FreeSSLConfig/index.html">
 <meta property="og:site_name" content="o(^▽^)o">
-<meta property="og:description" content="StartCom 申请 SSL 证书及 Nginx HTTPS 支持配置全攻略
-StartSSL 方面首先介绍在 StartSSL 方面的操作，因为这才是真正获得证书认证的关键流程。
+<meta property="og:description" content="StartSSL 方面首先介绍在 StartSSL 方面的操作，因为这才是真正获得证书认证的关键流程。
 
 注意：因为此文操作全程在 Win10 平台进行，所以在证书申请的全过程中，推荐使用 IE 浏览器（方便证书的导入导出），如果使用其他浏览器，遇到的任何问题将超出本文讨论范围。
 
-注册登录已经注册过会员的童鞋请跳过此">
+注册登录已经注册过会员的童鞋请跳过此步骤。
+首先需要说明一点，StartSSL 继续沿用了以往的登录方式：证书登录">
 <meta property="og:image" content="http://i.imgur.com/voEo8xP.jpg">
 <meta property="og:image" content="http://i.imgur.com/xaIPacV.jpg">
 <meta property="og:image" content="http://i.imgur.com/tybzYw1.jpg">
@@ -32,15 +32,15 @@ StartSSL 方面首先介绍在 StartSSL 方面的操作，因为这才是真正�
 <meta property="og:image" content="http://i.imgur.com/tb8UE1M.jpg">
 <meta property="og:image" content="http://i.imgur.com/3SWZuMd.jpg">
 <meta property="og:image" content="http://i.imgur.com/ZwwkEgv.jpg">
-<meta property="og:updated_time" content="2017-08-28T08:53:06.887Z">
+<meta property="og:updated_time" content="2017-08-28T08:57:47.275Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="o(^▽^)o">
-<meta name="twitter:description" content="StartCom 申请 SSL 证书及 Nginx HTTPS 支持配置全攻略
-StartSSL 方面首先介绍在 StartSSL 方面的操作，因为这才是真正获得证书认证的关键流程。
+<meta name="twitter:title" content="StartCom 申请 SSL 证书及 Nginx HTTPS 支持配置全攻略">
+<meta name="twitter:description" content="StartSSL 方面首先介绍在 StartSSL 方面的操作，因为这才是真正获得证书认证的关键流程。
 
 注意：因为此文操作全程在 Win10 平台进行，所以在证书申请的全过程中，推荐使用 IE 浏览器（方便证书的导入导出），如果使用其他浏览器，遇到的任何问题将超出本文讨论范围。
 
-注册登录已经注册过会员的童鞋请跳过此">
+注册登录已经注册过会员的童鞋请跳过此步骤。
+首先需要说明一点，StartSSL 继续沿用了以往的登录方式：证书登录">
 <meta name="twitter:image" content="http://i.imgur.com/voEo8xP.jpg">
   
     <link rel="alternative" href="/atom.xml" title="o(^▽^)o" type="application/atom+xml">
@@ -169,9 +169,19 @@ StartSSL 方面首先介绍在 StartSSL 方面的操作，因为这才是真正�
       <input type="hidden" class="isFancy" />
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      StartCom 申请 SSL 证书及 Nginx HTTPS 支持配置全攻略
+    </h1>
+  
+
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="StartCom-申请-SSL-证书及-Nginx-HTTPS-支持配置全攻略"><a href="#StartCom-申请-SSL-证书及-Nginx-HTTPS-支持配置全攻略" class="headerlink" title="StartCom 申请 SSL 证书及 Nginx HTTPS 支持配置全攻略"></a>StartCom 申请 SSL 证书及 Nginx HTTPS 支持配置全攻略</h1><hr>
+        <hr>
 <h2 id="StartSSL-方面"><a href="#StartSSL-方面" class="headerlink" title="StartSSL 方面"></a>StartSSL 方面</h2><p>首先介绍在 StartSSL 方面的操作，因为这才是真正获得证书认证的关键流程。</p>
 <blockquote>
 <p>注意：因为此文操作全程在 Win10 平台进行，所以在证书申请的全过程中，推荐使用 IE 浏览器（方便证书的导入导出），如果使用其他浏览器，遇到的任何问题将超出本文讨论范围。</p>
@@ -266,9 +276,14 @@ StartSSL 方面首先介绍在 StartSSL 方面的操作，因为这才是真正�
     <div class="article-info article-info-index">
       
       <a href="/2017/08/28/FreeSSLConfig/" class="archive-article-date">
-  	<time datetime="2017-08-28T08:53:45.203Z" itemprop="datePublished"><i class="icon-clock"></i>2017-08-28</time>
+  	<time datetime="2017-08-28T08:57:24.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-08-28</time>
 </a>
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SSL/">SSL</a></li></ul>
+	</div>
+
       
 
       <div class="clearfix"></div>
@@ -315,7 +330,7 @@ StartSSL 方面首先介绍在 StartSSL 方面的操作，因为这才是真正�
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="FreeSSLConfig" data-title="" data-url="http://yoursite.com/2017/08/28/FreeSSLConfig/"></div>
+	<div class="ds-thread" data-thread-key="FreeSSLConfig" data-title="StartCom 申请 SSL 证书及 Nginx HTTPS 支持配置全攻略" data-url="http://yoursite.com/2017/08/28/FreeSSLConfig/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
@@ -417,7 +432,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Markdown-Study/" style="font-size: 20px;">Markdown Study</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a>
+    				<a href="/tags/Markdown-Study/" style="font-size: 20px;">Markdown Study</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a>
     			</div>
     	</section>
     
