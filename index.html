@@ -371,6 +371,70 @@ public class Card {
 
 
   
+    <article id="post-单例模式的另类写法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/05/单例模式的另类写法/">单例的另类写法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h1><p>单例模式可以保证系统中一个类只有一个实例。即一个类只有一个对象实例。<br>单例模式的要点有三个；一是某个类只能有一个实例；二是它必须自行创建这个实例；三是它必须自行向整个系统提供这个实例。<br>主要应用场景：<br>1.资源共享的情况下，避免由于资源操作时导致的性能或损耗等。如上述中的日志文件，应用配置。<br>2.控制资源的情况下，方便资源之间的互相通信。如线程池等。 </p>
+<pre><code>public class Test {    
+    private static Test test = null;
+    private Test(){}//构造方法私有
+
+    public synchronized static Test defaultTest() {
+        if (Test == null) {
+            test = new Test();
+        }
+        return test;
+    }
+
+}
+</code></pre><p>调用方式</p>
+<pre><code>Test.defaultTest.方法
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/06/05/单例模式的另类写法/" class="archive-article-date">
+  	<time datetime="2017-06-05T01:40:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-06-05</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Server" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -829,7 +893,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Markdown-Study/" style="font-size: 20px;">Markdown Study</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a>
+    				<a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Markdown-Study/" style="font-size: 20px;">Markdown Study</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a>
     			</div>
     	</section>
     

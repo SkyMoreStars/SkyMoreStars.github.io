@@ -4,14 +4,21 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Archives: 2016 | o(^▽^)o</title>
+  <title>单例的另类写法 | o(^▽^)o</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="o(^▽^)o">
-<meta property="og:url" content="http://yoursite.com/archives/2016/index.html">
+  <meta name="description" content="单例模式单例模式可以保证系统中一个类只有一个实例。即一个类只有一个对象实例。单例模式的要点有三个；一是某个类只能有一个实例；二是它必须自行创建这个实例；三是它必须自行向整个系统提供这个实例。主要应用场景：1.资源共享的情况下，避免由于资源操作时导致的性能或损耗等。如上述中的日志文件，应用配置。2.控制资源的情况下，方便资源之间的互相通信。如线程池等。 
+public class Test {">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单例的另类写法">
+<meta property="og:url" content="http://yoursite.com/2017/06/05/单例模式的另类写法/index.html">
 <meta property="og:site_name" content="o(^▽^)o">
+<meta property="og:description" content="单例模式单例模式可以保证系统中一个类只有一个实例。即一个类只有一个对象实例。单例模式的要点有三个；一是某个类只能有一个实例；二是它必须自行创建这个实例；三是它必须自行向整个系统提供这个实例。主要应用场景：1.资源共享的情况下，避免由于资源操作时导致的性能或损耗等。如上述中的日志文件，应用配置。2.控制资源的情况下，方便资源之间的互相通信。如线程池等。 
+public class Test {">
+<meta property="og:updated_time" content="2017-09-08T02:32:17.314Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="o(^▽^)o">
+<meta name="twitter:title" content="单例的另类写法">
+<meta name="twitter:description" content="单例模式单例模式可以保证系统中一个类只有一个实例。即一个类只有一个对象实例。单例模式的要点有三个；一是某个类只能有一个实例；二是它必须自行创建这个实例；三是它必须自行向整个系统提供这个实例。主要应用场景：1.资源共享的情况下，避免由于资源操作时导致的性能或损耗等。如上述中的日志文件，应用配置。2.控制资源的情况下，方便资源之间的互相通信。如线程池等。 
+public class Test {">
   
     <link rel="alternative" href="/atom.xml" title="o(^▽^)o" type="application/atom+xml">
   
@@ -133,108 +140,127 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-单例模式的另类写法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/28/hexo操作相关命令/" class="archive-article-date">
-  	<time datetime="2016-11-28T10:11:56.167Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/28/hexo操作相关命令/">hexo提交博客常用命令</a>
+    <h1 class="article-title" itemprop="name">
+      单例的另类写法
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h1><p>单例模式可以保证系统中一个类只有一个实例。即一个类只有一个对象实例。<br>单例模式的要点有三个；一是某个类只能有一个实例；二是它必须自行创建这个实例；三是它必须自行向整个系统提供这个实例。<br>主要应用场景：<br>1.资源共享的情况下，避免由于资源操作时导致的性能或损耗等。如上述中的日志文件，应用配置。<br>2.控制资源的情况下，方便资源之间的互相通信。如线程池等。 </p>
+<pre><code>public class Test {    
+    private static Test test = null;
+    private Test(){}//构造方法私有
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/09/27/Markdown-Study/" class="archive-article-date">
-  	<time datetime="2016-09-27T09:55:06.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-27</time>
+    public synchronized static Test defaultTest() {
+        if (Test == null) {
+            test = new Test();
+        }
+        return test;
+    }
+
+}
+</code></pre><p>调用方式</p>
+<pre><code>Test.defaultTest.方法
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/06/05/单例模式的另类写法/" class="archive-article-date">
+  	<time datetime="2017-06-05T01:40:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-06-05</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/09/27/Markdown-Study/">Markdown Study</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Markdown-Study/">Markdown Study</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/09/23/hello-world/" class="archive-article-date">
-  	<time datetime="2016-09-23T02:24:38.003Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/09/23/hello-world/">Hello World</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-          
+  
+<nav id="article-nav">
+  
+    <a href="/2017/08/28/FreeSSLConfig/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          StartCom 申请 SSL 证书及 Nginx HTTPS 支持配置全攻略
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/05/10/Server/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">服务器多网站配置</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
 
-    
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="单例模式的另类写法" data-title="单例的另类写法" data-url="http://yoursite.com/2017/06/05/单例模式的另类写法/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
 
 
       </div>
@@ -257,8 +283,8 @@
 		mathjax: true,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
