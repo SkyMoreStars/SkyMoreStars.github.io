@@ -809,6 +809,108 @@ hexo deploy --generate
 
 
   
+    <article id="post-Java7新特性释放资源" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/07/Java7新特性释放资源/">Java 7 新的 try-with-resources 语句，自动资源释放</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Java7新特性之try-with-resources"><a href="#Java7新特性之try-with-resources" class="headerlink" title="Java7新特性之try-with-resources"></a>Java7新特性之try-with-resources</h1><p>从 Java 7 build 105 版本开始，Java 7 的编译器和运行环境支持新的 try-with-resources 语句，称为 ARM 块(Automatic Resource Management) ，自动资源管理。</p>
+<p>新的语句支持包括流以及任何可关闭的资源，例如，一般我们会编写如下代码来释放资源：</p>
+<pre><code>private static void customBufferStreamCopy(File source, File target) {
+InputStream fis = null;
+OutputStream fos = null;
+try {
+    fis = new FileInputStream(source);
+    fos = new FileOutputStream(target);
+
+    byte[] buf = new byte[8192];
+
+    int i;
+    while ((i = fis.read(buf)) != -1) {
+        fos.write(buf, 0, i);
+    }
+}
+catch (Exception e) {
+    e.printStackTrace();
+} finally {
+    close(fis);
+    close(fos);
+}
+}
+
+private static void close(Closeable closable) {
+    if (closable != null) {
+       try {
+               closable.close();
+            } catch (IOException e) {
+                    e.printStackTrace();
+            }
+}
+}
+</code></pre><p>而使用 try-with-resources 语句来简化代码如下：</p>
+<p>在这个例子中，数据流会在 try 执行完毕后自动被关闭。</p>
+<blockquote>
+<p>前提是，这些可关闭的资源必须实现 java.lang.AutoCloseable 接口。</p>
+</blockquote>
+<pre><code>private static void customBufferStreamCopy(File source, File target) {
+try (InputStream fis = new FileInputStream(source);
+    OutputStream fos = new FileOutputStream(target)){
+
+    byte[] buf = new byte[8192];
+
+    int i;
+    while ((i = fis.read(buf)) != -1) {
+        fos.write(buf, 0, i);
+    }
+}
+catch (Exception e) {
+    e.printStackTrace();
+}
+}
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/06/07/Java7新特性释放资源/" class="archive-article-date">
+  	<time datetime="2016-06-07T11:40:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-06-07</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
   
 
 
@@ -893,7 +995,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Markdown-Study/" style="font-size: 20px;">Markdown Study</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a>
+    				<a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Markdown-Study/" style="font-size: 15px;">Markdown Study</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a>
     			</div>
     	</section>
     
