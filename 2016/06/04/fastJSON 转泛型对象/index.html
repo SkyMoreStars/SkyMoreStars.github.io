@@ -4,24 +4,24 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Java 7 新的 try-with-resources 语句，自动资源释放 | o(^▽^)o</title>
+  <title>fastJSON 转泛型对象 | o(^▽^)o</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Java7新特性之try-with-resources从 Java 7 build 105 版本开始，Java 7 的编译器和运行环境支持新的 try-with-resources 语句，称为 ARM 块(Automatic Resource Management) ，自动资源管理。
-新的语句支持包括流以及任何可关闭的资源，例如，一般我们会编写如下代码来释放资源：
-private static v">
+  <meta name="description" content="fastJSON 转泛型对象fastJSON在实际的使用过程中，需要将JSON字符串转成带有泛型的对象。普通的方式无法实现。查询相关的资料最后得到的结果如下：
+public List&amp;lt;ResInnoIds&amp;gt; callStatByInno(List&amp;lt;Integer&amp;gt; innoIds){
+    Map&amp;lt;String,Object&amp;gt; request = new Ha">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java 7 新的 try-with-resources 语句，自动资源释放">
-<meta property="og:url" content="http://yoursite.com/2016/06/07/Java7新特性释放资源/index.html">
+<meta property="og:title" content="fastJSON 转泛型对象">
+<meta property="og:url" content="http://yoursite.com/2016/06/04/fastJSON 转泛型对象/index.html">
 <meta property="og:site_name" content="o(^▽^)o">
-<meta property="og:description" content="Java7新特性之try-with-resources从 Java 7 build 105 版本开始，Java 7 的编译器和运行环境支持新的 try-with-resources 语句，称为 ARM 块(Automatic Resource Management) ，自动资源管理。
-新的语句支持包括流以及任何可关闭的资源，例如，一般我们会编写如下代码来释放资源：
-private static v">
-<meta property="og:updated_time" content="2017-09-08T03:41:30.751Z">
+<meta property="og:description" content="fastJSON 转泛型对象fastJSON在实际的使用过程中，需要将JSON字符串转成带有泛型的对象。普通的方式无法实现。查询相关的资料最后得到的结果如下：
+public List&amp;lt;ResInnoIds&amp;gt; callStatByInno(List&amp;lt;Integer&amp;gt; innoIds){
+    Map&amp;lt;String,Object&amp;gt; request = new Ha">
+<meta property="og:updated_time" content="2017-09-11T09:15:27.600Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java 7 新的 try-with-resources 语句，自动资源释放">
-<meta name="twitter:description" content="Java7新特性之try-with-resources从 Java 7 build 105 版本开始，Java 7 的编译器和运行环境支持新的 try-with-resources 语句，称为 ARM 块(Automatic Resource Management) ，自动资源管理。
-新的语句支持包括流以及任何可关闭的资源，例如，一般我们会编写如下代码来释放资源：
-private static v">
+<meta name="twitter:title" content="fastJSON 转泛型对象">
+<meta name="twitter:description" content="fastJSON 转泛型对象fastJSON在实际的使用过程中，需要将JSON字符串转成带有泛型的对象。普通的方式无法实现。查询相关的资料最后得到的结果如下：
+public List&amp;lt;ResInnoIds&amp;gt; callStatByInno(List&amp;lt;Integer&amp;gt; innoIds){
+    Map&amp;lt;String,Object&amp;gt; request = new Ha">
   
     <link rel="alternative" href="/atom.xml" title="o(^▽^)o" type="application/atom+xml">
   
@@ -143,7 +143,7 @@ private static v">
 </nav>
 
       <div class="body-wrap">
-        <article id="post-Java7新特性释放资源" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-fastJSON 转泛型对象" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -153,7 +153,7 @@ private static v">
         
   
     <h1 class="article-title" itemprop="name">
-      Java 7 新的 try-with-resources 语句，自动资源释放
+      fastJSON 转泛型对象
     </h1>
   
 
@@ -161,66 +161,27 @@ private static v">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Java7新特性之try-with-resources"><a href="#Java7新特性之try-with-resources" class="headerlink" title="Java7新特性之try-with-resources"></a>Java7新特性之try-with-resources</h1><p>从 Java 7 build 105 版本开始，Java 7 的编译器和运行环境支持新的 try-with-resources 语句，称为 ARM 块(Automatic Resource Management) ，自动资源管理。</p>
-<p>新的语句支持包括流以及任何可关闭的资源，例如，一般我们会编写如下代码来释放资源：</p>
-<pre><code>private static void customBufferStreamCopy(File source, File target) {
-InputStream fis = null;
-OutputStream fos = null;
-try {
-    fis = new FileInputStream(source);
-    fos = new FileOutputStream(target);
-
-    byte[] buf = new byte[8192];
-
-    int i;
-    while ((i = fis.read(buf)) != -1) {
-        fos.write(buf, 0, i);
+        <h1 id="fastJSON-转泛型对象"><a href="#fastJSON-转泛型对象" class="headerlink" title="fastJSON 转泛型对象"></a>fastJSON 转泛型对象</h1><p>fastJSON在实际的使用过程中，需要将JSON字符串转成带有泛型的对象。普通的方式无法实现。查询相关的资料最后得到的结果如下：</p>
+<pre><code>public List&lt;ResInnoIds&gt; callStatByInno(List&lt;Integer&gt; innoIds){
+    Map&lt;String,Object&gt; request = new HashMap&lt;&gt;();
+    request.put(&quot;ccId&quot;,inputParamHead.getCcId());
+    request.put(&quot;vdnId&quot;,inputParamHead.getVdnId());
+    if(innoIds!=null&amp;&amp;innoIds.isEmpty()){
+        request.put(&quot;innoIds&quot;,innoIds);
     }
+    String url = CmsEndPoint.get(&quot;real.accesscode.callstatbyinno&quot;);
+    String response = HttpUtil.post(url,request);
+    Response&lt;List&lt;ResInnoIds&gt;&gt; res= JSON.parseObject(response,new TypeReference&lt;Response&lt;List&lt;ResInnoIds&gt;&gt;&gt;(){});
+    return res.getResult();
 }
-catch (Exception e) {
-    e.printStackTrace();
-} finally {
-    close(fis);
-    close(fos);
-}
-}
+</code></pre><p>由于Response<list<resinnoids>&gt;是一个泛型对象。<br>使用JSON.toJavaObject(json,Response.class）无法将其转成Response<list<resinnoids>&gt;。<br>必须使用JSON.parseObject(response,<span style="color:red">new</span> <span style="color:blue">TypeReference<response<list<resinnoids>&gt;&gt;(){}</response<list<resinnoids></span>);</list<resinnoids></list<resinnoids></p>
 
-private static void close(Closeable closable) {
-    if (closable != null) {
-       try {
-               closable.close();
-            } catch (IOException e) {
-                    e.printStackTrace();
-            }
-}
-}
-</code></pre><p>而使用 try-with-resources 语句来简化代码如下：</p>
-<p>在这个例子中，数据流会在 try 执行完毕后自动被关闭。</p>
-<blockquote>
-<p>前提是，这些可关闭的资源必须实现 java.lang.AutoCloseable 接口。</p>
-</blockquote>
-<pre><code>private static void customBufferStreamCopy(File source, File target) {
-try (InputStream fis = new FileInputStream(source);
-    OutputStream fos = new FileOutputStream(target)){
-
-    byte[] buf = new byte[8192];
-
-    int i;
-    while ((i = fis.read(buf)) != -1) {
-        fos.write(buf, 0, i);
-    }
-}
-catch (Exception e) {
-    e.printStackTrace();
-}
-}
-</code></pre>
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2016/06/07/Java7新特性释放资源/" class="archive-article-date">
-  	<time datetime="2016-06-07T11:40:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-06-07</time>
+      <a href="/2016/06/04/fastJSON 转泛型对象/" class="archive-article-date">
+  	<time datetime="2016-06-04T07:43:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-06-04</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -238,20 +199,15 @@ catch (Exception e) {
   
 <nav id="article-nav">
   
-    <a href="/2016/09/23/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2016/06/07/Java7新特性释放资源/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          Hello World
+          Java 7 新的 try-with-resources 语句，自动资源释放
         
       </div>
     </a>
   
-  
-    <a href="/2016/06/04/fastJSON 转泛型对象/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">fastJSON 转泛型对象</div>
-      <i class="icon-circle-right"></i>
-    </a>
   
 </nav>
 
@@ -283,7 +239,7 @@ catch (Exception e) {
 
 <div class="duoshuo">
 	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="Java7新特性释放资源" data-title="Java 7 新的 try-with-resources 语句，自动资源释放" data-url="http://yoursite.com/2016/06/07/Java7新特性释放资源/"></div>
+	<div class="ds-thread" data-thread-key="fastJSON 转泛型对象" data-title="fastJSON 转泛型对象" data-url="http://yoursite.com/2016/06/04/fastJSON 转泛型对象/"></div>
 	<!-- 多说评论框 end -->
 	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
 	<script type="text/javascript">
