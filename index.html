@@ -135,7 +135,7 @@
       <div class="body-wrap">
         
   
-    <article id="post-hexo操作相关命令" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Nginx_Config" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -145,7 +145,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/27/hexo操作相关命令/">hexo提交博客常用命令</a>
+      <a class="article-title" href="/2018/07/19/Nginx_Config/">Nginx Suse 11开机自动启动脚本</a>
     </h1>
   
 
@@ -153,808 +153,249 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <hr>
-<h2 id="简写"><a href="#简写" class="headerlink" title="简写"></a>简写</h2><ol>
-<li>hexo n “我的博客” == hexo new “我的博客” #新建文章</li>
-<li>hexo p == hexo publish</li>
-<li>hexo g == hexo generate#生成</li>
-<li>hexo s == hexo server #启动服务预览</li>
-<li>hexo d == hexo deploy#部署</li>
-</ol>
-<h2 id="完成后部署"><a href="#完成后部署" class="headerlink" title="完成后部署"></a>完成后部署</h2><pre><code>两个命令的作用是相同的
-hexo generate --deploy
-hexo deploy --generate
-</code></pre><h2 id="草稿"><a href="#草稿" class="headerlink" title="草稿"></a>草稿</h2><pre><code>hexo publish [layout] &lt;title&gt;
-</code></pre><h2 id="模版"><a href="#模版" class="headerlink" title="模版"></a>模版</h2><ul>
-<li>hexo new “postName” #新建文章</li>
-<li>hexo new page “pageName” #新建页面</li>
-<li>hexo generate #生成静态页面至public目录</li>
-<li>hexo server #开启预览访问端口（默认端口4000，’ctrl + c’关闭server）</li>
-<li>hexo deploy #将.deploy目录部署到GitHub</li>
-<li>hexo new [layout] <title></title></li>
-<li>hexo new photo “My Gallery”</li>
-<li>hexo new “Hello World” –lang tw</li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/09/27/hexo操作相关命令/" class="archive-article-date">
-  	<time datetime="2017-09-27T14:43:11.612Z" itemprop="datePublished"><i class="icon-clock"></i>2017-09-27</time>
-</a>
-      
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-关于JSON的一些知识" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/05/关于JSON的一些知识/">JSON注解详解</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>JSON注解说明</p>
-<p>以下注解属于com.fasterxml.jackson.core包下的JSON</p>
-<pre><code>@JsonIgnoreProperties(ignoreUnknown = true)
-public class Card {
-
-   @JsonProperty(&quot;card_type&quot;)
-   private String cardType;
-
-  @JsonProperty(&quot;member_card&quot;)
-   private Member member;
-
-   @JsonProperty(&quot;cash&quot;)
-   private Cash cash;
-
-   @JsonProperty(&quot;gift&quot;)
-   private Gift gift;
-
-   @JsonProperty(&quot;groupon&quot;)
-   private Groupon groupon;
-
-   @JsonProperty(&quot;general_coupon&quot;)
-   private Coupon coupon;
-
-   @JsonProperty(&quot;discount&quot;)
-   private Discount discount;
-
-  ……此处省略get，set方法
-}
-</code></pre><hr>
-<pre><code>@JsonIgnoreProperties(ignoreUnknown = true)
-</code></pre><p>1.@JsonIgnoreProperties(ignoreUnknown = true)，将这个注解写在类上之后，就会忽略类中不存在的字段，可以满足当前的需要。这个注解还可以指定要忽略的字段。使用方法如下：<br>@JsonIgnoreProperties({ “internal<br>Id”, “secretKey” })<br>指定的字段不会被序列化和反序列化。</p>
-<pre><code>@JsonProperty(&quot;card_type&quot;)
-</code></pre><p>2.@JsonProperty(“card_type”)注解主要作用将类转成JSON之后，用@JsonProperty(“card_type”)括弧中的字段名代替原来的字段名称。</p>
-<hr>
-<p>在fastJson下的注解<br> @JSONField作用在Field时，其name不仅定义了输入key的名称，同时也定义了输出的名称。</p>
-<pre><code>public class Person {
-
-    @JSONField(name=&quot;_name&quot;)
-    private String name;
-
-    @JSONField(name=&quot;_age&quot;)
-    private String age;
-
-    @JSONField(name=&quot;_desc&quot;)
-    private String desc;
-    ……此处省略get,set方法
-}
-</code></pre><p>结果如下：</p>
-<pre><code>{&quot;_age&quot;:&quot;11&quot;,&quot;_desc&quot;:&quot;asdf&quot;,&quot;_name&quot;:&quot;cadf&quot;}
-</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/09/05/关于JSON的一些知识/" class="archive-article-date">
-  	<time datetime="2017-09-05T01:45:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-09-05</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-FreeSSLConfig" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/28/FreeSSLConfig/">StartCom 申请 SSL 证书及 Nginx HTTPS 支持配置全攻略</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<h2 id="StartSSL-方面"><a href="#StartSSL-方面" class="headerlink" title="StartSSL 方面"></a>StartSSL 方面</h2><p>首先介绍在 StartSSL 方面的操作，因为这才是真正获得证书认证的关键流程。</p>
-<blockquote>
-<p>注意：因为此文操作全程在 Win10 平台进行，所以在证书申请的全过程中，推荐使用 IE 浏览器（方便证书的导入导出），如果使用其他浏览器，遇到的任何问题将超出本文讨论范围。</p>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
+<p>是一个高性能的 Web 和反向代理服务器等许多优越的特性。</p>
 </blockquote>
-<h2 id="注册登录"><a href="#注册登录" class="headerlink" title="注册登录"></a>注册登录</h2><p>已经注册过会员的童鞋请跳过此步骤。</p>
-<p>首先需要说明一点，StartSSL 继续沿用了以往的登录方式：证书登录！</p>
-<p>这也是很多童鞋在过去兴致勃勃的冲到 StartSSL 想要申请一个属于自己的数字证书时，被那个非常不友好的 StartSSL 界面卡在了新用户注册这第一个环节……</p>
-<p>所以，在 StartSSL 上的全部操作，用的都是一张 Email 证书，不需要用户名密码什么的。</p>
-<p>首先访问 StartSSL.com 点击 Sign-up 进行注册!<br><img src="http://i.imgur.com/voEo8xP.jpg" alt=""></p>
-<p>这里最好填写能够正常收到邮件的邮箱，并且最好是常用邮箱，因为以后在 StartSSL 上的所有操作，都会与此邮箱关联。</p>
-<p>接下来的步骤比较简单，在到让我们选择怎样生成证书的时候，选择直接导入到 IE 中就可以。</p>
-<p>经过一番邮箱验证之后，我们就得到了由 StartSSL 颁发的邮箱证书，在“Internet 选项、内容、证书”里面可以选择导出这个证书，妥善保存，日后登录 StartSSL 就全靠这个证书了，有效期一年，过期后需要重新验证。</p>
-<p><img src="http://i.imgur.com/xaIPacV.jpg" alt=""></p>
-<p>之后就登录进 StartSSL 中，默认停留在控制面板页面，右侧侧边栏中会显示所有该证书用户名下的所有认证信息，当然如果是新用户，应该除了个人信息外空空如也，没关系，我们继续。</p>
-<h2 id="验证域名"><a href="#验证域名" class="headerlink" title="验证域名"></a>验证域名</h2><p>在这一步之前，我相信在注册环节中，你已经将个人信息什么的填写完整了。</p>
-<p>想要获得某域名的证书之前，首先要验证该域名的所有权。</p>
-<p><img src="http://i.imgur.com/tybzYw1.jpg" alt=""></p>
-<p>选择上面的Validations Wizard，启动验证向导，在下面选择Domain Validation对域名进行验证，点击继续，来到下一步</p>
-<p><img src="http://i.imgur.com/dDmuX1S.jpg" alt=""></p>
-<p>输入想要验证的域名，注意这里我用的是顶级域名，至于二级以上域名是什么情况，我没进行验证，不过看此文的童鞋，应该都有顶级域名吧：）</p>
-<p>填入想要验证并获得证书的域名后，StartSSL 系统会自动对该域名进行whois查询，找到域名所有者的电子邮件地址，并让你选择将验证邮件发到哪个邮箱，只能选择查询到的域名所有者邮箱或者列出的其他三个常用形式的管理员邮箱，其他邮箱是无法进行验证的。</p>
-<p><img src="http://i.imgur.com/yOzXik2.jpg" alt=""></p>
-<p>这里还会遇到个问题，如果你的域名服务商为你开启了隐私保护，那么这里的域名所有者邮件地址一般情况不会查询到真正可操作的邮箱，比如阿里云的域名隐私保护如果开启了，列表中第一个邮箱会是以阿里云结尾的一个伪装邮箱，经测试，这个邮箱是无法收到任何邮件的（本以为会代为转发），所以在进行这一步之前，一定要暂时关闭隐私保护。</p>
-<p>如果你的邮箱服务器比较稳定，会立刻收到验证邮件，按照邮件里的说明将验证码输入进页面里点击验证，域名就验证成功了。</p>
-<h2 id="申请证书"><a href="#申请证书" class="headerlink" title="申请证书"></a>申请证书</h2><p>先多啰嗦一句，StartSSL 上的验证、申请流程几乎都是自动的（除了证书废止等操作需要人工审核），所以沿着本文的文络前进的同时，你已经在逐渐拥有各种东西了~</p>
-<p>开始，重新回到控制面板，选择上面的Certificates Wizard启动证书申请向导，默认选择第一项Web Server SSL/TLS Certificate并下一步。</p>
-<p><img src="http://i.imgur.com/N4bOIAM.jpg" alt=""></p>
-<p>接着，我们会来到一个满屏“鸟语”有点让人头大的页面，其实这个页面的内容也非常简单，我们一步一步来。</p>
-<p><img src="http://i.imgur.com/jMiRSWB.jpg" alt=""></p>
-<p>首先，在上面的文本框中输入想要获得证书的域名，这里要注意以下几点：</p>
-<p>每一行输入一个域名</p>
-<p>第一行的域名为主域名（然并卵……其实很少有人会点击 HTTPS 旁边的“锁”去认真查看证书内容的）</p>
-<p>只能输入五行（五个域名）</p>
-<p>你这里输入的域名，在最后只会得到一个bundle，也就是单一证书捆绑多个域名，为你在上面输入的所有域名提供验证。</p>
-<p>这里特别要注意，如果真的输入了五个域名（包括二级以上域名），生成了一个证书，其实在后期是比较难管理的，如果你名下有好几个域名，稍加时日，完全搞混乱几乎是必然的，所以我的建议是：不要采用我在上面图片中一次填满五个的方式，而是每次只验证一个（顶级或者二级）域名，这样每个域名都会得到一个独立的证书，给证书以及配套的文件单独建一个以域名为名称的文件夹保存，一目了然，不会搞混。</p>
-<p>另外，如果你已经捆绑了好几个域名到一个证书上，我的做法是：不用这个证书就好~~重新为每个域名申请独立的证书，因为每个域名是可以多次申请多个证书的，不碍事儿。</p>
-<p>填写好域名，我们开始关注页面的下半部分，这一部分是需要我们提交认证签名请求（CSR），我们选择第一项Generated by Myself，使用工具自己生成签名文件及对应密钥。</p>
-<p>这里注意看提示，StartCom 很贴心的提供了一个 Windows 平台上使用的绿色工具，一键完成签名文件及对应密钥的生成工作。当然，如果在其他平台，或者喜欢用openssl，也可以根据提示的命令进行生成：</p>
-<p>openssl req -newkey rsa:2048 -keyout yourname.key -out yourname.csr<br>如果机器性能够强（服务器），也可以使用rsa:4096，更高算位提供更高安全性，不过性能会受到影响，记住我们生成的证书是要给服务器用的，你需要在负荷及安全性上做权衡了。</p>
-<p>那么怎么生成 CSR 呢？这里演示一下 StartCom 的小小绿色工具的用法，首先在这个页面中点击StartComTool.exe下载到本地，运行该程序：</p>
-<p><img src="http://i.imgur.com/tb8UE1M.jpg" alt=""></p>
-<p>如果文本框里已经有内容了，就点一下Clear</p>
-<p>直接点击下方绿色的Generate CSR按钮，在弹出的对话框中选择路径，保存相关文件（比如给文件起名叫 app.williamyao.com.key），这一步工具会自动为我们生成两个名称相同的文件，一个是 CSR，一个是 Key，这两个文件都要保存好，一个是签名内容（PEM 格式），一个是密钥文件，密钥文件在下一步配置 Nginx 时会用到。</p>
-<p>然后，将文本框中的 CSR 内容复制粘贴到浏览器的文本框中（直接点“Copy”按钮，回到浏览器粘贴即可），现在我们的页面看起来是这个样子：</p>
-<p><img src="http://i.imgur.com/3SWZuMd.jpg" alt=""></p>
-<p>之后，我们点击Submit提交申请。</p>
-<p>不出意外的话，我们的证书文件立刻就生成好了：</p>
-<p><img src="http://i.imgur.com/ZwwkEgv.jpg" alt=""></p>
-<p>这里注意，我们不能用下载工具进行下载（因为 StartCom 的证书认证机制），请点击右键选择“目标另存为”使用 IE 的方式进行下载。</p>
-<p>下载回来的是一个压缩包，解开看一看，原来 StartSSL 很贴心的为我们生成了一套对应各个常用服务器的证书文件，我们这里把 Nginx 的对应证书文件单独解压出来，得到一个.crt文件，先放好这个文件，一会儿会用到。</p>
-<p>在进入下一步之前，我建议大家重新整理一下上面的流程中得到的所有文件，以我为例：</p>
-<p>新建文件夹 startssl-signed</p>
-<p>进入文件夹，新建文件夹 app.williamyao.com</p>
-<p>将对应文件拷贝到 app.williamyao.com 文件夹中</p>
-<p>经过整理，文件夹中会有如下文件：</p>
-<p>lnyk@me.com-2017.pfx（从 IE 中导出的用于登录 StartSSL 的电子邮件证书）</p>
-<p>app.williamyao.com.csr（签名文件）</p>
-<p>app.williamyao.com.key（密钥文件）</p>
-<p>app.williamyao.com.zip（下载下来的证书文件压缩包）</p>
-<p>INTRO（文本文件，里面记录一下上面三个文件的生成日期，以及证书文件的到期日期等等）</p>
-<p>这样整理之后，以后为其他域名申请的证书也可以这样存放，就不会乱套了。</p>
-<p>这里再建议大家一遍，如果手里域名多的话，最好给每个域名单独申请证书（就是只填写一行域名到向导的文本框中），“大合集”的方式，实在不利于日后为其他域名增添 SSL 支持，以及统一管理。</p>
-<p>整理完文件了？是不是看着赏心悦目的？好，我们进行下一步，配置 Nginx，让证书真正发挥用处！</p>
-<h2 id="Nginx-方面"><a href="#Nginx-方面" class="headerlink" title="Nginx 方面"></a>Nginx 方面</h2><p>在进行配置之前稍作一个假设，Nginx 以虚拟主机方式保存配置文件，即每个虚拟主机有自己单独的.conf文件，这种方式比把所有东西都丢进nginx.conf里面强得多，而且现代版本的 Nginx 都是默认采用虚拟主机方式进行配置了。</p>
-<p>至于为什么做这样的铺垫，是为了下面解决容易碰到的一个问题，我们到达那个步骤的时候再详细说明。</p>
-<h2 id="上传文件"><a href="#上传文件" class="headerlink" title="上传文件"></a>上传文件</h2><p>我们需要将两套文件上传到服务器，每一套中有两个文件，一个是 CRT 证书文件，一个是 KEY 密钥文件，用于启用www.williamyao.com以及app.williamyao.com这两个域名对应虚拟主机的 SSL 支持，<br>这里将每套两个文件做如下命名：</p>
-<p>www.williamyao.com.crt</p>
-<p>www.williamyao.com.key</p>
-<p>app.williamyao.com.crt</p>
-<p>app.williamyao.com.key</p>
-<p>然后传到服务器上，我的建议是将上面的文件统一放在下面的路径中（这个路径也是 *nix 平台规范建议的 SSL 证书存放路径，便于管理，既然有“先人指路”，我们不妨照做：</p>
-<p>/etc/ssl/private/<br>值得注意的是，将文件放在这个文件夹中，需要用到 root 权限，即sudo cp，放进去后的文件所属用户保持root:root就好，Nginx 的执行进程是可以读取的。</p>
-<h2 id="配置-Nginx"><a href="#配置-Nginx" class="headerlink" title="配置 Nginx"></a>配置 Nginx</h2><p>先别急，这里说明一下，启用 SSL 的一般做法是，虚拟主机的主server段不监听 80 端口，而是直接监听 443 端口，然后在主server配置段后新开一个server段监听相同server_name的 80 端口，并将请求 301 重定向到 HTTPS.</p>
-<p>这样做的好处是，不管访问者是否制定 HTTPS 协议（一般人上网大都只会输入域名，不会先写协议的吧……），只要输入域名，Nginx 接到请求后就会将请求重定向到 443 端口的 SSL 主机上。</p>
-<p>下面我们也打算这么做，以我为例：</p>
-<p>SSH 到服务器上，分别编辑两个虚拟主机的 conf 配置文件，我们先来第一个：</p>
-<p>sudo nano /usr/local/nginx/conf/vhost/www.williamyao.com.conf<br>将配置信息添加到配置文件中，配置好的www.williamyao.com.conf文件形如这个样子：</p>
-<p>server<br>{<br>listen 443 ssl;</p>
-<h1 id="下面这一行用于启用-IPv6-支持"><a href="#下面这一行用于启用-IPv6-支持" class="headerlink" title="下面这一行用于启用 IPv6 支持"></a>下面这一行用于启用 IPv6 支持</h1><p>listen [::]:443 ssl ipv6only=on;<br>server_name www.williamyao.com;</p>
-<h1 id="SSL-支持配置如下"><a href="#SSL-支持配置如下" class="headerlink" title="SSL 支持配置如下"></a>SSL 支持配置如下</h1><p>ssl on;<br>ssl_certificate /etc/ssl/private/www.williamyao.com.crt;<br>ssl_certificate_key /etc/ssl/private/www.williamyao.com.key;<br>…（其他配置）…<br>}<br>server<br>{<br>listen 80;<br>listen [::]:80 ipv6only=on;<br>server_name www.williamyao.com;<br>return 301 <a href="https://www.williamyao.com$request_uri" target="_blank" rel="external">https://www.williamyao.com$request_uri</a>;<br>}<br>之后编辑另一个虚拟主机app.williamyao.com.conf配置文件，形如下面这样：</p>
-<p>server<br>{<br>listen 443 ssl;</p>
-<h1 id="下面这一行用于启用-IPv6-支持-1"><a href="#下面这一行用于启用-IPv6-支持-1" class="headerlink" title="下面这一行用于启用 IPv6 支持"></a>下面这一行用于启用 IPv6 支持</h1><p>listen [::]:443 ssl;<br>server_name app.williamyao.com;</p>
-<h1 id="SSL-支持配置如下-1"><a href="#SSL-支持配置如下-1" class="headerlink" title="SSL 支持配置如下"></a>SSL 支持配置如下</h1><p>ssl on;<br>ssl_certificate /etc/ssl/private/app.williamyao.com.crt;<br>ssl_certificate_key /etc/ssl/private/app.williamyao.com.key;<br>…（其他配置）…<br>}<br>server<br>{<br>listen 80;<br>listen [::]:80;<br>server_name app.williamyao.com;<br>return 301 <a href="https://app.williamyao.com$request_uri" target="_blank" rel="external">https://app.williamyao.com$request_uri</a>;<br>}<br>细心的童鞋以及高手可能已经发现了，这两个虚拟主机的配置稍有不同，这也是我们之前做那个小小的铺垫的用意。注意观察WWW主机的ipv6only=on开关，在APP主机中是没有的，因为按照 Nginx 关于ipv6only这个开关的设置，在全部虚拟主机中，只能有唯一一台主机监听的某端口带有此开关，在我们的例子中，如果APP主机也启用这个开关，Nginx 进程会报“重复监听端口”的错误并强制退出。至于ipv6only的详细内容，请自行百度:P</p>
-<p>全部配置完毕后，重启 Nginx 或者 Reload，不出意外的话，回到浏览器，输入域名（可以不带 HTTPS，顺便测试一下 301 转发），是否一切正常？</p>
-<p>恭喜你，你的服务器已经被标记为“安全”了！</p>
-<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>当然，启用 SSL 加密通信，还是那个万年不变的弊端，如果你的网站有外链的话，至少 IE 浏览器在的默认安全级别之下，始终会有个烦人的安全提示，类似“此网站不安全”！并会自动关闭掉你所有的外链内容读取。本来是更加安全的通信模式，就因为这提示，反倒会让访问者看着不放心……</p>
-<p>特别是越来越趋势化的扁平设计风格，更多的引用一些开放的 JS 公共库以达到更好的页面效果，这时候如果启用 SSL，至少 IE 的那个恶心提示，几乎是无可避免的了，好在如 Gravatar 这类开放服务，都具备 HTTPS 能力支持。</p>
-<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>启用 SSL 加密通信，不光是对通信安全的加固，更是对访问站点的用户的负责（至少在态度上:P），网络安全方面的话题谈起来就有点儿大了，至少有一个顶级 CA 对我们的通信进行授权和认证，这本身就是一种令人觉得舒服的事儿~</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/08/28/FreeSSLConfig/" class="archive-article-date">
-  	<time datetime="2017-08-28T08:57:24.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-08-28</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SSL/">SSL</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-单例模式的另类写法" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/05/单例模式的另类写法/">单例的另类写法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h1><p>单例模式可以保证系统中一个类只有一个实例。即一个类只有一个对象实例。<br>单例模式的要点有三个；一是某个类只能有一个实例；二是它必须自行创建这个实例；三是它必须自行向整个系统提供这个实例。<br>主要应用场景：<br>1.资源共享的情况下，避免由于资源操作时导致的性能或损耗等。如上述中的日志文件，应用配置。<br>2.控制资源的情况下，方便资源之间的互相通信。如线程池等。 </p>
-<pre><code>public class Test {    
-    private static Test test = null;
-    private Test(){}//构造方法私有
-
-    public synchronized static Test defaultTest() {
-        if (Test == null) {
-            test = new Test();
-        }
-        return test;
-    }
-
-}
-</code></pre><p>调用方式</p>
-<pre><code>Test.defaultTest.方法
-</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/06/05/单例模式的另类写法/" class="archive-article-date">
-  	<time datetime="2017-06-05T01:40:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-06-05</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/23/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/05/23/hello-world/" class="archive-article-date">
-  	<time datetime="2017-05-23T09:23:33.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-05-23</time>
-</a>
-      
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Server" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/10/Server/">服务器多网站配置</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="关于linux服务器配置多个网站例子"><a href="#关于linux服务器配置多个网站例子" class="headerlink" title="关于linux服务器配置多个网站例子"></a>关于linux服务器配置多个网站例子</h2><p>Linux下Apache虚拟主机的三种配置。这样可以实现一台主机架构多个独立域名网站。其中基于域名的最为常见。性价比也最高。Linux下Apache虚拟主机配置的具体步骤。</p>
-<h2 id="基于多ip地址的虚拟主机"><a href="#基于多ip地址的虚拟主机" class="headerlink" title="基于多ip地址的虚拟主机"></a>基于多ip地址的虚拟主机</h2><pre><code>Listen 80
-&lt;VirtualHost 12.34.56.78&gt;
-DocumentRoot /home/httpd/html1
-ServerName www.ok1.com
-ErrorLog /usr/local/apache/logs/error1_log
-CustomLog /usr/local/apache/logs/access1_log combined
-&lt;/VirtualHost&gt;
-&lt;VirtualHost 87.65.43.21&gt;
-DocumentRoot /home/httpd/html2
-ServerName www.ok2.com
-ErrorLog /usr/local/apache/logs/error2_log
-CustomLog /usr/local/apache/logs/access2_log combined
-&lt;/VirtualHost&gt;
-</code></pre><h2 id="基于多IP-和多端口的虚拟主机配置"><a href="#基于多IP-和多端口的虚拟主机配置" class="headerlink" title="基于多IP 和多端口的虚拟主机配置"></a>基于多IP 和多端口的虚拟主机配置</h2><pre><code>Listen 12.34.56.78:80
-Listen 12.34.56.78:8080
-Listen 87.65.43.21:80
-Listen 87.65.43.21:8080
-
-&lt;VirtualHost 12.34.56.78:80&gt;
-DocumentRoot /www/example1-80
-ServerName www.example1.com
-&lt;/VirtualHost&gt;
-&lt;VirtualHost 12.34.56.78:8080&gt;
-
-DocumentRoot /www/example1-8080
-ServerName www.example1.com
-&lt;/VirtualHost&gt;
-&lt;VirtualHost 87.65.43.21:80&gt;
-DocumentRoot /www/example2-80
-ServerName www.example1.org
-&lt;/VirtualHost&gt;
-&lt;VirtualHost 87.65.43.21:8080&gt;
-DocumentRoot /www/example2-8080
-ServerName www.example2.org
-&lt;/VirtualHost&gt;
-</code></pre><h2 id="单个IP-地址的服务器上基于域名的虚拟主机配置"><a href="#单个IP-地址的服务器上基于域名的虚拟主机配置" class="headerlink" title="单个IP 地址的服务器上基于域名的虚拟主机配置"></a>单个IP 地址的服务器上基于域名的虚拟主机配置</h2><pre><code># Ensure that Apache listens on port 80
-Listen 80
-# Listen for virtual host requests on all IP addresses
-NameVirtualHost *:80
-&lt;VirtualHost *:80&gt;
-DocumentRoot /www/example1
-ServerName www.example1.com
-ServerAlias example1.com. *.example1.com
-# Other directives here
-&lt;/VirtualHost&gt;
-&lt;VirtualHost *:80&gt;
-DocumentRoot /www/example2
-ServerName www.example2.org
-# Other directives here
-&lt;/VirtualHost&gt;
-</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/05/10/Server/" class="archive-article-date">
-  	<time datetime="2017-05-09T16:38:45.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-05-10</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/">linux</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-blog" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/02/blog/">科学上网之 Shadowsocks 安装及优化加速</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<ol>
-<li>服务器安装</li>
-</ol>
-<p>CentOS:</p>
-<pre><code>yum install python-setuptools &amp;&amp; easy_install pip 
-pip install shadowsocks
-</code></pre><p>然后直接在后台运行：</p>
-<hr>
-<pre><code>ssserver -p 8000 -k password -m rc4-md5 -d start
-</code></pre><p>当然也可以使用配置文件进行配置，方法创建/etc/shadowsocks.json文件，填入如下内容：</p>
-<hr>
-<pre><code>{
-&quot;server&quot;:&quot;my_server_ip&quot;,
-&quot;server_port&quot;:8000,
-&quot;local_address&quot;: &quot;127.0.0.1&quot;,
-&quot;local_port&quot;:1080,
-&quot;password&quot;:&quot;mypassword&quot;,
-&quot;timeout&quot;:300,
-&quot;method&quot;:&quot;rc4-md5&quot;}
-</code></pre><hr>
-<p>然后使用配置文件在后台运行：</p>
-<hr>
-<pre><code>ssserver -c /etc/shadowsocks.json -d start
-</code></pre><hr>
-<p>如果要停止运行，将命令中的start改成stop。</p>
-<p>TIPS: 加密方式推荐使用rc4-md5，因为 RC4 比 AES 速度快好几倍，如果用在路由器上会带来显著性能提升。旧的 RC4 加密之所以不安全是因为 Shadowsocks 在每个连接上重复使用 key，没有使用 IV。现在已经重新正确实现，可以放心使用。更多可以看 issue。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/05/02/blog/" class="archive-article-date">
-  	<time datetime="2017-05-02T15:53:05.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-05-02</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Markdown-Study/">Markdown Study</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Java7新特性释放资源" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/06/07/Java7新特性释放资源/">Java 7 新的 try-with-resources 语句，自动资源释放</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Java7新特性之try-with-resources"><a href="#Java7新特性之try-with-resources" class="headerlink" title="Java7新特性之try-with-resources"></a>Java7新特性之try-with-resources</h1><p>从 Java 7 build 105 版本开始，Java 7 的编译器和运行环境支持新的 try-with-resources 语句，称为 ARM 块(Automatic Resource Management) ，自动资源管理。</p>
-<p>新的语句支持包括流以及任何可关闭的资源，例如，一般我们会编写如下代码来释放资源：</p>
-<pre><code>private static void customBufferStreamCopy(File source, File target) {
-InputStream fis = null;
-OutputStream fos = null;
-try {
-    fis = new FileInputStream(source);
-    fos = new FileOutputStream(target);
-
-    byte[] buf = new byte[8192];
-
-    int i;
-    while ((i = fis.read(buf)) != -1) {
-        fos.write(buf, 0, i);
-    }
-}
-catch (Exception e) {
-    e.printStackTrace();
-} finally {
-    close(fis);
-    close(fos);
-}
-}
-
-private static void close(Closeable closable) {
-    if (closable != null) {
-       try {
-               closable.close();
-            } catch (IOException e) {
-                    e.printStackTrace();
-            }
-}
-}
-</code></pre><p>而使用 try-with-resources 语句来简化代码如下：</p>
-<p>在这个例子中，数据流会在 try 执行完毕后自动被关闭。</p>
-<blockquote>
-<p>前提是，这些可关闭的资源必须实现 java.lang.AutoCloseable 接口。</p>
-</blockquote>
-<pre><code>private static void customBufferStreamCopy(File source, File target) {
-try (InputStream fis = new FileInputStream(source);
-    OutputStream fos = new FileOutputStream(target)){
-
-    byte[] buf = new byte[8192];
-
-    int i;
-    while ((i = fis.read(buf)) != -1) {
-        fos.write(buf, 0, i);
-    }
-}
-catch (Exception e) {
-    e.printStackTrace();
-}
-}
-</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/06/07/Java7新特性释放资源/" class="archive-article-date">
-  	<time datetime="2016-06-07T11:40:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-06-07</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-fastJSON 转泛型对象" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/06/04/fastJSON 转泛型对象/">fastJSON 转泛型对象</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="fastJSON-转泛型对象"><a href="#fastJSON-转泛型对象" class="headerlink" title="fastJSON 转泛型对象"></a>fastJSON 转泛型对象</h1><p>fastJSON在实际的使用过程中，需要将JSON字符串转成带有泛型的对象。普通的方式无法实现。查询相关的资料最后得到的结果如下：</p>
-<pre><code>public List&lt;ResInnoIds&gt; callStatByInno(List&lt;Integer&gt; innoIds){
-    Map&lt;String,Object&gt; request = new HashMap&lt;&gt;();
-    request.put(&quot;ccId&quot;,inputParamHead.getCcId());
-    request.put(&quot;vdnId&quot;,inputParamHead.getVdnId());
-    if(innoIds!=null&amp;&amp;innoIds.isEmpty()){
-        request.put(&quot;innoIds&quot;,innoIds);
-    }
-    String url = CmsEndPoint.get(&quot;real.accesscode.callstatbyinno&quot;);
-    String response = HttpUtil.post(url,request);
-    Response&lt;List&lt;ResInnoIds&gt;&gt; res= JSON.parseObject(response,new TypeReference&lt;Response&lt;List&lt;ResInnoIds&gt;&gt;&gt;(){});
-    return res.getResult();
-}
-</code></pre><p>由于Response<list<resinnoids>&gt;是一个泛型对象。<br>使用JSON.toJavaObject(json,Response.class）无法将其转成Response<list<resinnoids>&gt;。<br>必须使用JSON.parseObject(response,<span style="color:red">new</span> <span style="color:blue">TypeReference<response<list<resinnoids>&gt;&gt;(){}</response<list<resinnoids></span>);</list<resinnoids></list<resinnoids></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/06/04/fastJSON 转泛型对象/" class="archive-article-date">
-  	<time datetime="2016-06-04T07:43:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-06-04</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Markdown-Study" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/23/Markdown-Study/">Markdown Study</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<blockquote>
-<p>这个世界满是苍白<br><br>而你是我唯一的色彩<br></p>
-</blockquote>
-<hr>
-<p><strong>( •̀ ω •́ )y</strong><br><br><span style="color:red;font-size:18px"><br>    知之为知之，不知为不知，是知也。<br></span></p>
-<p style="color:green"><br>    知不足者，好学。<br><br>    耻下问者，自满。<br><br></p>
-
-
-<h2 id="代码模块"><a href="#代码模块" class="headerlink" title="代码模块"></a>代码模块</h2><hr>
-<pre><code>public static void main(String[] args) {
-    Test t =new Test();//代码风格颜色有点渣
-    t.start();
-}
-</code></pre><hr>
-<pre><code>&lt;div&gt;蒹葭苍苍，白露为霜。&lt;/div&gt;
-&lt;div&gt;所谓伊人，在水一方。&lt;/div&gt;
-</code></pre><hr>
-<ol>
-<li>好好学习，天天向上。</li>
-<li>感觉这个list和word没什么区别。</li>
-<li>自定义list怎么玩。</li>
-</ol>
-<hr>
 <ul>
-<li>无序列表</li>
-<li>第二项</li>
-<li>第三项<br><br>//无序列表，完全支持html代码。</li>
+<li><strong>作为 Web 服务器</strong>：相比 Apache，Nginx 使用更少的资源，支持更多的并发连接，体现更高的效率，这点使 Nginx 尤其受到虚拟主机提供商的欢迎。能够支持高达 50,000 个并发连接数的响应，感谢 Nginx 为我们选择了 epoll and kqueue 作为开发模型.</li>
 </ul>
-<hr>
-<html><br><head><br><style><br>    .test{<br>    width:100%;<br>    height:60px;<br>    border:1px solid red;<br>    border-radius:5px 5px 5px 5px;<br>    background-color:#00ff00;<br>}<br></style><br>    <div class="test">编辑器里面支持css样式。发布不知道支持不，连css写的样式都能用。这是一个div层。</div><br>    <div style="width:100%;height:60px;border:1px solid #0000ff;border-radius:5px 5px 5px 5px;">css样式写在div的style里面</div><br></head></html>
+<ul>
+<li><strong>作为负载均衡服务器</strong>：Nginx 既可以在内部直接支持 Rails 和 PHP，也可以支持作为 HTTP代理服务器 对外进行服务。Nginx 用 C 编写, 不论是系统资源开销还是 CPU 使用效率都比 Perlbal 要好的多。</li>
+</ul>
+<ul>
+<li><strong>作为邮件代理服务器</strong>: Nginx 同时也是一个非常优秀的邮件代理服务器（最早开发这个产品的目的之一也是作为邮件代理服务器），Last.fm 描述了成功并且美妙的使用经验。</li>
+</ul>
+<ul>
+<li><p><strong>Nginx 安装非常的简单</strong>，配置文件 非常简洁（还能够支持perl语法），Bugs非常少的服务器: Nginx 启动特别容易，并且几乎可以做到7*24不间断运行，即使运行数个月也不需要重新启动。你还能够在 不间断服务的情况下进行软件版本的升级。</p>
+<h2 id="负载均衡配置"><a href="#负载均衡配置" class="headerlink" title="负载均衡配置"></a>负载均衡配置</h2><p>以下是http和https Nginx负载均衡的配置。仅限后台接口使用。不包含静态文件的访问。</p>
+<p>  #user  nobody;<br>  worker_processes  1;</p>
+<p>  #error_log  logs/error.log;<br>  #error_log  logs/error.log  notice;<br>  #error_log  logs/error.log  info;</p>
+<p>  #pid        logs/nginx.pid;</p>
+</li>
+</ul>
+<pre><code>events {
+    worker_connections  1024;
+}
+
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    #log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;
+    #                  &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;
+    #                  &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;
+
+    #access_log  logs/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    #keepalive_timeout  0;
+    keepalive_timeout  65;
+
+    #gzip  on;
+    upstream  coreBusiness{  
+              #server   172.19.0.196:8080 weight=1 max_fails=2 fail_timeout=60s;
+            #server   172.19.0.197:8080 weight=1 max_fails=2 fail_timeout=60s;
+              server    172.19.0.243:8100;
+      }
+    upstream  aacs{    
+            server   172.19.0.200:8080 weight=1 max_fails=2 fail_timeout=60s;
+            server   172.19.0.199:8080 weight=1 max_fails=2 fail_timeout=60s;
+            server   172.19.0.198:8080 weight=1 max_fails=2 fail_timeout=60s;
+        }
+    server {
+        listen       80;
+        server_name  localhost;
+
+        #charset koi8-r;
+
+        #access_log  logs/host.access.log  main;
+
+        location /coreBusiness {
+            proxy_pass        http://coreBusiness;
+            proxy_set_header   Host             $host;
+            proxy_set_header   X-Real-IP        $remote_addr;
+            proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+               #root   html;
+               #index  index.html index.htm;
+        }
+
+
+
+    location /aacs {
+            proxy_pass        http://aacs;
+            proxy_set_header   Host             $host;
+            proxy_set_header   X-Real-IP        $remote_addr;
+            proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+           #root   html;
+           #index  index.html index.htm;
+        }
+
+        #error_page  404              /404.html;
+
+        # redirect server error pages to the static page /50x.html
+        #
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+
+        # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+        #
+        #location ~ \.php$ {
+        #    proxy_pass   http://127.0.0.1;
+        #}
+
+        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+        #
+        #location ~ \.php$ {
+        #    root           html;
+        #    fastcgi_pass   127.0.0.1:9000;
+        #    fastcgi_index  index.php;
+        #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+        #    include        fastcgi_params;
+        #}
+
+        # deny access to .htaccess files, if Apache&apos;s document root
+        # concurs with nginx&apos;s one
+        #
+        #location ~ /\.ht {
+        #    deny  all;
+        #}
+    }
+
+
+    # another virtual host using mix of IP-, name-, and port-based configuration
+    #
+    #server {
+    #    listen       8000;
+    #    listen       somename:8080;
+    #    server_name  somename  alias  another.alias;
+
+    #    location / {
+    #        root   html;
+    #        index  index.html index.htm;
+    #    }
+    #}
+
+
+    # HTTPS server
+    #
+    server {
+        listen       443 ssl;
+        server_name  localhost;
+
+        ssl_certificate      /usr/local/nginx/conf/server.crt;
+        ssl_certificate_key  /usr/local/nginx/conf/server.key;
+
+        ssl_session_cache    shared:SSL:1m;
+        ssl_session_timeout  5m;
+
+        ssl_ciphers  HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers  on;
+        location /coreBusiness {
+            proxy_pass        http://coreBusiness;
+            proxy_set_header   Host             $host;
+            proxy_set_header   X-Real-IP        $remote_addr;
+            proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+           #root   html;
+           #index  index.html index.htm;
+        }
+
+        location /aacs {
+            proxy_pass        http://aacs;
+            proxy_set_header   Host             $host;
+            proxy_set_header   X-Real-IP        $remote_addr;
+            proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+           #root   html;
+           #index  index.html index.htm;
+       }
+        #location / {
+         #   root   html;
+          # index  index.html index.htm;
+       #}
+    }
+
+}
+</code></pre><h2 id="Suse下开机启动脚本"><a href="#Suse下开机启动脚本" class="headerlink" title="Suse下开机启动脚本"></a>Suse下开机启动脚本</h2><pre><code>#! /bin/sh
+
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+DESC=&quot;nginx daemon&quot;
+NAME=nginx
+DAEMON=/usr/local/nginx/sbin/$NAME
+CONFIGFILE=/usr/local/nginx/conf/$NAME.conf
+PIDFILE=/usr/local/nginx/logs/$NAME.pid
+SCRIPTNAME=/etc/init.d/$NAME
+
+set -e
+[ -x &quot;$DAEMON&quot; ] || exit 0
+
+do_start() {
+ $DAEMON -c $CONFIGFILE || echo -n &quot;nginx already running&quot;
+}
+
+do_stop() {
+ kill -INT `cat $PIDFILE` || echo -n &quot;nginx not running&quot;
+}
+
+do_reload() {
+ kill -HUP `cat $PIDFILE` || echo -n &quot;nginx can&apos;t reload&quot;
+}
+
+case &quot;$1&quot; in
+ start)
+ echo -n &quot;Starting $DESC: $NAME&quot;
+ do_start
+ echo &quot;.&quot;
+ ;;
+ stop)
+ echo -n &quot;Stopping $DESC: $NAME&quot;
+ do_stop
+ echo &quot;.&quot;
+ ;;
+ reload|graceful)
+ echo -n &quot;Reloading $DESC configuration...&quot;
+ do_reload
+ echo &quot;.&quot;
+ ;;
+ restart)
+ echo -n &quot;Restarting $DESC: $NAME&quot;
+ do_stop
+ do_start
+ echo &quot;.&quot;
+ ;;
+ *)
+ echo &quot;Usage: $SCRIPTNAME {start|stop|reload|restart}&quot; &gt;&amp;2
+ exit 3
+ ;;
+esac
+
+exit 0
+</code></pre><p>操作步骤：</p>
+<p>拷贝以上脚本信息，在suse linux的etc/init.d/目录下使用以下命令。</p>
+<pre><code>vi nginx #添加nginx启动脚本，将以上内容拷贝进去。
+</code></pre><p>添加nginx服务</p>
+<pre><code>chkconfig --add nginx
+</code></pre><p>设置启动等级</p>
+<pre><code>chkconfig -level 2345 nginx on
+</code></pre><p>验证:</p>
+<pre><code>service nginx start
+nginx already running
+</code></pre><p>表示添加服务成功。</p>
+
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2016/05/23/Markdown-Study/" class="archive-article-date">
-  	<time datetime="2016-05-23T09:25:16.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-05-23</time>
+      <a href="/2018/07/19/Nginx_Config/" class="archive-article-date">
+  	<time datetime="2018-07-19T02:02:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-07-19</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Markdown-Study/">Markdown Study</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
 	</div>
 
       
@@ -974,6 +415,1092 @@ catch (Exception e) {
 
 
   
+    <article id="post-TomcatSuse11AutoStartScript" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/17/TomcatSuse11AutoStartScript/">Tomcat Suse 11开机自动启动脚本</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
+<p>大部分的suse启动脚本都是同一个道理，经过这阶段对Linux的接触，大概了解了Suse系统的结构，主要的Service存在于”/etc/init.d/“文件夹下。</p>
+</blockquote>
+<pre><code>#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides:        tomcat7
+# Required-Start:  $network
+# Required-Stop:   $network
+# Default-Start:   2 3 4 5
+# Default-Stop:    0 1 6
+# Short-Description: Start/Stop Tomcat server
+### END INIT INFO
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+export JAVA_HOME=/usr/local/java/java8             #JavaHome
+
+start() {
+ sh /home/App/apache-tomcat-8.5.31/bin/startup.sh  #自己tomcat启动路径
+}
+
+stop() {
+ sh /home/App/apache-tomcat-8.5.31/bin/shutdown.sh #自己tomcat关闭路径
+}
+
+case $1 in
+  start|stop) $1;;
+  restart) stop; start;;
+  *) echo &quot;Run as $0 &lt;start|stop|restart&gt;&quot;; exit 1;;
+esac
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/07/17/TomcatSuse11AutoStartScript/" class="archive-article-date">
+  	<time datetime="2018-07-17T01:10:01.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-07-17</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Nginx+keepalived双主模式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/08/Nginx+keepalived双主模式/">Nginx+keepalived双主模式（双机互为主备）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
+<p>Nginx双机互为主备使用keepalived+nginx实现。这种方式两台机器一起分担请求并路由到不同的nignx。</p>
+</blockquote>
+<p>配置nginx+keepalived的双主机双机热备，这种配置下有两个Virtual IP，两个机器互为主备，最后我们把域名DNS服务器解析至两个Virtual IP即可。</p>
+<hr>
+<h1 id="一、环境介绍："><a href="#一、环境介绍：" class="headerlink" title="一、环境介绍："></a>一、环境介绍：</h1><p>1.两台服务器</p>
+<pre><code>Server1：192.168.2.128---CentOS7
+Server2：192.168.2.129---CentOS7
+</code></pre><p>2.两个虚拟IP</p>
+<p><strong><span style="color:red">注意：在这里做个说明，这两个虚拟ip是由keepalived直接配置的，并不是在虚拟机的网卡上配置。</span></strong></p>
+<pre><code>Virtual IP1:192.168.2.138
+Virtual IP2:192.168.2.139
+</code></pre><h1 id="二、开始操作"><a href="#二、开始操作" class="headerlink" title="二、开始操作"></a>二、开始操作</h1><h2 id="1-初始化两台虚拟机最小安装方式。"><a href="#1-初始化两台虚拟机最小安装方式。" class="headerlink" title="1.初始化两台虚拟机最小安装方式。"></a>1.初始化两台虚拟机最小安装方式。</h2><p>此处略。</p>
+<h2 id="2-设置静态Ip。"><a href="#2-设置静态Ip。" class="headerlink" title="2.设置静态Ip。"></a>2.设置静态Ip。</h2><p>查看 <a href="http://zhyx.me" title="CentOS设置静态Ip" target="_blank" rel="external">CentOS设置静态Ip</a></p>
+<h2 id="3-安装keepalived"><a href="#3-安装keepalived" class="headerlink" title="3.安装keepalived"></a>3.安装keepalived</h2><p>下载最新版本的keepalived-2.0.5.tar.gz 下载地址：<a href="http://www.keepalived.org/download.html" target="_blank" rel="external">http://www.keepalived.org/download.html</a></p>
+<p>将文件上传到/usr/local/目录下</p>
+<pre><code>tar -zxvf keepalived-2.0.5.tar.gz
+</code></pre><p>将解压出来的文件夹重命名</p>
+<pre><code>mv keepalived-2.0.5 keeplived
+</code></pre><p>进入文件夹，编译安装</p>
+<pre><code>cd keepalived
+./configure --prefix=/usr/local/keepalived
+make &amp;&amp; make install
+</code></pre><p>修改Server1配置文件 /usr/local/keepalived/etc/keepalived/keepalived.conf</p>
+<pre><code>! Configuration File for keepalived
+global_defs {
+        notification_email {
+            zhyx@zhyx.me                                    #接收警报的email地址,可以添加多个
+        }
+        notification_email_from admin@zhyx.me               ###发件人地址
+            smtp_server 127.0.0.1                           ###发送邮件的服务器
+            smtp_connect_timeout 30                         ###超时时间
+            router_id LVS_DEVEL                             ####load balancer 的标识 ID,用于email警报
+}
+vrrp_script chk_http_port {
+            script &quot;/opt/nginx_pid.sh&quot;                      ####检测nginx状态的脚本路径
+            interval 2
+            weight 2
+        }
+vrrp_instance VI_1 {
+            state MASTER                                    ############ 辅机为 BACKUP
+            interface ens33                                 ####HA 虚拟机的网卡名称  
+            virtual_router_id 51                            #主、备机的 virtual_router_id 必须相同
+            priority 100                                    ########### 权值要比 back 高
+            advert_int 1                                    #主备之间的通告间隔秒数
+    track_interface{
+        ens33
+    }
+        authentication {
+            auth_type PASS                                  ###默认配置 主备切换时的验证 
+            auth_pass 1111
+        }
+        track_script {
+            chk_http_port                                   ### 执行监控的服务
+        }
+        virtual_ipaddress {
+            192.168.2.138                                    ####虚拟ip，vip的地址
+        }
+
+}
+vrrp_instance VI_2 {
+    state BACKUP
+    interface ens33                                         #两处都为本机的网络接口
+    virtual_router_id 54
+    priority 100                                             #权重
+    advert_int 1
+    track_interface{
+        ens33
+    }
+    authentication {
+        auth_type PASS
+        auth_pass 1111
+    }
+    virtual_ipaddress {
+        192.168.2.139
+    }
+}
+</code></pre><p>修改Server2配置文件 /usr/local/keepalived/etc/keepalived/keepalived.conf</p>
+<pre><code>! Configuration File for keepalived
+global_defs {
+    notification_email {
+        zhyx@zhyx.me                                    #接收警报的email地址,可以添加多个
+    }
+    notification_email_from admin@zhyx.com              ###发件人地址
+    smtp_server 127.0.0.1                               ###发送邮件的服务器
+    smtp_connect_timeout 30                             ###超时时间
+    router_id LVS_DEVEL                                 ####load balancer 的标识 ID,用于email警报
+}
+vrrp_script chk_http_port {
+    script &quot;/opt/nginx_pid.sh&quot;                          ####检测nginx状态的脚本路径
+    interval 2
+    weight 2
+}
+vrrp_instance VI_1 {
+    state BACKUP                                        ############ 辅机为 BACKUP
+    interface ens33                                     ####HA 虚拟机的网卡名称
+    #mcast_src_ip 192.168.2.129                            #本机IP地址在主从的时候用到
+    virtual_router_id 51                                #主、备机的 virtual_router_id 必须相同
+    priority 100                                        ########### 权值要比 back 高
+    advert_int 1                                        #主备之间的通告间隔秒数
+    track_interface{
+    ens33
+    }
+    authentication {
+        auth_type PASS                                  ###主备切换时的验证
+        auth_pass 1111
+    }
+    track_script {
+        chk_http_port                                   ### 执行监控的服务
+    }
+    virtual_ipaddress {
+        192.168.2.138                                    ####虚拟ip,vip的地址
+    }
+
+}
+
+vrrp_instance VI_2 {
+    state MASTER
+    interface ens33
+    virtual_router_id 54
+    priority 100
+    advert_int 1
+    track_interface{
+        ens33
+    }
+    authentication {
+        auth_type PASS
+        auth_pass 1111
+    }
+    track_script {
+        chk_http_port
+    }
+    virtual_ipaddress {
+        192.168.2.139
+    }
+}
+</code></pre><p>将两台keepalived安装成Linux系统服务</p>
+<p><strong><span style="color:red">注意：执行该步骤之后，如若需要修改keepalived的配置文件，则需要在etc/keepalived下修改。否则修改不生效。</span></strong></p>
+<pre><code>cp /usr/local/keepalived/etc/sysconfig/keepalived /etc/sysconfig/ 
+
+mkdir /etc/keepalived 
+
+cp /usr/local/keepalived/etc/keepalived/keepalived.conf /etc/keepalived/ 
+
+cp /usr/local/keepalived/sbin/keepalived /usr/sbin/
+</code></pre><p>设置开机启动服务</p>
+<pre><code>chkconfig --level 2345 keepalived on
+</code></pre><p>在/opt/下编写校验脚本，/opt/nginx_pid.sh（已配置在keepalived.conf中）</p>
+<p>nginx_pid.sh ：如果nginx停止运行，尝试启动，如果无法启动杀死本机keepalived进程，keepalied将虚拟ip绑定到备用机器上</p>
+<pre><code>#!/bin/bash
+A=`ps -C nginx --no-header |wc -l`        
+if [ $A -eq 0 ];then                            
+      /usr/nginx/sbin/nginx                #重启nginx
+      if [ `ps -C nginx --no-header |wc -l` -eq 0 ];then    #nginx重启失败，则停掉keepalived服务，进行VIP转移
+              killall keepalived                    
+      fi
+fi
+</code></pre><h2 id="4-安装nginx"><a href="#4-安装nginx" class="headerlink" title="4.安装nginx"></a>4.安装nginx</h2><p>1.首先安装依赖包（依赖包有点多，我们采用yum的方式来安装）</p>
+<pre><code>yum -y install zlib zlib-devel openssl openssl-devel pcre pcre-devel
+</code></pre><p>2.将nginx-1.15.1.tar.gz上传到/usr/local/下</p>
+<pre><code>tar -zxvf 1.15.1
+</code></pre><p>3.重命名包名称，讲nginx-1.15.1改为nginx</p>
+<pre><code>mv nginx-1.15.1 nginx
+</code></pre><p>4.编译</p>
+<pre><code>cd nginx
+
+./configure --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module
+
+make&amp;&amp;make install
+</code></pre><h2 id="测试："><a href="#测试：" class="headerlink" title="测试："></a>测试：</h2><p>分别启动两台机器上nginx和keepalived</p>
+<p>1.启动keepalived</p>
+<pre><code>service keepalived start    
+</code></pre><p>2.启动nginx</p>
+<pre><code>/usr/local/sbin/nginx
+</code></pre><p>利用命令查看虚拟ip是否绑定成功</p>
+<pre><code>ip a
+</code></pre><p>输出如下</p>
+<pre><code>    [root@bogon ~]# ip a
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: ens33: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 00:0c:29:12:2b:19 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.2.129/24 brd 192.168.2.255 scope global noprefixroute ens33
+       valid_lft forever preferred_lft forever
+    inet 192.168.2.138/32 scope global ens33
+       valid_lft forever preferred_lft forever
+    inet 192.168.2.139/32 scope global ens33
+       valid_lft forever preferred_lft forever
+    inet6 fe80::76e1:c30c:d2e8:ae91/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+    inet6 fe80::d2c5:4c6:219:758f/64 scope link tentative noprefixroute dadfailed 
+       valid_lft forever preferred_lft forever
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/07/08/Nginx+keepalived双主模式/" class="archive-article-date">
+  	<time datetime="2018-07-08T00:24:19.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-07-08</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Oracle启动方式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/06/Oracle启动方式/">oracle实例启动步骤</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>   一、在Linux下重启Oracle数据库及监听器：</p>
+<p>方法1：</p>
+<p>用root以ssh登录到linux，打开终端输入以下命令：</p>
+<p>cd $ORACLE_HOME #进入到oracle的安装目录 </p>
+<p>dbstart #重启服务器 </p>
+<p>lsnrctl start #重启监听器 </p>
+<p>cd $ORACLE_HOME #进入到oracle的安装目录</p>
+<p>dbstart #重启服务器</p>
+<p>lsnrctl start #重启监听器</p>
+<hr>
+<p>方法2：</p>
+<p>Sql代码</p>
+<p>cd $ORACLE_HOME/bin #进入到oracle的安装目录 </p>
+<p>./dbstart #重启服务器 </p>
+<p>./lsnrctl start #重启监听器</p>
+<hr>
+<p>方法3：</p>
+<p>（1） 以oracle身份登录数据库，命令：su -oracle</p>
+<p>（2） 进入Sqlplus控制台，命令：sqlplus /nolog</p>
+<p>（3） 以系统管理员登录，命令：connect / as sysdba</p>
+<p>（4） 启动数据库，命令：startup</p>
+<p>（5） 如果是关闭数据库，命令：shutdown immediate</p>
+<p>（6） 退出sqlplus控制台，命令：exit</p>
+<p>（7） 进入监听器控制台，命令：lsnrctl</p>
+<p>（8） 启动监听器，命令：start</p>
+<p>（9） 退出监听器控制台，命令：exit</p>
+<p>二、重启实例：</p>
+<p>（1） 切换需要启动的数据库实例：export ORACLE_SID=C1</p>
+<p>（2） 进入Sqlplus控制台，命令：sqlplus /nolog</p>
+<p>（3） 以系统管理员登录，命令：connect / as sysdba</p>
+<p>（4） 如果是关闭数据库，命令：shutdown abort</p>
+<p>（5） 启动数据库，命令：startup</p>
+<p>（6） 退出sqlplus控制台，命令：exit</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/07/06/Oracle启动方式/" class="archive-article-date">
+  	<time datetime="2018-07-06T01:34:23.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-07-06</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Oracle/">Oracle</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Oracle序列创建" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/11/Oracle序列创建/">Oracle序列创建</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<pre><code>CREATE SEQUENCE emp_sequence  --序列名
+INCREMENT BY 1   -- 每次加几个  
+START WITH 1     -- 从1开始计数  
+NOMAXVALUE       -- 不设置最大值  
+NOCYCLE          -- 一直累加，不循环  
+CACHE 10;
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/06/11/Oracle序列创建/" class="archive-article-date">
+  	<time datetime="2018-06-11T03:08:01.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-06-11</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Oracle/">Oracle</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-nginx_install_ssl" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/25/nginx_install_ssl/">nginx配置https使用openSSL</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p><strong>这篇博文的产生是源于实施人员不会配置https所写。我不知道这样的现象还会持续多久，但我知道不在沉默中爆发，就在沉默中灭亡!</strong></p>
+</blockquote>
+<p>1、安装jdk，系统默认的jdk版本不对，会造成后续很多问题，所以第一件事就是充装jdk，自己去网上找jdk，然后传到服务器上进行安装，并配置环境变量。</p>
+<hr>
+<p>2、安装zlib，官网 <a href="http://zlib.net/" target="_blank" rel="external">http://zlib.net/</a> ，到上面下载个新版本，然后传到服务器上进行安装 </p>
+<pre><code>[root@localhost]tar zxvf zlib-1.2.11.tar.gz
+[root@localhost] cd zlib-1.2.11
+[root@localhost]  ./configure &amp;&amp; make &amp;&amp; make install
+</code></pre><hr>
+<p>3、安装pcre，官网 <a href="https://sourceforge.net/projects/pcre/files/pcre/" target="_blank" rel="external">https://sourceforge.net/projects/pcre/files/pcre/</a> ，到上面下载个新版本，然后传到服务器进行安装</p>
+<pre><code>[root@localhost] tar zxvf pcre-8.42.tar.gz
+[root@localhost] cd pcre-8.40
+[root@localhost]  ./configure &amp;&amp; make &amp;&amp; make install
+</code></pre><hr>
+<p>4、安装openssl，官网 <a href="https://www.openssl.org/source/" target="_blank" rel="external">https://www.openssl.org/source/</a></p>
+<p>a、解压下载的openssl压缩包</p>
+<pre><code>tar -zxvf openssl-1.0.1g.tar.gz
+</code></pre><p>b、进入解压后的openssl文件夹</p>
+<pre><code>cd openssl-1.1.0e
+</code></pre><p>c、执行配置指令：</p>
+<pre><code>./config shared zlib
+</code></pre><p>d、执行安装命令</p>
+<pre><code>make&amp;make install
+</code></pre><p>e、进行配置</p>
+<p>重命名原来的openssl命令</p>
+<pre><code>mv /usr/bin/openssl /usr/bin/openssl.bak
+</code></pre><p>重命名原来的openssl目录 (我这里不知道为什么，本地include下面没有旧的openssl目录)</p>
+<pre><code>mv /usr/include/openssl  /usr/include/openssl.bak
+</code></pre><p>将安装好的openssl 的openssl命令软连到/usr/bin/openssl</p>
+<pre><code>ln -s /usr/local/sslshared/bin/openssl /usr/bin/openssl
+</code></pre><p>将安装好的openssl 的openssl目录软连到/usr/include/openssl</p>
+<pre><code>ln -s /usr/local/sslshared/include/openssl /usr/include/openssl
+</code></pre><p>修改系统自带的openssl库文件，如/usr/local/lib64/libssl.so(根据机器环境而定) 软链到升级后的libssl.so</p>
+<pre><code>ln -s /usr/local/sslshared/lib/libssl.so.1.1 /usr/local/lib64/libssl.so
+</code></pre><p>在/etc/ld.so.conf文件中写入openssl库文件的搜索路径</p>
+<pre><code>echo &quot;/usr/local/sslshared/lib&quot; &gt;&gt; /etc/ld.so.conf
+</code></pre><p>使修改后的/etc/ld.so.conf生效 </p>
+<pre><code>ldconfig -v
+</code></pre><hr>
+<p>5、安装nginx，官网 <a href="http://nginx.org/download/" target="_blank" rel="external">http://nginx.org/download/</a> ，到上面下载个新版本，然后传到服务器进行安装。</p>
+<pre><code>[root@localhost] tar zxvf nginx-1.8.0.tar.gz
+[root@localhost] cd nginx-1.8.0
+[root@localhost] ./configure --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module
+[root@localhost] make&amp;make install
+</code></pre><p>6.创建不受信任的SSL Key：</p>
+<pre><code>cd /usr/local/nginx/conf
+
+openssl genrsa -des3 -out server.key 1024
+
+openssl req -new -key server.key -out server.csr
+
+cp server.key server.key.org
+
+openssl rsa -in server.key.org -out server.key
+
+openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+</code></pre><p><img src="https://i.imgur.com/EMaLvMx.png" alt=""></p>
+<p>完成上述五个步骤之后你会发现在你的nginx的conf生成了如图所示的几个文件<br><img src="https://i.imgur.com/TCLltHu.png" alt=""></p>
+<p>7.编辑nginx配置文件（nginx.conf），拉到最底下有个server 监听443端口的。解开封印#。配置crt和key路径.<br>设置代理连接就搞定了。</p>
+<p><img src="https://i.imgur.com/5HJYZRv.png" alt=""></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/04/25/nginx_install_ssl/" class="archive-article-date">
+  	<time datetime="2018-04-25T05:11:17.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-04-25</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-maven-install" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/12/maven-install/">maven安装本地包</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<ol>
+<li>确认安装包的版本号，位置，包名，如下：</li>
+</ol>
+<p><img src="https://i.imgur.com/sEIEupj.png" alt=""></p>
+<p>2.假设我放在d:\jar。那么在cmd中的命令为：</p>
+<pre><code>mvn install:install-file -Dfile=D:\jar\ojdbc6-11.2.0.1.0.jar -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0.1.0 -Dpackaging=jar
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/03/12/maven-install/" class="archive-article-date">
+  	<time datetime="2018-03-12T02:27:18.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-03-12</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/maven/">maven</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Linux文件夹挂载" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/06/Linux文件夹挂载/">Linux文件夹挂载</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<ol>
+<li>Linux文件夹挂载windows磁盘</li>
+</ol>
+<p>1.1在linux根目录下创建S文件夹</p>
+<pre><code>mkdir /S
+</code></pre><p>1.2创建启动脚本，开机自动映射</p>
+<pre><code>vi /etc/init.d/startmount
+</code></pre><p>1.3写入命令</p>
+<pre><code>mount -t cifs //172.16.3.235/E$ /S -o username=administrator,password=netinfo@123,gid=users,dir_mode=0777
+
+wq!
+</code></pre><p>1.4修改权限</p>
+<pre><code>chmod 777 startmount
+</code></pre><p>1.5重新执行</p>
+<pre><code>./startmount   
+</code></pre><hr>
+<p>2.Linux挂载Linux文件夹</p>
+<p>a.命令格式：mount [-t vfstype] [-o options] device dir </p>
+<pre><code>mount -t nfs4  -o nolock 172.16.3.100:/share/voice /S/voice
+</code></pre><p>b.参数的意义</p>
+<p>b.1 -t vfstype 指定文件系统的类型，通常不必指定。mount 会自动选择正确的类型。<br>常用类型有： </p>
+<p>光盘或光盘镜像：iso9660 </p>
+<p>DOS fat16文件系统：msdos </p>
+<p>Windows 9x fat32文件系统：vfat </p>
+<p>Windows NT ntfs文件系统：ntfs </p>
+<p>Mount Windows文件网络共享：smbfs </p>
+<p>UNIX(LINUX) 文件网络共享：nfs </p>
+<p><span style="color:red;">注意：在固态硬盘下的服务器请使用<strong>nfs4</strong></span></p>
+<p>b.2 -o options 主要用来描述设备或档案的挂接方式。常用的参数有： </p>
+<p>loop：用来把一个文件当成硬盘分区挂接上系统 </p>
+<p>ro：采用只读方式挂接设备 </p>
+<p>rw：采用读写方式挂接设备 </p>
+<p>iocharset：指定访问文件系统所用字符集 </p>
+<p>b.3.device 要挂接(mount)的设备。 </p>
+<p>b.4.dir设备在系统上的挂接点(mount point)。 </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/03/06/Linux文件夹挂载/" class="archive-article-date">
+  	<time datetime="2018-03-06T01:51:53.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-03-06</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-JVM最大运行存配置" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/24/JVM最大运行存配置/">Tomcat配置最大运行存</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>很久没有写博客了，忘记了多长时间没写。</p>
+<p>最主要还是因为项目太紧了。</p>
+</blockquote>
+<h1 id="关于TOMCAT8及以上配置Jvm最大运行存"><a href="#关于TOMCAT8及以上配置Jvm最大运行存" class="headerlink" title="关于TOMCAT8及以上配置Jvm最大运行存"></a>关于TOMCAT8及以上配置Jvm最大运行存</h1><p>要实现jvm性能调优,要先理解几个参数，以及应用的性能测试。最主要测试的内容为并发量，同时在线量。</p>
+<p>在这里主要是配置Tomcat的Jvm内存。先理解以下几个概念。</p>
+<p>-Xms2g 表示java虚拟机堆区内存初始内存分配的大小，通常为操作系统可用内存的1/64大小即可，但仍需按照实际情况进行分配。有可能真的按照这样的一个规则分配时，设计出的软件还没有能够运行得起来就挂了。</p>
+<p>-Xmx2g 表示java虚拟机堆区内存可被分配的最大上限，通常为操作系统可用内存的1/4大小。但是开发过程中，通常会将 -Xms 与 -Xmx两个参数的配置相同的值，其目的是为了能够在java垃圾回收机制清理完堆区后不需要重新分隔计算堆区的大小而浪费资源。</p>
+<p>-XX:PermSize=256M 表示非堆区初始内存分配大小，其缩写为permanent size（持久化内存）</p>
+<p>-XX:MaxPermSize=256M 表示对非堆区分配的内存的最大上限。</p>
+<p>1.windows版本的Tomcat配置jvm最大运行存。<br>只需要在bin目录下新建<span style="color:red">setenv.bat</span>内容如下：</p>
+<pre><code>set JAVA_HOME=../jre
+set &quot;JAVA_OPTS=%JAVA_OPTS% -Xms2g -Xmx2g -XX:MaxPermSize=256m -server&quot;
+</code></pre><p>第一行可以直接配置jre的目录<br>第二行则是配置JVM运行存储。</p>
+<p>2.Linux版本下的Tomcat</p>
+<p>只需要在bin目录下新建<span style="color:red">setenv.sh</span>内容如下：</p>
+<pre><code>export CATALINA_OPTS=&quot;$CATALINA_OPTS -Xms4096m&quot;
+export CATALINA_OPTS=&quot;$CATALINA_OPTS -Xmx4096m&quot;
+export CATALINA_OPTS=&quot;$CATALINA_OPTS -XX:MaxPermSize=256m&quot;
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/02/24/JVM最大运行存配置/" class="archive-article-date">
+  	<time datetime="2018-02-24T07:10:48.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-02-24</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Spring-webSocket" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/22/Spring-webSocket/">关于Spring boot webSocket使用方式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>1.添加Socket Maven依赖</p>
+<pre><code>&lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-websocket&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre><p>2.配置WebSocket，通过继承AbstractWebSocketMessageBrokerConfigurer类，重写其方法来配置WebSocket。需要在配置类上开启Spring boot STOMP协议（@EnableWebSocketMessageBroker）来传输message broker的消息。使控制器支持@MessageMapping。</p>
+<p>3.注册STOMP协议的节点，并映射的指定URL。</p>
+<p>4.注册一个STOMP的endpoint，并指定使用SockJS协议</p>
+<p>5.配置消息代理。</p>
+<p>6.点对点式增加一个/queue消息代理，广播式应配置一个/topic消息代理</p>
+<pre><code>@Configuration
+@EnableWebSocketMessageBroker//2
+public class SocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
+@Override
+public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {//3
+    stompEndpointRegistry.addEndpoint(&quot;/endpointWisely&quot;).withSockJS();//4
+    stompEndpointRegistry.addEndpoint(&quot;/endpointChat&quot;).withSockJS();//
+}
+
+@Override
+public void configureMessageBroker(MessageBrokerRegistry registry) {//5
+    registry.enableSimpleBroker(&quot;/queue&quot;,&quot;/topic&quot;);//6
+    }
+}
+</code></pre><h1 id="配置Controller"><a href="#配置Controller" class="headerlink" title="配置Controller"></a>配置Controller</h1><p>1.配置对象Response,以及客户侧消息对象。</p>
+<p>2.后台定义/subscription发送消息的地址，@SendTo(“/topic/response”)表示服务器有消息时，会将消息推送到这个地址。如果用户订阅了这个通知，则消息的到达浏览器端。—-这是广播式的通知方式。</p>
+<p>3.”/chat”表示浏览器端发送消息的地址。</p>
+<p>4.SimpMessagingTemplate该对象主要用到两个方法，通知类的消息使用</p>
+<pre><code>SimpMessagingTemplate.convertAndSend(&quot;/topic/response&quot;, ResultUtil.success(new Date()));
+</code></pre><p>对于某用户发送消息则为</p>
+<pre><code>SimpMessagingTemplate.convertAndSendToUser(&quot;zhyx&quot;,&quot;/queue/notifications&quot;,sdf.format(new Date()));
+</code></pre><p>通过这两种方式实现针对于点对点的消息发送方式，以及针对于广播式的消息发送方式。</p>
+<pre><code>@Controller
+public class SocketController {
+private static Logger logger = LoggerFactory.getLogger(SocketController.class);
+
+ @Autowired
+private SimpMessagingTemplate simpMessagingTemplate;//通过SimpMessageTemplate向浏览器发送消息
+
+@MessageMapping(&quot;/subscription&quot;)
+@SendTo(&quot;/topic/response&quot;)
+public Response subscription(ClientMessage clientMessage){
+    logger.info(&quot;{}用户连接了Socket了！&quot;,clientMessage.getUserId());
+    return ResultUtil.success();
+}
+
+@MessageMapping(&quot;/chat&quot;)
+public void handleChat(Principal principal,String msg){//在Spring MVC中，可以直接在参数中获得principal，pinciple中包含当前用户的信息。
+    logger.info(&quot;当前发送消息者是{}&quot;,principal.getName());
+    simpMessagingTemplate.convertAndSendToUser(principal.getName(),&quot;/queue/notifications&quot;,principal.getName()+&quot;-send:&quot;+msg);
+    }
+}
+</code></pre><p>5.针对于principal对象，做以下说明，该对象属于Spring security的一个对象这里主要作用是用于获取当前发送者id。这里为什么能够直接拿到这个对象。原因如下:</p>
+<p>5.1增加Spring boot security依赖</p>
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre><p>5.1 开启了Spring boot WebSecurity支持。在内存中增加了两个默认的用户，当用户登录成功之后， 就可以通过该对象拿到访问者的id.</p>
+<pre><code>@Configuration
+@EnableWebSecurity
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+private static Logger logger = LoggerFactory.getLogger(WebSecurityConfigurerAdapter.class);
+@Override
+protected void configure(HttpSecurity http) throws Exception {
+    logger.info(&quot;WebSecurityConfig的HttpSecurity config&quot;);
+    http
+            .authorizeRequests()
+            .antMatchers(&quot;/&quot;,&quot;/login&quot;).permitAll()//1根路径和/login路径不拦截
+            .anyRequest().authenticated()//任何没有匹配上的其他的url请求，只需要用户被验证。
+            .and()
+            .formLogin()
+            .loginPage(&quot;/login&quot;) //2登陆页面
+            .defaultSuccessUrl(&quot;/chat&quot;) //3登陆成功转向该页面
+            .permitAll()
+            .and()
+            .logout()
+            .permitAll();
+}
+
+//内存中分配两个用户密码与账户名一样，角色为USER.
+@Override
+protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    logger.info(&quot;WebSecurityConfig的AuthenticationManagerBuilder config&quot;);
+    auth
+            .inMemoryAuthentication()//内存认证模式
+            .withUser(&quot;zhyx&quot;)
+            .password(&quot;zhyx&quot;)
+            .roles(&quot;USER&quot;)
+            .and()
+            .withUser(&quot;test&quot;)
+            .password(&quot;test&quot;)
+            .roles(&quot;USER&quot;);
+}
+
+@Override
+public void configure(WebSecurity web) throws Exception {
+    logger.info(&quot;WebSecurityConfig的WebSecurity config&quot;);
+    web.ignoring().antMatchers(&quot;/resources/static/**&quot;);//静态资源不拦截。
+    super.configure(web);
+}
+}
+</code></pre><h1 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h1><p>1.前端对接，广播式对接方式。</p>
+<p>1.1引入sockjs.min.js，stomp.min.js，jquery.js支持。</p>
+<p>1.2连接SockJS的endpoint是“endpointWisely”，与后台代码中注册的endpoint要一样。</p>
+<p>1.3创建STOMP协议的webSocket客户端。</p>
+<p>1.4连接webSocket的服务端。</p>
+<p>1.5通过stompClient.subscribe（）订阅服务器的目标是’/topic/response’发送过来的地址，与@SendTo中的地址对应。</p>
+<p>1.6通过stompClient.send（）向地址为”/subscription”的服务器地址发起请求，与@MessageMapping里的地址对应。</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot; /&gt;
+&lt;title&gt;Spring Boot+WebSocket+广播式&lt;/title&gt;
+
+&lt;/head&gt;
+&lt;body onload=&quot;disconnect()&quot;&gt;
+&lt;noscript&gt;&lt;h2 style=&quot;color: #ff0000&quot;&gt;貌似你的浏览器不支持websocket&lt;/h2&gt;&lt;/noscript&gt;
+&lt;div&gt;
+&lt;div&gt;
+    &lt;button id=&quot;connect&quot; onclick=&quot;connect();&quot;&gt;连接&lt;/button&gt;
+    &lt;button id=&quot;disconnect&quot; disabled=&quot;disabled&quot; onclick=&quot;disconnect();&quot;&gt;断开连接&lt;/button&gt;
+&lt;/div&gt;
+&lt;div id=&quot;conversationDiv&quot;&gt;
+    &lt;label&gt;输入你的名字&lt;/label&gt;&lt;input type=&quot;text&quot; id=&quot;name&quot; /&gt;
+    &lt;button id=&quot;sendName&quot; onclick=&quot;sendName();&quot;&gt;发送&lt;/button&gt;
+    &lt;p id=&quot;response&quot;&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;script th:src=&quot;@{/js/sockjs.min.js}&quot;&gt;&lt;/script&gt;
+&lt;script th:src=&quot;@{/js/stomp.min.js}&quot;&gt;&lt;/script&gt;
+&lt;script th:src=&quot;@{/js/jquery.js}&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+var stompClient = null;
+
+function setConnected(connected) {
+    document.getElementById(&apos;connect&apos;).disabled = connected;
+    document.getElementById(&apos;disconnect&apos;).disabled = !connected;
+    document.getElementById(&apos;conversationDiv&apos;).style.visibility = connected ? &apos;visible&apos; : &apos;hidden&apos;;
+    $(&apos;#response&apos;).html();
+}
+
+function connect() {
+    var socket = new SockJS(&apos;/endpointWisely&apos;); //1
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function(frame) {
+        setConnected(true);
+        console.log(&apos;Connected: &apos; + frame);
+        stompClient.subscribe(&apos;/topic/response&apos;, function(respnose){ //2
+            showResponse(JSON.parse(respnose.body).result);
+        });
+    });
+}
+
+
+function disconnect() {
+    if (stompClient != null) {
+        stompClient.disconnect();
+    }
+    setConnected(false);
+    console.log(&quot;Disconnected&quot;);
+}
+
+function sendName() {
+    var name = $(&apos;#name&apos;).val();
+       //3
+    stompClient.send(&quot;/subscription&quot;, {}, JSON.stringify({ &apos;userId&apos;: name,&apos;business&apos;:[&apos;2&apos;,&apos;3&apos;,&apos;4&apos;] }));
+}
+
+function showResponse(message) {
+      var response = $(&quot;#response&quot;);
+      response.html(message);
+}
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>2.前端对接，点对点对接方式。</p>
+<pre><code>7.1登录成功，登录转向chat页面。@{/login｝是权限管理配置的可访问路径以及登录页。
+
+
+&lt;!DOCTYPE html&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xmlns:th=&quot;http://www.thymeleaf.org&quot;
+  xmlns:sec=&quot;http://www.thymeleaf.org/thymeleaf-extras-springsecurity3&quot;&gt;
+&lt;meta charset=&quot;UTF-8&quot; /&gt;
+&lt;head&gt;
+&lt;title&gt;登陆页面&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div th:if=&quot;${param.error}&quot;&gt;
+无效的账号和密码
+&lt;/div&gt;
+&lt;div th:if=&quot;${param.logout}&quot;&gt;
+你已注销
+&lt;/div&gt;
+&lt;form th:action=&quot;@{/login}&quot; method=&quot;post&quot;&gt;
+&lt;div&gt;&lt;label&gt; 账号 : &lt;input type=&quot;TEXT&quot; name=&quot;username&quot;/&gt; &lt;/label&gt;&lt;/div&gt;
+&lt;div&gt;&lt;label&gt; 密码: &lt;input type=&quot;password&quot; name=&quot;password&quot;/&gt; &lt;/label&gt;&lt;/div&gt;
+&lt;div&gt;&lt;input type=&quot;submit&quot; value=&quot;登陆&quot;/&gt;&lt;/div&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>2.2聊天页面</p>
+<pre><code>2.2.1页面初始化简历SockJS连接，过程与广播连接一样。
+
+&lt;!DOCTYPE html&gt;
+
+&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
+&lt;meta charset=&quot;UTF-8&quot; /&gt;
+&lt;head&gt;
+&lt;title&gt;Home&lt;/title&gt;
+&lt;script th:src=&quot;@{js/sockjs.min.js}&quot;&gt;&lt;/script&gt;
+&lt;script th:src=&quot;@{js/stomp.min.js}&quot;&gt;&lt;/script&gt;
+&lt;script th:src=&quot;@{js/jquery.js}&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;p&gt;
+聊天室
+&lt;/p&gt;
+
+&lt;form id=&quot;wiselyForm&quot;&gt;
+&lt;textarea rows=&quot;4&quot; cols=&quot;60&quot; name=&quot;text&quot;&gt;&lt;/textarea&gt;
+    &lt;input type=&quot;submit&quot;/&gt;
+&lt;/form&gt;
+
+&lt;script th:inline=&quot;javascript&quot;&gt;
+$(&apos;#wiselyForm&apos;).submit(function(e){
+    e.preventDefault();
+    var text = $(&apos;#wiselyForm&apos;).find(&apos;textarea[name=&quot;text&quot;]&apos;).val();
+    sendSpittle(text);
+});
+
+var sock = new SockJS(&quot;/cmsService/endpointChat&quot;); //1
+var stomp = Stomp.over(sock);
+stomp.connect(&apos;guest&apos;, &apos;guest&apos;, function(frame) {
+    stomp.subscribe(&quot;/user/queue/notifications&quot;, handleNotification);//2
+});
+
+
+
+function handleNotification(message) {
+    $(&apos;#output&apos;).append(&quot;&lt;b&gt;Received: &quot; + message.body + &quot;&lt;/b&gt;&lt;br/&gt;&quot;)
+}
+
+function sendSpittle(text) {
+    stomp.send(&quot;/chat&quot;, {}, text);//3
+}
+$(&apos;#stop&apos;).click(function() {sock.close()});
+&lt;/script&gt;
+
+&lt;div id=&quot;output&quot;&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/11/22/Spring-webSocket/" class="archive-article-date">
+  	<time datetime="2017-11-22T01:21:53.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-11-22</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/">Spring</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 
 
@@ -982,7 +1509,7 @@ catch (Exception e) {
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2017 满天繁星
+    		&copy; 2018 满天繁星
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -1058,7 +1585,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Markdown-Study/" style="font-size: 15px;">Markdown Study</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a>
+    				<a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown-Study/" style="font-size: 15px;">Markdown Study</a> <a href="/tags/Nginx/" style="font-size: 10px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 15px;">Oracle</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
     			</div>
     	</section>
     

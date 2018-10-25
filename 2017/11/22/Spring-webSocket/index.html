@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>关于Spring boot webSocket使用方式 | o(^▽^)o</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="配置1.添加Socket Maven依赖
+&amp;lt;dependency&amp;gt;
+        &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt;
+        &amp;lt;artifactId&amp;gt;spring-boot-starter-websocket&amp;lt;/artifactId&amp;gt;
+&amp;lt;/dependency&amp;gt;
+2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于Spring boot webSocket使用方式">
+<meta property="og:url" content="http://yoursite.com/2017/11/22/Spring-webSocket/index.html">
+<meta property="og:site_name" content="o(^▽^)o">
+<meta property="og:description" content="配置1.添加Socket Maven依赖
+&amp;lt;dependency&amp;gt;
+        &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt;
+        &amp;lt;artifactId&amp;gt;spring-boot-starter-websocket&amp;lt;/artifactId&amp;gt;
+&amp;lt;/dependency&amp;gt;
+2">
+<meta property="og:updated_time" content="2017-11-22T02:42:30.975Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于Spring boot webSocket使用方式">
+<meta name="twitter:description" content="配置1.添加Socket Maven依赖
+&amp;lt;dependency&amp;gt;
+        &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt;
+        &amp;lt;artifactId&amp;gt;spring-boot-starter-websocket&amp;lt;/artifactId&amp;gt;
+&amp;lt;/dependency&amp;gt;
+2">
+  
+    <link rel="alternative" href="/atom.xml" title="o(^▽^)o" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.png">
+  
+  <script src="/style.js"></script>
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://47.93.240.52/1.png" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">满天繁星</a></h1>
+		</hgroup>
+
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/tags/随笔">随笔</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/SkyMoreStars" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="http://weibo.com/zyxno1/home" title="weibo">weibo</a>
+		        
+					<a class="rss" target="_blank" href="#" title="rss">rss</a>
+		        
+					<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">满天繁星</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://47.93.240.52/1.png" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">满天繁星</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/tags/随笔">随笔</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/SkyMoreStars" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/zyxno1/home" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-Spring-webSocket" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      关于Spring boot webSocket使用方式
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>1.添加Socket Maven依赖</p>
+<pre><code>&lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-websocket&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre><p>2.配置WebSocket，通过继承AbstractWebSocketMessageBrokerConfigurer类，重写其方法来配置WebSocket。需要在配置类上开启Spring boot STOMP协议（@EnableWebSocketMessageBroker）来传输message broker的消息。使控制器支持@MessageMapping。</p>
+<p>3.注册STOMP协议的节点，并映射的指定URL。</p>
+<p>4.注册一个STOMP的endpoint，并指定使用SockJS协议</p>
+<p>5.配置消息代理。</p>
+<p>6.点对点式增加一个/queue消息代理，广播式应配置一个/topic消息代理</p>
+<pre><code>@Configuration
+@EnableWebSocketMessageBroker//2
+public class SocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
+@Override
+public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {//3
+    stompEndpointRegistry.addEndpoint(&quot;/endpointWisely&quot;).withSockJS();//4
+    stompEndpointRegistry.addEndpoint(&quot;/endpointChat&quot;).withSockJS();//
+}
+
+@Override
+public void configureMessageBroker(MessageBrokerRegistry registry) {//5
+    registry.enableSimpleBroker(&quot;/queue&quot;,&quot;/topic&quot;);//6
+    }
+}
+</code></pre><h1 id="配置Controller"><a href="#配置Controller" class="headerlink" title="配置Controller"></a>配置Controller</h1><p>1.配置对象Response,以及客户侧消息对象。</p>
+<p>2.后台定义/subscription发送消息的地址，@SendTo(“/topic/response”)表示服务器有消息时，会将消息推送到这个地址。如果用户订阅了这个通知，则消息的到达浏览器端。—-这是广播式的通知方式。</p>
+<p>3.”/chat”表示浏览器端发送消息的地址。</p>
+<p>4.SimpMessagingTemplate该对象主要用到两个方法，通知类的消息使用</p>
+<pre><code>SimpMessagingTemplate.convertAndSend(&quot;/topic/response&quot;, ResultUtil.success(new Date()));
+</code></pre><p>对于某用户发送消息则为</p>
+<pre><code>SimpMessagingTemplate.convertAndSendToUser(&quot;zhyx&quot;,&quot;/queue/notifications&quot;,sdf.format(new Date()));
+</code></pre><p>通过这两种方式实现针对于点对点的消息发送方式，以及针对于广播式的消息发送方式。</p>
+<pre><code>@Controller
+public class SocketController {
+private static Logger logger = LoggerFactory.getLogger(SocketController.class);
+
+ @Autowired
+private SimpMessagingTemplate simpMessagingTemplate;//通过SimpMessageTemplate向浏览器发送消息
+
+@MessageMapping(&quot;/subscription&quot;)
+@SendTo(&quot;/topic/response&quot;)
+public Response subscription(ClientMessage clientMessage){
+    logger.info(&quot;{}用户连接了Socket了！&quot;,clientMessage.getUserId());
+    return ResultUtil.success();
+}
+
+@MessageMapping(&quot;/chat&quot;)
+public void handleChat(Principal principal,String msg){//在Spring MVC中，可以直接在参数中获得principal，pinciple中包含当前用户的信息。
+    logger.info(&quot;当前发送消息者是{}&quot;,principal.getName());
+    simpMessagingTemplate.convertAndSendToUser(principal.getName(),&quot;/queue/notifications&quot;,principal.getName()+&quot;-send:&quot;+msg);
+    }
+}
+</code></pre><p>5.针对于principal对象，做以下说明，该对象属于Spring security的一个对象这里主要作用是用于获取当前发送者id。这里为什么能够直接拿到这个对象。原因如下:</p>
+<p>5.1增加Spring boot security依赖</p>
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre><p>5.1 开启了Spring boot WebSecurity支持。在内存中增加了两个默认的用户，当用户登录成功之后， 就可以通过该对象拿到访问者的id.</p>
+<pre><code>@Configuration
+@EnableWebSecurity
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+private static Logger logger = LoggerFactory.getLogger(WebSecurityConfigurerAdapter.class);
+@Override
+protected void configure(HttpSecurity http) throws Exception {
+    logger.info(&quot;WebSecurityConfig的HttpSecurity config&quot;);
+    http
+            .authorizeRequests()
+            .antMatchers(&quot;/&quot;,&quot;/login&quot;).permitAll()//1根路径和/login路径不拦截
+            .anyRequest().authenticated()//任何没有匹配上的其他的url请求，只需要用户被验证。
+            .and()
+            .formLogin()
+            .loginPage(&quot;/login&quot;) //2登陆页面
+            .defaultSuccessUrl(&quot;/chat&quot;) //3登陆成功转向该页面
+            .permitAll()
+            .and()
+            .logout()
+            .permitAll();
+}
+
+//内存中分配两个用户密码与账户名一样，角色为USER.
+@Override
+protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    logger.info(&quot;WebSecurityConfig的AuthenticationManagerBuilder config&quot;);
+    auth
+            .inMemoryAuthentication()//内存认证模式
+            .withUser(&quot;zhyx&quot;)
+            .password(&quot;zhyx&quot;)
+            .roles(&quot;USER&quot;)
+            .and()
+            .withUser(&quot;test&quot;)
+            .password(&quot;test&quot;)
+            .roles(&quot;USER&quot;);
+}
+
+@Override
+public void configure(WebSecurity web) throws Exception {
+    logger.info(&quot;WebSecurityConfig的WebSecurity config&quot;);
+    web.ignoring().antMatchers(&quot;/resources/static/**&quot;);//静态资源不拦截。
+    super.configure(web);
+}
+}
+</code></pre><h1 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h1><p>1.前端对接，广播式对接方式。</p>
+<p>1.1引入sockjs.min.js，stomp.min.js，jquery.js支持。</p>
+<p>1.2连接SockJS的endpoint是“endpointWisely”，与后台代码中注册的endpoint要一样。</p>
+<p>1.3创建STOMP协议的webSocket客户端。</p>
+<p>1.4连接webSocket的服务端。</p>
+<p>1.5通过stompClient.subscribe（）订阅服务器的目标是’/topic/response’发送过来的地址，与@SendTo中的地址对应。</p>
+<p>1.6通过stompClient.send（）向地址为”/subscription”的服务器地址发起请求，与@MessageMapping里的地址对应。</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot; /&gt;
+&lt;title&gt;Spring Boot+WebSocket+广播式&lt;/title&gt;
+
+&lt;/head&gt;
+&lt;body onload=&quot;disconnect()&quot;&gt;
+&lt;noscript&gt;&lt;h2 style=&quot;color: #ff0000&quot;&gt;貌似你的浏览器不支持websocket&lt;/h2&gt;&lt;/noscript&gt;
+&lt;div&gt;
+&lt;div&gt;
+    &lt;button id=&quot;connect&quot; onclick=&quot;connect();&quot;&gt;连接&lt;/button&gt;
+    &lt;button id=&quot;disconnect&quot; disabled=&quot;disabled&quot; onclick=&quot;disconnect();&quot;&gt;断开连接&lt;/button&gt;
+&lt;/div&gt;
+&lt;div id=&quot;conversationDiv&quot;&gt;
+    &lt;label&gt;输入你的名字&lt;/label&gt;&lt;input type=&quot;text&quot; id=&quot;name&quot; /&gt;
+    &lt;button id=&quot;sendName&quot; onclick=&quot;sendName();&quot;&gt;发送&lt;/button&gt;
+    &lt;p id=&quot;response&quot;&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;script th:src=&quot;@{/js/sockjs.min.js}&quot;&gt;&lt;/script&gt;
+&lt;script th:src=&quot;@{/js/stomp.min.js}&quot;&gt;&lt;/script&gt;
+&lt;script th:src=&quot;@{/js/jquery.js}&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+var stompClient = null;
+
+function setConnected(connected) {
+    document.getElementById(&apos;connect&apos;).disabled = connected;
+    document.getElementById(&apos;disconnect&apos;).disabled = !connected;
+    document.getElementById(&apos;conversationDiv&apos;).style.visibility = connected ? &apos;visible&apos; : &apos;hidden&apos;;
+    $(&apos;#response&apos;).html();
+}
+
+function connect() {
+    var socket = new SockJS(&apos;/endpointWisely&apos;); //1
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function(frame) {
+        setConnected(true);
+        console.log(&apos;Connected: &apos; + frame);
+        stompClient.subscribe(&apos;/topic/response&apos;, function(respnose){ //2
+            showResponse(JSON.parse(respnose.body).result);
+        });
+    });
+}
+
+
+function disconnect() {
+    if (stompClient != null) {
+        stompClient.disconnect();
+    }
+    setConnected(false);
+    console.log(&quot;Disconnected&quot;);
+}
+
+function sendName() {
+    var name = $(&apos;#name&apos;).val();
+       //3
+    stompClient.send(&quot;/subscription&quot;, {}, JSON.stringify({ &apos;userId&apos;: name,&apos;business&apos;:[&apos;2&apos;,&apos;3&apos;,&apos;4&apos;] }));
+}
+
+function showResponse(message) {
+      var response = $(&quot;#response&quot;);
+      response.html(message);
+}
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>2.前端对接，点对点对接方式。</p>
+<pre><code>7.1登录成功，登录转向chat页面。@{/login｝是权限管理配置的可访问路径以及登录页。
+
+
+&lt;!DOCTYPE html&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xmlns:th=&quot;http://www.thymeleaf.org&quot;
+  xmlns:sec=&quot;http://www.thymeleaf.org/thymeleaf-extras-springsecurity3&quot;&gt;
+&lt;meta charset=&quot;UTF-8&quot; /&gt;
+&lt;head&gt;
+&lt;title&gt;登陆页面&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div th:if=&quot;${param.error}&quot;&gt;
+无效的账号和密码
+&lt;/div&gt;
+&lt;div th:if=&quot;${param.logout}&quot;&gt;
+你已注销
+&lt;/div&gt;
+&lt;form th:action=&quot;@{/login}&quot; method=&quot;post&quot;&gt;
+&lt;div&gt;&lt;label&gt; 账号 : &lt;input type=&quot;TEXT&quot; name=&quot;username&quot;/&gt; &lt;/label&gt;&lt;/div&gt;
+&lt;div&gt;&lt;label&gt; 密码: &lt;input type=&quot;password&quot; name=&quot;password&quot;/&gt; &lt;/label&gt;&lt;/div&gt;
+&lt;div&gt;&lt;input type=&quot;submit&quot; value=&quot;登陆&quot;/&gt;&lt;/div&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>2.2聊天页面</p>
+<pre><code>2.2.1页面初始化简历SockJS连接，过程与广播连接一样。
+
+&lt;!DOCTYPE html&gt;
+
+&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
+&lt;meta charset=&quot;UTF-8&quot; /&gt;
+&lt;head&gt;
+&lt;title&gt;Home&lt;/title&gt;
+&lt;script th:src=&quot;@{js/sockjs.min.js}&quot;&gt;&lt;/script&gt;
+&lt;script th:src=&quot;@{js/stomp.min.js}&quot;&gt;&lt;/script&gt;
+&lt;script th:src=&quot;@{js/jquery.js}&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;p&gt;
+聊天室
+&lt;/p&gt;
+
+&lt;form id=&quot;wiselyForm&quot;&gt;
+&lt;textarea rows=&quot;4&quot; cols=&quot;60&quot; name=&quot;text&quot;&gt;&lt;/textarea&gt;
+    &lt;input type=&quot;submit&quot;/&gt;
+&lt;/form&gt;
+
+&lt;script th:inline=&quot;javascript&quot;&gt;
+$(&apos;#wiselyForm&apos;).submit(function(e){
+    e.preventDefault();
+    var text = $(&apos;#wiselyForm&apos;).find(&apos;textarea[name=&quot;text&quot;]&apos;).val();
+    sendSpittle(text);
+});
+
+var sock = new SockJS(&quot;/cmsService/endpointChat&quot;); //1
+var stomp = Stomp.over(sock);
+stomp.connect(&apos;guest&apos;, &apos;guest&apos;, function(frame) {
+    stomp.subscribe(&quot;/user/queue/notifications&quot;, handleNotification);//2
+});
+
+
+
+function handleNotification(message) {
+    $(&apos;#output&apos;).append(&quot;&lt;b&gt;Received: &quot; + message.body + &quot;&lt;/b&gt;&lt;br/&gt;&quot;)
+}
+
+function sendSpittle(text) {
+    stomp.send(&quot;/chat&quot;, {}, text);//3
+}
+$(&apos;#stop&apos;).click(function() {sock.close()});
+&lt;/script&gt;
+
+&lt;div id=&quot;output&quot;&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/11/22/Spring-webSocket/" class="archive-article-date">
+  	<time datetime="2017-11-22T01:21:53.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-11-22</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/">Spring</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2018/02/24/JVM最大运行存配置/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Tomcat配置最大运行存
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/09/27/hexo操作相关命令/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">hexo提交博客常用命令</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Spring-webSocket" data-title="关于Spring boot webSocket使用方式" data-url="http://yoursite.com/2017/11/22/Spring-webSocket/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2018 满天繁星
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/"
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown-Study/" style="font-size: 15px;">Markdown Study</a> <a href="/tags/Nginx/" style="font-size: 10px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 15px;">Oracle</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.mazengyi.com/">Demien</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">至虚极,宁静笃。&lt;br/&gt;&lt;br/&gt;衣带渐宽终不悔，&lt;br/&gt;为伊消得人憔悴。&lt;br/&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;---by 2016-09-23</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

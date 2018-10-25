@@ -16,7 +16,7 @@ public List&amp;lt;ResInnoIds&amp;gt; callStatByInno(List&amp;lt;Integer&amp;gt;
 <meta property="og:description" content="fastJSON 转泛型对象fastJSON在实际的使用过程中，需要将JSON字符串转成带有泛型的对象。普通的方式无法实现。查询相关的资料最后得到的结果如下：
 public List&amp;lt;ResInnoIds&amp;gt; callStatByInno(List&amp;lt;Integer&amp;gt; innoIds){
     Map&amp;lt;String,Object&amp;gt; request = new Ha">
-<meta property="og:updated_time" content="2017-09-11T09:15:27.600Z">
+<meta property="og:updated_time" content="2017-10-11T01:06:23.955Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="fastJSON 转泛型对象">
 <meta name="twitter:description" content="fastJSON 转泛型对象fastJSON在实际的使用过程中，需要将JSON字符串转成带有泛型的对象。普通的方式无法实现。查询相关的资料最后得到的结果如下：
@@ -174,8 +174,9 @@ public List&amp;lt;ResInnoIds&amp;gt; callStatByInno(List&amp;lt;Integer&amp;gt;
     Response&lt;List&lt;ResInnoIds&gt;&gt; res= JSON.parseObject(response,new TypeReference&lt;Response&lt;List&lt;ResInnoIds&gt;&gt;&gt;(){});
     return res.getResult();
 }
-</code></pre><p>由于Response<list<resinnoids>&gt;是一个泛型对象。<br>使用JSON.toJavaObject(json,Response.class）无法将其转成Response<list<resinnoids>&gt;。<br>必须使用JSON.parseObject(response,<span style="color:red">new</span> <span style="color:blue">TypeReference<response<list<resinnoids>&gt;&gt;(){}</response<list<resinnoids></span>);</list<resinnoids></list<resinnoids></p>
-
+</code></pre><p>由于<code>Response&lt;List&lt;ResInnoIds&gt;&gt;</code>是一个泛型对象。<br>使用JSON.toJavaObject(json,Response.class）无法将其转成Response<list<resinnoids>&gt;。<br>必须使用</list<resinnoids></p>
+<pre><code>JSON.parseObject(response,new TypeReference&lt;Response&lt;List&lt;ResInnoIds&gt;&gt;&gt;(){});
+</code></pre>
       
     </div>
     <div class="article-info article-info-index">
@@ -209,8 +210,8 @@ public List&amp;lt;ResInnoIds&amp;gt; callStatByInno(List&amp;lt;Integer&amp;gt;
     </a>
   
   
-    <a href="/2016/05/23/Markdown-Study/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Markdown Study</div>
+    <a href="/2016/06/04/Spring注解/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Spring注解泛解</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -270,7 +271,7 @@ public List&amp;lt;ResInnoIds&amp;gt; callStatByInno(List&amp;lt;Integer&amp;gt;
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2017 满天繁星
+    		&copy; 2018 满天繁星
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -346,7 +347,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Markdown-Study/" style="font-size: 15px;">Markdown Study</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a>
+    				<a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown-Study/" style="font-size: 15px;">Markdown Study</a> <a href="/tags/Nginx/" style="font-size: 10px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 15px;">Oracle</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
     			</div>
     	</section>
     

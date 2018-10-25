@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>o(^▽^)o</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="o(^▽^)o">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+<meta property="og:site_name" content="o(^▽^)o">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="o(^▽^)o">
+  
+    <link rel="alternative" href="/atom.xml" title="o(^▽^)o" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.png">
+  
+  <script src="/style.js"></script>
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://47.93.240.52/1.png" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">满天繁星</a></h1>
+		</hgroup>
+
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/tags/随笔">随笔</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/SkyMoreStars" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="http://weibo.com/zyxno1/home" title="weibo">weibo</a>
+		        
+					<a class="rss" target="_blank" href="#" title="rss">rss</a>
+		        
+					<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">满天繁星</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://47.93.240.52/1.png" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">满天繁星</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/tags/随笔">随笔</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/SkyMoreStars" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/zyxno1/home" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        
+  
+    <article id="post-hexo操作相关命令" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/27/hexo操作相关命令/">hexo提交博客常用命令</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<h2 id="简写"><a href="#简写" class="headerlink" title="简写"></a>简写</h2><ol>
+<li>hexo n “我的博客” == hexo new “我的博客” #新建文章</li>
+<li>hexo p == hexo publish</li>
+<li>hexo g == hexo generate#生成</li>
+<li>hexo s == hexo server #启动服务预览</li>
+<li>hexo d == hexo deploy#部署</li>
+</ol>
+<h2 id="完成后部署"><a href="#完成后部署" class="headerlink" title="完成后部署"></a>完成后部署</h2><pre><code>两个命令的作用是相同的
+hexo generate --deploy
+hexo deploy --generate
+</code></pre><h2 id="草稿"><a href="#草稿" class="headerlink" title="草稿"></a>草稿</h2><pre><code>hexo publish [layout] &lt;title&gt;
+</code></pre><h2 id="模版"><a href="#模版" class="headerlink" title="模版"></a>模版</h2><ul>
+<li>hexo new “postName” #新建文章</li>
+<li>hexo new page “pageName” #新建页面</li>
+<li>hexo generate #生成静态页面至public目录</li>
+<li>hexo server #开启预览访问端口（默认端口4000，’ctrl + c’关闭server）</li>
+<li>hexo deploy #将.deploy目录部署到GitHub</li>
+<li>hexo new [layout] <title></title></li>
+<li>hexo new photo “My Gallery”</li>
+<li>hexo new “Hello World” –lang tw</li>
+</ul>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/09/27/hexo操作相关命令/" class="archive-article-date">
+  	<time datetime="2017-09-27T14:43:11.612Z" itemprop="datePublished"><i class="icon-clock"></i>2017-09-27</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-关于JSON的一些知识" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/05/关于JSON的一些知识/">JSON注解详解</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>JSON注解说明</p>
+<p>以下注解属于com.fasterxml.jackson.core包下的JSON</p>
+<pre><code>@JsonIgnoreProperties(ignoreUnknown = true)
+public class Card {
+
+   @JsonProperty(&quot;card_type&quot;)
+   private String cardType;
+
+  @JsonProperty(&quot;member_card&quot;)
+   private Member member;
+
+   @JsonProperty(&quot;cash&quot;)
+   private Cash cash;
+
+   @JsonProperty(&quot;gift&quot;)
+   private Gift gift;
+
+   @JsonProperty(&quot;groupon&quot;)
+   private Groupon groupon;
+
+   @JsonProperty(&quot;general_coupon&quot;)
+   private Coupon coupon;
+
+   @JsonProperty(&quot;discount&quot;)
+   private Discount discount;
+
+  ……此处省略get，set方法
+}
+</code></pre><hr>
+<pre><code>@JsonIgnoreProperties(ignoreUnknown = true)
+</code></pre><p>1.@JsonIgnoreProperties(ignoreUnknown = true)，将这个注解写在类上之后，就会忽略类中不存在的字段，可以满足当前的需要。这个注解还可以指定要忽略的字段。使用方法如下：<br>@JsonIgnoreProperties({ “internal<br>Id”, “secretKey” })<br>指定的字段不会被序列化和反序列化。</p>
+<pre><code>@JsonProperty(&quot;card_type&quot;)
+</code></pre><p>2.@JsonProperty(“card_type”)注解主要作用将类转成JSON之后，用@JsonProperty(“card_type”)括弧中的字段名代替原来的字段名称。</p>
+<hr>
+<p>在fastJson下的注解<br> @JSONField作用在Field时，其name不仅定义了输入key的名称，同时也定义了输出的名称。</p>
+<pre><code>public class Person {
+
+    @JSONField(name=&quot;_name&quot;)
+    private String name;
+
+    @JSONField(name=&quot;_age&quot;)
+    private String age;
+
+    @JSONField(name=&quot;_desc&quot;)
+    private String desc;
+    ……此处省略get,set方法
+}
+</code></pre><p>结果如下：</p>
+<pre><code>{&quot;_age&quot;:&quot;11&quot;,&quot;_desc&quot;:&quot;asdf&quot;,&quot;_name&quot;:&quot;cadf&quot;}
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/09/05/关于JSON的一些知识/" class="archive-article-date">
+  	<time datetime="2017-09-05T01:45:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-09-05</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-FreeSSLConfig" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/28/FreeSSLConfig/">StartCom 申请 SSL 证书及 Nginx HTTPS 支持配置全攻略</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<h2 id="StartSSL-方面"><a href="#StartSSL-方面" class="headerlink" title="StartSSL 方面"></a>StartSSL 方面</h2><p>首先介绍在 StartSSL 方面的操作，因为这才是真正获得证书认证的关键流程。</p>
+<blockquote>
+<p>注意：因为此文操作全程在 Win10 平台进行，所以在证书申请的全过程中，推荐使用 IE 浏览器（方便证书的导入导出），如果使用其他浏览器，遇到的任何问题将超出本文讨论范围。</p>
+</blockquote>
+<h2 id="注册登录"><a href="#注册登录" class="headerlink" title="注册登录"></a>注册登录</h2><p>已经注册过会员的童鞋请跳过此步骤。</p>
+<p>首先需要说明一点，StartSSL 继续沿用了以往的登录方式：证书登录！</p>
+<p>这也是很多童鞋在过去兴致勃勃的冲到 StartSSL 想要申请一个属于自己的数字证书时，被那个非常不友好的 StartSSL 界面卡在了新用户注册这第一个环节……</p>
+<p>所以，在 StartSSL 上的全部操作，用的都是一张 Email 证书，不需要用户名密码什么的。</p>
+<p>首先访问 StartSSL.com 点击 Sign-up 进行注册!<br><img src="http://i.imgur.com/voEo8xP.jpg" alt=""></p>
+<p>这里最好填写能够正常收到邮件的邮箱，并且最好是常用邮箱，因为以后在 StartSSL 上的所有操作，都会与此邮箱关联。</p>
+<p>接下来的步骤比较简单，在到让我们选择怎样生成证书的时候，选择直接导入到 IE 中就可以。</p>
+<p>经过一番邮箱验证之后，我们就得到了由 StartSSL 颁发的邮箱证书，在“Internet 选项、内容、证书”里面可以选择导出这个证书，妥善保存，日后登录 StartSSL 就全靠这个证书了，有效期一年，过期后需要重新验证。</p>
+<p><img src="http://i.imgur.com/xaIPacV.jpg" alt=""></p>
+<p>之后就登录进 StartSSL 中，默认停留在控制面板页面，右侧侧边栏中会显示所有该证书用户名下的所有认证信息，当然如果是新用户，应该除了个人信息外空空如也，没关系，我们继续。</p>
+<h2 id="验证域名"><a href="#验证域名" class="headerlink" title="验证域名"></a>验证域名</h2><p>在这一步之前，我相信在注册环节中，你已经将个人信息什么的填写完整了。</p>
+<p>想要获得某域名的证书之前，首先要验证该域名的所有权。</p>
+<p><img src="http://i.imgur.com/tybzYw1.jpg" alt=""></p>
+<p>选择上面的Validations Wizard，启动验证向导，在下面选择Domain Validation对域名进行验证，点击继续，来到下一步</p>
+<p><img src="http://i.imgur.com/dDmuX1S.jpg" alt=""></p>
+<p>输入想要验证的域名，注意这里我用的是顶级域名，至于二级以上域名是什么情况，我没进行验证，不过看此文的童鞋，应该都有顶级域名吧：）</p>
+<p>填入想要验证并获得证书的域名后，StartSSL 系统会自动对该域名进行whois查询，找到域名所有者的电子邮件地址，并让你选择将验证邮件发到哪个邮箱，只能选择查询到的域名所有者邮箱或者列出的其他三个常用形式的管理员邮箱，其他邮箱是无法进行验证的。</p>
+<p><img src="http://i.imgur.com/yOzXik2.jpg" alt=""></p>
+<p>这里还会遇到个问题，如果你的域名服务商为你开启了隐私保护，那么这里的域名所有者邮件地址一般情况不会查询到真正可操作的邮箱，比如阿里云的域名隐私保护如果开启了，列表中第一个邮箱会是以阿里云结尾的一个伪装邮箱，经测试，这个邮箱是无法收到任何邮件的（本以为会代为转发），所以在进行这一步之前，一定要暂时关闭隐私保护。</p>
+<p>如果你的邮箱服务器比较稳定，会立刻收到验证邮件，按照邮件里的说明将验证码输入进页面里点击验证，域名就验证成功了。</p>
+<h2 id="申请证书"><a href="#申请证书" class="headerlink" title="申请证书"></a>申请证书</h2><p>先多啰嗦一句，StartSSL 上的验证、申请流程几乎都是自动的（除了证书废止等操作需要人工审核），所以沿着本文的文络前进的同时，你已经在逐渐拥有各种东西了~</p>
+<p>开始，重新回到控制面板，选择上面的Certificates Wizard启动证书申请向导，默认选择第一项Web Server SSL/TLS Certificate并下一步。</p>
+<p><img src="http://i.imgur.com/N4bOIAM.jpg" alt=""></p>
+<p>接着，我们会来到一个满屏“鸟语”有点让人头大的页面，其实这个页面的内容也非常简单，我们一步一步来。</p>
+<p><img src="http://i.imgur.com/jMiRSWB.jpg" alt=""></p>
+<p>首先，在上面的文本框中输入想要获得证书的域名，这里要注意以下几点：</p>
+<p>每一行输入一个域名</p>
+<p>第一行的域名为主域名（然并卵……其实很少有人会点击 HTTPS 旁边的“锁”去认真查看证书内容的）</p>
+<p>只能输入五行（五个域名）</p>
+<p>你这里输入的域名，在最后只会得到一个bundle，也就是单一证书捆绑多个域名，为你在上面输入的所有域名提供验证。</p>
+<p>这里特别要注意，如果真的输入了五个域名（包括二级以上域名），生成了一个证书，其实在后期是比较难管理的，如果你名下有好几个域名，稍加时日，完全搞混乱几乎是必然的，所以我的建议是：不要采用我在上面图片中一次填满五个的方式，而是每次只验证一个（顶级或者二级）域名，这样每个域名都会得到一个独立的证书，给证书以及配套的文件单独建一个以域名为名称的文件夹保存，一目了然，不会搞混。</p>
+<p>另外，如果你已经捆绑了好几个域名到一个证书上，我的做法是：不用这个证书就好~~重新为每个域名申请独立的证书，因为每个域名是可以多次申请多个证书的，不碍事儿。</p>
+<p>填写好域名，我们开始关注页面的下半部分，这一部分是需要我们提交认证签名请求（CSR），我们选择第一项Generated by Myself，使用工具自己生成签名文件及对应密钥。</p>
+<p>这里注意看提示，StartCom 很贴心的提供了一个 Windows 平台上使用的绿色工具，一键完成签名文件及对应密钥的生成工作。当然，如果在其他平台，或者喜欢用openssl，也可以根据提示的命令进行生成：</p>
+<p>openssl req -newkey rsa:2048 -keyout yourname.key -out yourname.csr<br>如果机器性能够强（服务器），也可以使用rsa:4096，更高算位提供更高安全性，不过性能会受到影响，记住我们生成的证书是要给服务器用的，你需要在负荷及安全性上做权衡了。</p>
+<p>那么怎么生成 CSR 呢？这里演示一下 StartCom 的小小绿色工具的用法，首先在这个页面中点击StartComTool.exe下载到本地，运行该程序：</p>
+<p><img src="http://i.imgur.com/tb8UE1M.jpg" alt=""></p>
+<p>如果文本框里已经有内容了，就点一下Clear</p>
+<p>直接点击下方绿色的Generate CSR按钮，在弹出的对话框中选择路径，保存相关文件（比如给文件起名叫 app.williamyao.com.key），这一步工具会自动为我们生成两个名称相同的文件，一个是 CSR，一个是 Key，这两个文件都要保存好，一个是签名内容（PEM 格式），一个是密钥文件，密钥文件在下一步配置 Nginx 时会用到。</p>
+<p>然后，将文本框中的 CSR 内容复制粘贴到浏览器的文本框中（直接点“Copy”按钮，回到浏览器粘贴即可），现在我们的页面看起来是这个样子：</p>
+<p><img src="http://i.imgur.com/3SWZuMd.jpg" alt=""></p>
+<p>之后，我们点击Submit提交申请。</p>
+<p>不出意外的话，我们的证书文件立刻就生成好了：</p>
+<p><img src="http://i.imgur.com/ZwwkEgv.jpg" alt=""></p>
+<p>这里注意，我们不能用下载工具进行下载（因为 StartCom 的证书认证机制），请点击右键选择“目标另存为”使用 IE 的方式进行下载。</p>
+<p>下载回来的是一个压缩包，解开看一看，原来 StartSSL 很贴心的为我们生成了一套对应各个常用服务器的证书文件，我们这里把 Nginx 的对应证书文件单独解压出来，得到一个.crt文件，先放好这个文件，一会儿会用到。</p>
+<p>在进入下一步之前，我建议大家重新整理一下上面的流程中得到的所有文件，以我为例：</p>
+<p>新建文件夹 startssl-signed</p>
+<p>进入文件夹，新建文件夹 app.williamyao.com</p>
+<p>将对应文件拷贝到 app.williamyao.com 文件夹中</p>
+<p>经过整理，文件夹中会有如下文件：</p>
+<p>lnyk@me.com-2017.pfx（从 IE 中导出的用于登录 StartSSL 的电子邮件证书）</p>
+<p>app.williamyao.com.csr（签名文件）</p>
+<p>app.williamyao.com.key（密钥文件）</p>
+<p>app.williamyao.com.zip（下载下来的证书文件压缩包）</p>
+<p>INTRO（文本文件，里面记录一下上面三个文件的生成日期，以及证书文件的到期日期等等）</p>
+<p>这样整理之后，以后为其他域名申请的证书也可以这样存放，就不会乱套了。</p>
+<p>这里再建议大家一遍，如果手里域名多的话，最好给每个域名单独申请证书（就是只填写一行域名到向导的文本框中），“大合集”的方式，实在不利于日后为其他域名增添 SSL 支持，以及统一管理。</p>
+<p>整理完文件了？是不是看着赏心悦目的？好，我们进行下一步，配置 Nginx，让证书真正发挥用处！</p>
+<h2 id="Nginx-方面"><a href="#Nginx-方面" class="headerlink" title="Nginx 方面"></a>Nginx 方面</h2><p>在进行配置之前稍作一个假设，Nginx 以虚拟主机方式保存配置文件，即每个虚拟主机有自己单独的.conf文件，这种方式比把所有东西都丢进nginx.conf里面强得多，而且现代版本的 Nginx 都是默认采用虚拟主机方式进行配置了。</p>
+<p>至于为什么做这样的铺垫，是为了下面解决容易碰到的一个问题，我们到达那个步骤的时候再详细说明。</p>
+<h2 id="上传文件"><a href="#上传文件" class="headerlink" title="上传文件"></a>上传文件</h2><p>我们需要将两套文件上传到服务器，每一套中有两个文件，一个是 CRT 证书文件，一个是 KEY 密钥文件，用于启用www.williamyao.com以及app.williamyao.com这两个域名对应虚拟主机的 SSL 支持，<br>这里将每套两个文件做如下命名：</p>
+<p>www.williamyao.com.crt</p>
+<p>www.williamyao.com.key</p>
+<p>app.williamyao.com.crt</p>
+<p>app.williamyao.com.key</p>
+<p>然后传到服务器上，我的建议是将上面的文件统一放在下面的路径中（这个路径也是 *nix 平台规范建议的 SSL 证书存放路径，便于管理，既然有“先人指路”，我们不妨照做：</p>
+<p>/etc/ssl/private/<br>值得注意的是，将文件放在这个文件夹中，需要用到 root 权限，即sudo cp，放进去后的文件所属用户保持root:root就好，Nginx 的执行进程是可以读取的。</p>
+<h2 id="配置-Nginx"><a href="#配置-Nginx" class="headerlink" title="配置 Nginx"></a>配置 Nginx</h2><p>先别急，这里说明一下，启用 SSL 的一般做法是，虚拟主机的主server段不监听 80 端口，而是直接监听 443 端口，然后在主server配置段后新开一个server段监听相同server_name的 80 端口，并将请求 301 重定向到 HTTPS.</p>
+<p>这样做的好处是，不管访问者是否制定 HTTPS 协议（一般人上网大都只会输入域名，不会先写协议的吧……），只要输入域名，Nginx 接到请求后就会将请求重定向到 443 端口的 SSL 主机上。</p>
+<p>下面我们也打算这么做，以我为例：</p>
+<p>SSH 到服务器上，分别编辑两个虚拟主机的 conf 配置文件，我们先来第一个：</p>
+<p>sudo nano /usr/local/nginx/conf/vhost/www.williamyao.com.conf<br>将配置信息添加到配置文件中，配置好的www.williamyao.com.conf文件形如这个样子：</p>
+<p>server<br>{<br>listen 443 ssl;</p>
+<h1 id="下面这一行用于启用-IPv6-支持"><a href="#下面这一行用于启用-IPv6-支持" class="headerlink" title="下面这一行用于启用 IPv6 支持"></a>下面这一行用于启用 IPv6 支持</h1><p>listen [::]:443 ssl ipv6only=on;<br>server_name www.williamyao.com;</p>
+<h1 id="SSL-支持配置如下"><a href="#SSL-支持配置如下" class="headerlink" title="SSL 支持配置如下"></a>SSL 支持配置如下</h1><p>ssl on;<br>ssl_certificate /etc/ssl/private/www.williamyao.com.crt;<br>ssl_certificate_key /etc/ssl/private/www.williamyao.com.key;<br>…（其他配置）…<br>}<br>server<br>{<br>listen 80;<br>listen [::]:80 ipv6only=on;<br>server_name www.williamyao.com;<br>return 301 <a href="https://www.williamyao.com$request_uri" target="_blank" rel="external">https://www.williamyao.com$request_uri</a>;<br>}<br>之后编辑另一个虚拟主机app.williamyao.com.conf配置文件，形如下面这样：</p>
+<p>server<br>{<br>listen 443 ssl;</p>
+<h1 id="下面这一行用于启用-IPv6-支持-1"><a href="#下面这一行用于启用-IPv6-支持-1" class="headerlink" title="下面这一行用于启用 IPv6 支持"></a>下面这一行用于启用 IPv6 支持</h1><p>listen [::]:443 ssl;<br>server_name app.williamyao.com;</p>
+<h1 id="SSL-支持配置如下-1"><a href="#SSL-支持配置如下-1" class="headerlink" title="SSL 支持配置如下"></a>SSL 支持配置如下</h1><p>ssl on;<br>ssl_certificate /etc/ssl/private/app.williamyao.com.crt;<br>ssl_certificate_key /etc/ssl/private/app.williamyao.com.key;<br>…（其他配置）…<br>}<br>server<br>{<br>listen 80;<br>listen [::]:80;<br>server_name app.williamyao.com;<br>return 301 <a href="https://app.williamyao.com$request_uri" target="_blank" rel="external">https://app.williamyao.com$request_uri</a>;<br>}<br>细心的童鞋以及高手可能已经发现了，这两个虚拟主机的配置稍有不同，这也是我们之前做那个小小的铺垫的用意。注意观察WWW主机的ipv6only=on开关，在APP主机中是没有的，因为按照 Nginx 关于ipv6only这个开关的设置，在全部虚拟主机中，只能有唯一一台主机监听的某端口带有此开关，在我们的例子中，如果APP主机也启用这个开关，Nginx 进程会报“重复监听端口”的错误并强制退出。至于ipv6only的详细内容，请自行百度:P</p>
+<p>全部配置完毕后，重启 Nginx 或者 Reload，不出意外的话，回到浏览器，输入域名（可以不带 HTTPS，顺便测试一下 301 转发），是否一切正常？</p>
+<p>恭喜你，你的服务器已经被标记为“安全”了！</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>当然，启用 SSL 加密通信，还是那个万年不变的弊端，如果你的网站有外链的话，至少 IE 浏览器在的默认安全级别之下，始终会有个烦人的安全提示，类似“此网站不安全”！并会自动关闭掉你所有的外链内容读取。本来是更加安全的通信模式，就因为这提示，反倒会让访问者看着不放心……</p>
+<p>特别是越来越趋势化的扁平设计风格，更多的引用一些开放的 JS 公共库以达到更好的页面效果，这时候如果启用 SSL，至少 IE 的那个恶心提示，几乎是无可避免的了，好在如 Gravatar 这类开放服务，都具备 HTTPS 能力支持。</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>启用 SSL 加密通信，不光是对通信安全的加固，更是对访问站点的用户的负责（至少在态度上:P），网络安全方面的话题谈起来就有点儿大了，至少有一个顶级 CA 对我们的通信进行授权和认证，这本身就是一种令人觉得舒服的事儿~</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/08/28/FreeSSLConfig/" class="archive-article-date">
+  	<time datetime="2017-08-28T08:57:24.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-08-28</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SSL/">SSL</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-单例模式的另类写法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/05/单例模式的另类写法/">单例的另类写法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h1><p>单例模式可以保证系统中一个类只有一个实例。即一个类只有一个对象实例。<br>单例模式的要点有三个；一是某个类只能有一个实例；二是它必须自行创建这个实例；三是它必须自行向整个系统提供这个实例。<br>主要应用场景：<br>1.资源共享的情况下，避免由于资源操作时导致的性能或损耗等。如上述中的日志文件，应用配置。<br>2.控制资源的情况下，方便资源之间的互相通信。如线程池等。 </p>
+<pre><code>public class Test {    
+    private static Test test = null;
+    private Test(){}//构造方法私有
+
+    public synchronized static Test defaultTest() {
+        if (Test == null) {
+            test = new Test();
+        }
+        return test;
+    }
+
+}
+</code></pre><p>调用方式</p>
+<pre><code>Test.defaultTest.方法
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/06/05/单例模式的另类写法/" class="archive-article-date">
+  	<time datetime="2017-06-05T01:40:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-06-05</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/23/hello-world/">Hello World</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/05/23/hello-world/" class="archive-article-date">
+  	<time datetime="2017-05-23T09:23:33.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-05-23</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Server" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/10/Server/">服务器多网站配置</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="关于linux服务器配置多个网站例子"><a href="#关于linux服务器配置多个网站例子" class="headerlink" title="关于linux服务器配置多个网站例子"></a>关于linux服务器配置多个网站例子</h2><p>Linux下Apache虚拟主机的三种配置。这样可以实现一台主机架构多个独立域名网站。其中基于域名的最为常见。性价比也最高。Linux下Apache虚拟主机配置的具体步骤。</p>
+<h2 id="基于多ip地址的虚拟主机"><a href="#基于多ip地址的虚拟主机" class="headerlink" title="基于多ip地址的虚拟主机"></a>基于多ip地址的虚拟主机</h2><pre><code>Listen 80
+&lt;VirtualHost 12.34.56.78&gt;
+DocumentRoot /home/httpd/html1
+ServerName www.ok1.com
+ErrorLog /usr/local/apache/logs/error1_log
+CustomLog /usr/local/apache/logs/access1_log combined
+&lt;/VirtualHost&gt;
+&lt;VirtualHost 87.65.43.21&gt;
+DocumentRoot /home/httpd/html2
+ServerName www.ok2.com
+ErrorLog /usr/local/apache/logs/error2_log
+CustomLog /usr/local/apache/logs/access2_log combined
+&lt;/VirtualHost&gt;
+</code></pre><h2 id="基于多IP-和多端口的虚拟主机配置"><a href="#基于多IP-和多端口的虚拟主机配置" class="headerlink" title="基于多IP 和多端口的虚拟主机配置"></a>基于多IP 和多端口的虚拟主机配置</h2><pre><code>Listen 12.34.56.78:80
+Listen 12.34.56.78:8080
+Listen 87.65.43.21:80
+Listen 87.65.43.21:8080
+
+&lt;VirtualHost 12.34.56.78:80&gt;
+DocumentRoot /www/example1-80
+ServerName www.example1.com
+&lt;/VirtualHost&gt;
+&lt;VirtualHost 12.34.56.78:8080&gt;
+
+DocumentRoot /www/example1-8080
+ServerName www.example1.com
+&lt;/VirtualHost&gt;
+&lt;VirtualHost 87.65.43.21:80&gt;
+DocumentRoot /www/example2-80
+ServerName www.example1.org
+&lt;/VirtualHost&gt;
+&lt;VirtualHost 87.65.43.21:8080&gt;
+DocumentRoot /www/example2-8080
+ServerName www.example2.org
+&lt;/VirtualHost&gt;
+</code></pre><h2 id="单个IP-地址的服务器上基于域名的虚拟主机配置"><a href="#单个IP-地址的服务器上基于域名的虚拟主机配置" class="headerlink" title="单个IP 地址的服务器上基于域名的虚拟主机配置"></a>单个IP 地址的服务器上基于域名的虚拟主机配置</h2><pre><code># Ensure that Apache listens on port 80
+Listen 80
+# Listen for virtual host requests on all IP addresses
+NameVirtualHost *:80
+&lt;VirtualHost *:80&gt;
+DocumentRoot /www/example1
+ServerName www.example1.com
+ServerAlias example1.com. *.example1.com
+# Other directives here
+&lt;/VirtualHost&gt;
+&lt;VirtualHost *:80&gt;
+DocumentRoot /www/example2
+ServerName www.example2.org
+# Other directives here
+&lt;/VirtualHost&gt;
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/05/10/Server/" class="archive-article-date">
+  	<time datetime="2017-05-09T16:38:45.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-05-10</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-blog" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/02/blog/">科学上网之 Shadowsocks 安装及优化加速</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<ol>
+<li>服务器安装</li>
+</ol>
+<p>CentOS:</p>
+<pre><code>yum install python-setuptools &amp;&amp; easy_install pip 
+pip install shadowsocks
+</code></pre><p>然后直接在后台运行：</p>
+<hr>
+<pre><code>ssserver -p 8000 -k password -m rc4-md5 -d start
+</code></pre><p>当然也可以使用配置文件进行配置，方法创建/etc/shadowsocks.json文件，填入如下内容：</p>
+<hr>
+<pre><code>{
+&quot;server&quot;:&quot;my_server_ip&quot;,
+&quot;server_port&quot;:8000,
+&quot;local_address&quot;: &quot;127.0.0.1&quot;,
+&quot;local_port&quot;:1080,
+&quot;password&quot;:&quot;mypassword&quot;,
+&quot;timeout&quot;:300,
+&quot;method&quot;:&quot;rc4-md5&quot;}
+</code></pre><hr>
+<p>然后使用配置文件在后台运行：</p>
+<hr>
+<pre><code>ssserver -c /etc/shadowsocks.json -d start
+</code></pre><hr>
+<p>如果要停止运行，将命令中的start改成stop。</p>
+<p>TIPS: 加密方式推荐使用rc4-md5，因为 RC4 比 AES 速度快好几倍，如果用在路由器上会带来显著性能提升。旧的 RC4 加密之所以不安全是因为 Shadowsocks 在每个连接上重复使用 key，没有使用 IV。现在已经重新正确实现，可以放心使用。更多可以看 issue。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/05/02/blog/" class="archive-article-date">
+  	<time datetime="2017-05-02T15:53:05.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-05-02</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Markdown-Study/">Markdown Study</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Java7新特性释放资源" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/07/Java7新特性释放资源/">Java 7 新的 try-with-resources 语句，自动资源释放</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Java7新特性之try-with-resources"><a href="#Java7新特性之try-with-resources" class="headerlink" title="Java7新特性之try-with-resources"></a>Java7新特性之try-with-resources</h1><p>从 Java 7 build 105 版本开始，Java 7 的编译器和运行环境支持新的 try-with-resources 语句，称为 ARM 块(Automatic Resource Management) ，自动资源管理。</p>
+<p>新的语句支持包括流以及任何可关闭的资源，例如，一般我们会编写如下代码来释放资源：</p>
+<pre><code>private static void customBufferStreamCopy(File source, File target) {
+InputStream fis = null;
+OutputStream fos = null;
+try {
+    fis = new FileInputStream(source);
+    fos = new FileOutputStream(target);
+
+    byte[] buf = new byte[8192];
+
+    int i;
+    while ((i = fis.read(buf)) != -1) {
+        fos.write(buf, 0, i);
+    }
+}
+catch (Exception e) {
+    e.printStackTrace();
+} finally {
+    close(fis);
+    close(fos);
+}
+}
+
+private static void close(Closeable closable) {
+    if (closable != null) {
+       try {
+               closable.close();
+            } catch (IOException e) {
+                    e.printStackTrace();
+            }
+}
+}
+</code></pre><p>而使用 try-with-resources 语句来简化代码如下：</p>
+<p>在这个例子中，数据流会在 try 执行完毕后自动被关闭。</p>
+<blockquote>
+<p>前提是，这些可关闭的资源必须实现 java.lang.AutoCloseable 接口。</p>
+</blockquote>
+<pre><code>private static void customBufferStreamCopy(File source, File target) {
+try (InputStream fis = new FileInputStream(source);
+    OutputStream fos = new FileOutputStream(target)){
+
+    byte[] buf = new byte[8192];
+
+    int i;
+    while ((i = fis.read(buf)) != -1) {
+        fos.write(buf, 0, i);
+    }
+}
+catch (Exception e) {
+    e.printStackTrace();
+}
+}
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/06/07/Java7新特性释放资源/" class="archive-article-date">
+  	<time datetime="2016-06-07T11:40:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-06-07</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-fastJSON 转泛型对象" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/04/fastJSON 转泛型对象/">fastJSON 转泛型对象</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="fastJSON-转泛型对象"><a href="#fastJSON-转泛型对象" class="headerlink" title="fastJSON 转泛型对象"></a>fastJSON 转泛型对象</h1><p>fastJSON在实际的使用过程中，需要将JSON字符串转成带有泛型的对象。普通的方式无法实现。查询相关的资料最后得到的结果如下：</p>
+<pre><code>public List&lt;ResInnoIds&gt; callStatByInno(List&lt;Integer&gt; innoIds){
+    Map&lt;String,Object&gt; request = new HashMap&lt;&gt;();
+    request.put(&quot;ccId&quot;,inputParamHead.getCcId());
+    request.put(&quot;vdnId&quot;,inputParamHead.getVdnId());
+    if(innoIds!=null&amp;&amp;innoIds.isEmpty()){
+        request.put(&quot;innoIds&quot;,innoIds);
+    }
+    String url = CmsEndPoint.get(&quot;real.accesscode.callstatbyinno&quot;);
+    String response = HttpUtil.post(url,request);
+    Response&lt;List&lt;ResInnoIds&gt;&gt; res= JSON.parseObject(response,new TypeReference&lt;Response&lt;List&lt;ResInnoIds&gt;&gt;&gt;(){});
+    return res.getResult();
+}
+</code></pre><p>由于<code>Response&lt;List&lt;ResInnoIds&gt;&gt;</code>是一个泛型对象。<br>使用JSON.toJavaObject(json,Response.class）无法将其转成Response<list<resinnoids>&gt;。<br>必须使用</list<resinnoids></p>
+<pre><code>JSON.parseObject(response,new TypeReference&lt;Response&lt;List&lt;ResInnoIds&gt;&gt;&gt;(){});
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/06/04/fastJSON 转泛型对象/" class="archive-article-date">
+  	<time datetime="2016-06-04T07:43:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-06-04</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Spring注解" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/04/Spring注解/">Spring注解泛解</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Spring注解泛解"><a href="#Spring注解泛解" class="headerlink" title="Spring注解泛解"></a>Spring注解泛解</h1><h2 id="1-Autowired"><a href="#1-Autowired" class="headerlink" title="1. @Autowired"></a>1. @Autowired</h2><p> @Autowired注解用于bean注入与@Resource等效，被注入的bean必须为Spring IOC容器管理的bean。<br> Spring管理的bean有如下特点：</p>
+<ol>
+<li>@Component, @Repository, @Controller, @Service, @Configration这些注解都是把你要实例化的对象转化成一个Bean，放在IoC容器中，等你要用的时候，它会和上面的@Autowired , @Resource配合到一起，把对象、属性、方法完美组装。</li>
+</ol>
+<h2 id="2-Controller"><a href="#2-Controller" class="headerlink" title="2.@Controller"></a>2.@Controller</h2><p>@Controller是控制层声明的注解，该注解声明了本类是控制层，常与@ResponseBody一起使用，主要功能返回一个JSP页面，而如果单独使用@Controller则返回值就为return 的返回值。而在Spring boot中常常使用@RestController。可以简单的理解为@RestController=@ResponseBody+@Controller。</p>
+<h2 id="3-Repository"><a href="#3-Repository" class="headerlink" title="3.@Repository"></a>3.@Repository</h2><p>@Repository注解主要用于dao层（持久化层），声明该类属于数据层，主要用于对数据CRUD操作的层。</p>
+<h2 id="4-Service"><a href="#4-Service" class="headerlink" title="4.@Service"></a>4.@Service</h2><p>@Service 注解主要用于Service层，使用该注解一般为业务层。主要功能实现业务逻辑。</p>
+<h2 id="5-Component"><a href="#5-Component" class="headerlink" title="5.@Component"></a>5.@Component</h2><p>@Component注解主要用于组件注解，如定时器，工具bean等。</p>
+<h2 id="6-RequestMapping"><a href="#6-RequestMapping" class="headerlink" title="6.@RequestMapping"></a>6.@RequestMapping</h2><p>@RequestMapping是一个用来处理请求地址映射的注解，可用于类或方法上。用于类上，表示类中的所有响应请求的方法都是以该地址作为父路径。</p>
+<h2 id="7-PathVariable"><a href="#7-PathVariable" class="headerlink" title="7.@PathVariable"></a>7.@PathVariable</h2><p>@PathVariable是获取路径中的通配符的注解。该注解可以用于Restful请求获取路径中的参数开发。<br>例子：</p>
+<pre><code>@RequestMapping(value = &quot;/history/{method}&quot;, method = RequestMethod.POST,consumes=&quot;appplication/json&quot;)
+public Response historyMonitor(@PathVariable @Valid @NotNull(message = &quot;method不能为空&quot;) String method, @RequestBody @Valid ParamIndex paramIndex, BindingResult bindingResult) {
+    logger.info(&quot;入参：method={},paramIndex={}&quot;,method,JSON.toJSONString(paramIndex));
+    if (bindingResult.hasErrors()) {
+        return CheckParam.getErrors(bindingResult);    
+    }
+    logger.info(&quot;params={}&quot;, JSON.toJSONString(paramIndex));
+    List&lt;String&gt; result = checkIndicator(paramIndex.getIndexIds());
+    if(!result.isEmpty()){
+        return new Response().setRetcode(&quot;-1&quot;).setMessage(&quot;部分指标不存在！&quot;).setResult(result);
+    }
+    switch (method) {
+        case &quot;agent&quot;:
+            return agentMonitorService.hindexAgent(paramIndex);
+        case &quot;ivr&quot;:
+            return ivrMonitorService.hindexIvr(paramIndex);
+        case &quot;skill&quot;:
+            return skillMonitorService.hindexSkill(paramIndex);
+        case &quot;vdn&quot;:
+            return vdnMonitorService.hindexVdn(paramIndex);
+    }
+    return new Response().setMessage(&quot;访问路径不存在/indicators/history/&quot;+method).setRetcode(&quot;-1&quot;);
+}
+</code></pre><h2 id="8-Valid"><a href="#8-Valid" class="headerlink" title="8.@Valid"></a>8.@Valid</h2><p>@Valid注解用于校验，所属包为：javax.validation.Valid。</p>
+<p>① 首先需要在实体类的相应字段上添加用于充当校验条件的注解，如：@Min,如下代码（age属于Girl类中的属性）：</p>
+<pre><code>@Min(value = 18,message = &quot;未成年禁止入内&quot;)  
+private Integer age;  
+</code></pre><p>② 其次在controller层的方法的要校验的参数上添加@Valid注解，并且需要传入BindingResult对象，用于获取校验失败情况下的反馈信息，如下代码：</p>
+<pre><code>@PostMapping(&quot;/girls&quot;)  
+public Girl addGirl(@Valid Girl girl, BindingResult bindingResult) {  
+    if(bindingResult.hasErrors()){  
+        System.out.println(bindingResult.getFieldError().getDefaultMessage());  
+        return null;  
+    }  
+    return girlResposity.save(girl);  
+}  
+</code></pre><p><strong>bindingResult.getFieldError.getDefaultMessage()</strong> 用于获取相应字段上添加的message中的内容，如：@Min注解中message属性的内容</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/06/04/Spring注解/" class="archive-article-date">
+  	<time datetime="2016-06-04T07:43:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-06-04</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/">Spring</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+    </nav>
+  
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2018 满天繁星
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/"
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown-Study/" style="font-size: 15px;">Markdown Study</a> <a href="/tags/Nginx/" style="font-size: 10px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 15px;">Oracle</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.mazengyi.com/">Demien</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">至虚极,宁静笃。&lt;br/&gt;&lt;br/&gt;衣带渐宽终不悔，&lt;br/&gt;为伊消得人憔悴。&lt;br/&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;---by 2016-09-23</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

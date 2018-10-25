@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Nginx+keepalived双主模式（双机互为主备） | o(^▽^)o</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前言
+Nginx双机互为主备使用keepalived+nginx实现。这种方式两台机器一起分担请求并路由到不同的nignx。
+
+配置nginx+keepalived的双主机双机热备，这种配置下有两个Virtual IP，两个机器互为主备，最后我们把域名DNS服务器解析至两个Virtual IP即可。
+
+一、环境介绍：1.两台服务器
+Server1：192.168.2.128---CentOS7
+S">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx+keepalived双主模式（双机互为主备）">
+<meta property="og:url" content="http://yoursite.com/2018/07/08/Nginx+keepalived双主模式/index.html">
+<meta property="og:site_name" content="o(^▽^)o">
+<meta property="og:description" content="前言
+Nginx双机互为主备使用keepalived+nginx实现。这种方式两台机器一起分担请求并路由到不同的nignx。
+
+配置nginx+keepalived的双主机双机热备，这种配置下有两个Virtual IP，两个机器互为主备，最后我们把域名DNS服务器解析至两个Virtual IP即可。
+
+一、环境介绍：1.两台服务器
+Server1：192.168.2.128---CentOS7
+S">
+<meta property="og:updated_time" content="2018-07-08T01:34:30.705Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nginx+keepalived双主模式（双机互为主备）">
+<meta name="twitter:description" content="前言
+Nginx双机互为主备使用keepalived+nginx实现。这种方式两台机器一起分担请求并路由到不同的nignx。
+
+配置nginx+keepalived的双主机双机热备，这种配置下有两个Virtual IP，两个机器互为主备，最后我们把域名DNS服务器解析至两个Virtual IP即可。
+
+一、环境介绍：1.两台服务器
+Server1：192.168.2.128---CentOS7
+S">
+  
+    <link rel="alternative" href="/atom.xml" title="o(^▽^)o" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.png">
+  
+  <script src="/style.js"></script>
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://47.93.240.52/1.png" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">满天繁星</a></h1>
+		</hgroup>
+
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/tags/随笔">随笔</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/SkyMoreStars" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="http://weibo.com/zyxno1/home" title="weibo">weibo</a>
+		        
+					<a class="rss" target="_blank" href="#" title="rss">rss</a>
+		        
+					<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">满天繁星</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://47.93.240.52/1.png" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">满天繁星</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/tags/随笔">随笔</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/SkyMoreStars" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/zyxno1/home" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-Nginx+keepalived双主模式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Nginx+keepalived双主模式（双机互为主备）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
+<p>Nginx双机互为主备使用keepalived+nginx实现。这种方式两台机器一起分担请求并路由到不同的nignx。</p>
+</blockquote>
+<p>配置nginx+keepalived的双主机双机热备，这种配置下有两个Virtual IP，两个机器互为主备，最后我们把域名DNS服务器解析至两个Virtual IP即可。</p>
+<hr>
+<h1 id="一、环境介绍："><a href="#一、环境介绍：" class="headerlink" title="一、环境介绍："></a>一、环境介绍：</h1><p>1.两台服务器</p>
+<pre><code>Server1：192.168.2.128---CentOS7
+Server2：192.168.2.129---CentOS7
+</code></pre><p>2.两个虚拟IP</p>
+<p><strong><span style="color:red">注意：在这里做个说明，这两个虚拟ip是由keepalived直接配置的，并不是在虚拟机的网卡上配置。</span></strong></p>
+<pre><code>Virtual IP1:192.168.2.138
+Virtual IP2:192.168.2.139
+</code></pre><h1 id="二、开始操作"><a href="#二、开始操作" class="headerlink" title="二、开始操作"></a>二、开始操作</h1><h2 id="1-初始化两台虚拟机最小安装方式。"><a href="#1-初始化两台虚拟机最小安装方式。" class="headerlink" title="1.初始化两台虚拟机最小安装方式。"></a>1.初始化两台虚拟机最小安装方式。</h2><p>此处略。</p>
+<h2 id="2-设置静态Ip。"><a href="#2-设置静态Ip。" class="headerlink" title="2.设置静态Ip。"></a>2.设置静态Ip。</h2><p>查看 <a href="http://zhyx.me" title="CentOS设置静态Ip" target="_blank" rel="external">CentOS设置静态Ip</a></p>
+<h2 id="3-安装keepalived"><a href="#3-安装keepalived" class="headerlink" title="3.安装keepalived"></a>3.安装keepalived</h2><p>下载最新版本的keepalived-2.0.5.tar.gz 下载地址：<a href="http://www.keepalived.org/download.html" target="_blank" rel="external">http://www.keepalived.org/download.html</a></p>
+<p>将文件上传到/usr/local/目录下</p>
+<pre><code>tar -zxvf keepalived-2.0.5.tar.gz
+</code></pre><p>将解压出来的文件夹重命名</p>
+<pre><code>mv keepalived-2.0.5 keeplived
+</code></pre><p>进入文件夹，编译安装</p>
+<pre><code>cd keepalived
+./configure --prefix=/usr/local/keepalived
+make &amp;&amp; make install
+</code></pre><p>修改Server1配置文件 /usr/local/keepalived/etc/keepalived/keepalived.conf</p>
+<pre><code>! Configuration File for keepalived
+global_defs {
+        notification_email {
+            zhyx@zhyx.me                                    #接收警报的email地址,可以添加多个
+        }
+        notification_email_from admin@zhyx.me               ###发件人地址
+            smtp_server 127.0.0.1                           ###发送邮件的服务器
+            smtp_connect_timeout 30                         ###超时时间
+            router_id LVS_DEVEL                             ####load balancer 的标识 ID,用于email警报
+}
+vrrp_script chk_http_port {
+            script &quot;/opt/nginx_pid.sh&quot;                      ####检测nginx状态的脚本路径
+            interval 2
+            weight 2
+        }
+vrrp_instance VI_1 {
+            state MASTER                                    ############ 辅机为 BACKUP
+            interface ens33                                 ####HA 虚拟机的网卡名称  
+            virtual_router_id 51                            #主、备机的 virtual_router_id 必须相同
+            priority 100                                    ########### 权值要比 back 高
+            advert_int 1                                    #主备之间的通告间隔秒数
+    track_interface{
+        ens33
+    }
+        authentication {
+            auth_type PASS                                  ###默认配置 主备切换时的验证 
+            auth_pass 1111
+        }
+        track_script {
+            chk_http_port                                   ### 执行监控的服务
+        }
+        virtual_ipaddress {
+            192.168.2.138                                    ####虚拟ip，vip的地址
+        }
+
+}
+vrrp_instance VI_2 {
+    state BACKUP
+    interface ens33                                         #两处都为本机的网络接口
+    virtual_router_id 54
+    priority 100                                             #权重
+    advert_int 1
+    track_interface{
+        ens33
+    }
+    authentication {
+        auth_type PASS
+        auth_pass 1111
+    }
+    virtual_ipaddress {
+        192.168.2.139
+    }
+}
+</code></pre><p>修改Server2配置文件 /usr/local/keepalived/etc/keepalived/keepalived.conf</p>
+<pre><code>! Configuration File for keepalived
+global_defs {
+    notification_email {
+        zhyx@zhyx.me                                    #接收警报的email地址,可以添加多个
+    }
+    notification_email_from admin@zhyx.com              ###发件人地址
+    smtp_server 127.0.0.1                               ###发送邮件的服务器
+    smtp_connect_timeout 30                             ###超时时间
+    router_id LVS_DEVEL                                 ####load balancer 的标识 ID,用于email警报
+}
+vrrp_script chk_http_port {
+    script &quot;/opt/nginx_pid.sh&quot;                          ####检测nginx状态的脚本路径
+    interval 2
+    weight 2
+}
+vrrp_instance VI_1 {
+    state BACKUP                                        ############ 辅机为 BACKUP
+    interface ens33                                     ####HA 虚拟机的网卡名称
+    #mcast_src_ip 192.168.2.129                            #本机IP地址在主从的时候用到
+    virtual_router_id 51                                #主、备机的 virtual_router_id 必须相同
+    priority 100                                        ########### 权值要比 back 高
+    advert_int 1                                        #主备之间的通告间隔秒数
+    track_interface{
+    ens33
+    }
+    authentication {
+        auth_type PASS                                  ###主备切换时的验证
+        auth_pass 1111
+    }
+    track_script {
+        chk_http_port                                   ### 执行监控的服务
+    }
+    virtual_ipaddress {
+        192.168.2.138                                    ####虚拟ip,vip的地址
+    }
+
+}
+
+vrrp_instance VI_2 {
+    state MASTER
+    interface ens33
+    virtual_router_id 54
+    priority 100
+    advert_int 1
+    track_interface{
+        ens33
+    }
+    authentication {
+        auth_type PASS
+        auth_pass 1111
+    }
+    track_script {
+        chk_http_port
+    }
+    virtual_ipaddress {
+        192.168.2.139
+    }
+}
+</code></pre><p>将两台keepalived安装成Linux系统服务</p>
+<p><strong><span style="color:red">注意：执行该步骤之后，如若需要修改keepalived的配置文件，则需要在etc/keepalived下修改。否则修改不生效。</span></strong></p>
+<pre><code>cp /usr/local/keepalived/etc/sysconfig/keepalived /etc/sysconfig/ 
+
+mkdir /etc/keepalived 
+
+cp /usr/local/keepalived/etc/keepalived/keepalived.conf /etc/keepalived/ 
+
+cp /usr/local/keepalived/sbin/keepalived /usr/sbin/
+</code></pre><p>设置开机启动服务</p>
+<pre><code>chkconfig --level 2345 keepalived on
+</code></pre><p>在/opt/下编写校验脚本，/opt/nginx_pid.sh（已配置在keepalived.conf中）</p>
+<p>nginx_pid.sh ：如果nginx停止运行，尝试启动，如果无法启动杀死本机keepalived进程，keepalied将虚拟ip绑定到备用机器上</p>
+<pre><code>#!/bin/bash
+A=`ps -C nginx --no-header |wc -l`        
+if [ $A -eq 0 ];then                            
+      /usr/nginx/sbin/nginx                #重启nginx
+      if [ `ps -C nginx --no-header |wc -l` -eq 0 ];then    #nginx重启失败，则停掉keepalived服务，进行VIP转移
+              killall keepalived                    
+      fi
+fi
+</code></pre><h2 id="4-安装nginx"><a href="#4-安装nginx" class="headerlink" title="4.安装nginx"></a>4.安装nginx</h2><p>1.首先安装依赖包（依赖包有点多，我们采用yum的方式来安装）</p>
+<pre><code>yum -y install zlib zlib-devel openssl openssl-devel pcre pcre-devel
+</code></pre><p>2.将nginx-1.15.1.tar.gz上传到/usr/local/下</p>
+<pre><code>tar -zxvf 1.15.1
+</code></pre><p>3.重命名包名称，讲nginx-1.15.1改为nginx</p>
+<pre><code>mv nginx-1.15.1 nginx
+</code></pre><p>4.编译</p>
+<pre><code>cd nginx
+
+./configure --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module
+
+make&amp;&amp;make install
+</code></pre><h2 id="测试："><a href="#测试：" class="headerlink" title="测试："></a>测试：</h2><p>分别启动两台机器上nginx和keepalived</p>
+<p>1.启动keepalived</p>
+<pre><code>service keepalived start    
+</code></pre><p>2.启动nginx</p>
+<pre><code>/usr/local/sbin/nginx
+</code></pre><p>利用命令查看虚拟ip是否绑定成功</p>
+<pre><code>ip a
+</code></pre><p>输出如下</p>
+<pre><code>    [root@bogon ~]# ip a
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: ens33: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 00:0c:29:12:2b:19 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.2.129/24 brd 192.168.2.255 scope global noprefixroute ens33
+       valid_lft forever preferred_lft forever
+    inet 192.168.2.138/32 scope global ens33
+       valid_lft forever preferred_lft forever
+    inet 192.168.2.139/32 scope global ens33
+       valid_lft forever preferred_lft forever
+    inet6 fe80::76e1:c30c:d2e8:ae91/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+    inet6 fe80::d2c5:4c6:219:758f/64 scope link tentative noprefixroute dadfailed 
+       valid_lft forever preferred_lft forever
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/07/08/Nginx+keepalived双主模式/" class="archive-article-date">
+  	<time datetime="2018-07-08T00:24:19.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-07-08</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Nginx/">Nginx</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2018/07/17/TomcatSuse11AutoStartScript/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Tomcat Suse 11开机自动启动脚本
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/07/06/Oracle启动方式/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">oracle实例启动步骤</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Nginx+keepalived双主模式" data-title="Nginx+keepalived双主模式（双机互为主备）" data-url="http://yoursite.com/2018/07/08/Nginx+keepalived双主模式/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2018 满天繁星
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/"
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown-Study/" style="font-size: 15px;">Markdown Study</a> <a href="/tags/Nginx/" style="font-size: 10px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 15px;">Oracle</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.mazengyi.com/">Demien</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">至虚极,宁静笃。&lt;br/&gt;&lt;br/&gt;衣带渐宽终不悔，&lt;br/&gt;为伊消得人憔悴。&lt;br/&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;---by 2016-09-23</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

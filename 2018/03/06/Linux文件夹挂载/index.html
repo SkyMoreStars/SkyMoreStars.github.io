@@ -4,14 +4,39 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Archives: 2016/11 | o(^▽^)o</title>
+  <title>Linux文件夹挂载 | o(^▽^)o</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="o(^▽^)o">
-<meta property="og:url" content="http://yoursite.com/archives/2016/11/index.html">
+  <meta name="description" content="Linux文件夹挂载windows磁盘
+
+1.1在linux根目录下创建S文件夹
+mkdir /S
+1.2创建启动脚本，开机自动映射
+vi /etc/init.d/startmount
+1.3写入命令
+mount -t cifs //172.16.3.235/E$ /S -o username=administrator,password=netinfo@123,gid=users,dir_m">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux文件夹挂载">
+<meta property="og:url" content="http://yoursite.com/2018/03/06/Linux文件夹挂载/index.html">
 <meta property="og:site_name" content="o(^▽^)o">
+<meta property="og:description" content="Linux文件夹挂载windows磁盘
+
+1.1在linux根目录下创建S文件夹
+mkdir /S
+1.2创建启动脚本，开机自动映射
+vi /etc/init.d/startmount
+1.3写入命令
+mount -t cifs //172.16.3.235/E$ /S -o username=administrator,password=netinfo@123,gid=users,dir_m">
+<meta property="og:updated_time" content="2018-03-06T02:05:18.038Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="o(^▽^)o">
+<meta name="twitter:title" content="Linux文件夹挂载">
+<meta name="twitter:description" content="Linux文件夹挂载windows磁盘
+
+1.1在linux根目录下创建S文件夹
+mkdir /S
+1.2创建启动脚本，开机自动映射
+vi /etc/init.d/startmount
+1.3写入命令
+mount -t cifs //172.16.3.235/E$ /S -o username=administrator,password=netinfo@123,gid=users,dir_m">
   
     <link rel="alternative" href="/atom.xml" title="o(^▽^)o" type="application/atom+xml">
   
@@ -133,49 +158,148 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-Linux文件夹挂载" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/28/hexo操作相关命令/" class="archive-article-date">
-  	<time datetime="2016-11-28T10:11:56.167Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/28/hexo操作相关命令/">hexo提交博客常用命令</a>
+    <h1 class="article-title" itemprop="name">
+      Linux文件夹挂载
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <hr>
+<ol>
+<li>Linux文件夹挂载windows磁盘</li>
+</ol>
+<p>1.1在linux根目录下创建S文件夹</p>
+<pre><code>mkdir /S
+</code></pre><p>1.2创建启动脚本，开机自动映射</p>
+<pre><code>vi /etc/init.d/startmount
+</code></pre><p>1.3写入命令</p>
+<pre><code>mount -t cifs //172.16.3.235/E$ /S -o username=administrator,password=netinfo@123,gid=users,dir_mode=0777
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+wq!
+</code></pre><p>1.4修改权限</p>
+<pre><code>chmod 777 startmount
+</code></pre><p>1.5重新执行</p>
+<pre><code>./startmount   
+</code></pre><hr>
+<p>2.Linux挂载Linux文件夹</p>
+<p>a.命令格式：mount [-t vfstype] [-o options] device dir </p>
+<pre><code>mount -t nfs4  -o nolock 172.16.3.100:/share/voice /S/voice
+</code></pre><p>b.参数的意义</p>
+<p>b.1 -t vfstype 指定文件系统的类型，通常不必指定。mount 会自动选择正确的类型。<br>常用类型有： </p>
+<p>光盘或光盘镜像：iso9660 </p>
+<p>DOS fat16文件系统：msdos </p>
+<p>Windows 9x fat32文件系统：vfat </p>
+<p>Windows NT ntfs文件系统：ntfs </p>
+<p>Mount Windows文件网络共享：smbfs </p>
+<p>UNIX(LINUX) 文件网络共享：nfs </p>
+<p><span style="color:red;">注意：在固态硬盘下的服务器请使用<strong>nfs4</strong></span></p>
+<p>b.2 -o options 主要用来描述设备或档案的挂接方式。常用的参数有： </p>
+<p>loop：用来把一个文件当成硬盘分区挂接上系统 </p>
+<p>ro：采用只读方式挂接设备 </p>
+<p>rw：采用读写方式挂接设备 </p>
+<p>iocharset：指定访问文件系统所用字符集 </p>
+<p>b.3.device 要挂接(mount)的设备。 </p>
+<p>b.4.dir设备在系统上的挂接点(mount point)。 </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/03/06/Linux文件夹挂载/" class="archive-article-date">
+  	<time datetime="2018-03-06T01:51:53.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-03-06</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-  
-    </div></section>
-  
 
-    
+  
+<nav id="article-nav">
+  
+    <a href="/2018/03/12/maven-install/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          maven安装本地包
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/02/24/JVM最大运行存配置/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Tomcat配置最大运行存</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Linux文件夹挂载" data-title="Linux文件夹挂载" data-url="http://yoursite.com/2018/03/06/Linux文件夹挂载/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
 
 
       </div>
@@ -183,7 +307,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2017 满天繁星
+    		&copy; 2018 满天繁星
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -198,8 +322,8 @@
 		mathjax: true,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
@@ -259,7 +383,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Markdown-Study/" style="font-size: 15px;">Markdown Study</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a>
+    				<a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown-Study/" style="font-size: 15px;">Markdown Study</a> <a href="/tags/Nginx/" style="font-size: 10px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 15px;">Oracle</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
     			</div>
     	</section>
     
