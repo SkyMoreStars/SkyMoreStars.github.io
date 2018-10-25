@@ -4,42 +4,14 @@
   <meta charset="utf-8">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Tomcat Suse 11开机自动启动脚本 | o(^▽^)o</title>
+  <title>Archives: 2018/9 | o(^▽^)o</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前言
-大部分的suse启动脚本都是同一个道理，经过这阶段对Linux的接触，大概了解了Suse系统的结构，主要的Service存在于”/etc/init.d/“文件夹下。
-
-#!/bin/bash
-
-### BEGIN INIT INFO
-# Provides:        tomcat7
-# Required-Start:  $network
-# Required-Stop:   $netwo">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Tomcat Suse 11开机自动启动脚本">
-<meta property="og:url" content="http://yoursite.com/2018/07/17/TomcatSuse11AutoStartScript/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="o(^▽^)o">
+<meta property="og:url" content="http://yoursite.com/archives/2018/09/index.html">
 <meta property="og:site_name" content="o(^▽^)o">
-<meta property="og:description" content="前言
-大部分的suse启动脚本都是同一个道理，经过这阶段对Linux的接触，大概了解了Suse系统的结构，主要的Service存在于”/etc/init.d/“文件夹下。
-
-#!/bin/bash
-
-### BEGIN INIT INFO
-# Provides:        tomcat7
-# Required-Start:  $network
-# Required-Stop:   $netwo">
-<meta property="og:updated_time" content="2018-07-19T01:59:49.994Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Tomcat Suse 11开机自动启动脚本">
-<meta name="twitter:description" content="前言
-大部分的suse启动脚本都是同一个道理，经过这阶段对Linux的接触，大概了解了Suse系统的结构，主要的Service存在于”/etc/init.d/“文件夹下。
-
-#!/bin/bash
-
-### BEGIN INIT INFO
-# Provides:        tomcat7
-# Required-Start:  $network
-# Required-Stop:   $netwo">
+<meta name="twitter:title" content="o(^▽^)o">
   
     <link rel="alternative" href="/atom.xml" title="o(^▽^)o" type="application/atom+xml">
   
@@ -161,142 +133,54 @@
 </nav>
 
       <div class="body-wrap">
-        <article id="post-TomcatSuse11AutoStartScript" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
         
   
-    <h1 class="article-title" itemprop="name">
-      Tomcat Suse 11开机自动启动脚本
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2018" class="archive-year">2018</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2018/09/25/数据库SQL优化/" class="archive-article-date">
+  	<time datetime="2018-09-25T02:17:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-09-25</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2018/09/25/数据库SQL优化/">数据库SQL优化</a>
     </h1>
   
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
-<p>大部分的suse启动脚本都是同一个道理，经过这阶段对Linux的接触，大概了解了Suse系统的结构，主要的Service存在于”/etc/init.d/“文件夹下。</p>
-</blockquote>
-<pre><code>#!/bin/bash
-
-### BEGIN INIT INFO
-# Provides:        tomcat7
-# Required-Start:  $network
-# Required-Stop:   $network
-# Default-Start:   2 3 4 5
-# Default-Stop:    0 1 6
-# Short-Description: Start/Stop Tomcat server
-### END INIT INFO
-
-PATH=/sbin:/bin:/usr/sbin:/usr/bin
-export JAVA_HOME=/usr/local/java/java8             #JavaHome
-
-start() {
- sh /home/App/apache-tomcat-8.5.31/bin/startup.sh  #自己tomcat启动路径
-}
-
-stop() {
- sh /home/App/apache-tomcat-8.5.31/bin/shutdown.sh #自己tomcat关闭路径
-}
-
-case $1 in
-  start|stop) $1;;
-  restart) stop; start;;
-  *) echo &quot;Run as $0 &lt;start|stop|restart&gt;&quot;; exit 1;;
-esac
-</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2018/07/17/TomcatSuse11AutoStartScript/" class="archive-article-date">
-  	<time datetime="2018-07-17T01:10:01.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-07-17</time>
-</a>
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL/">SQL</a></li></ul>
 	</div>
 
-      
+          
 
-      <div class="clearfix"></div>
-    </div>
+        </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2018/07/19/Nginx_Config/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Nginx Suse 11开机自动启动脚本
-        
-      </div>
-    </a>
   
   
-    <a href="/2018/07/08/Nginx+keepalived双主模式/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Nginx+keepalived双主模式（双机互为主备）</div>
-      <i class="icon-circle-right"></i>
-    </a>
+    </div></section>
   
-</nav>
 
-
-
-
-<div class="share_jia">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">Share to: &nbsp; </span>
-		<a class="jiathis_button_facebook"></a> 
-	    <a class="jiathis_button_twitter"></a>
-	    <a class="jiathis_button_plus"></a> 
-	    <a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
-</div>
-
-
-
-
-
-
-<div class="duoshuo">
-	<!-- 多说评论框 start -->
-	<div class="ds-thread" data-thread-key="TomcatSuse11AutoStartScript" data-title="Tomcat Suse 11开机自动启动脚本" data-url="http://yoursite.com/2018/07/17/TomcatSuse11AutoStartScript/"></div>
-	<!-- 多说评论框 end -->
-	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-	<script type="text/javascript">
-	var duoshuoQuery = {short_name:"true"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		 || document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-	<!-- 多说公共JS代码 end -->
-</div>
-
-
-
+    
 
 
       </div>
@@ -319,8 +203,8 @@ esac
 		mathjax: true,
 		animate: true,
 		isHome: false,
-		isPost: true,
-		isArchive: false,
+		isPost: false,
+		isArchive: true,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

@@ -135,6 +135,172 @@
       <div class="body-wrap">
         
   
+    <article id="post-数据库SQL优化" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/25/数据库SQL优化/">数据库SQL优化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="数据库的优化问题"><a href="#数据库的优化问题" class="headerlink" title="数据库的优化问题"></a>数据库的优化问题</h1><p>一、SQL语句编写注意问题</p>
+<h2 id="1-IS-NULL-与-IS-NOT-NULL"><a href="#1-IS-NULL-与-IS-NOT-NULL" class="headerlink" title="1.IS NULL 与 IS NOT NULL"></a>1.IS NULL 与 IS NOT NULL</h2><p>不能使用null作索引，任何包含null值的列都将不会被包含索引中。即使索引有多列这样的情况下，只要这些列中有一列含有null，该列就会从索引中排除。也就是所如果牟烈存在空值，即使对该列建索引页不会提高性能。</p>
+<p>任何在where子句中使用is null或is not null的语句优化器是不会允许使用索引。</p>
+<h2 id="联接列"><a href="#联接列" class="headerlink" title="联接列"></a>联接列</h2><p>对于有联接的列，即使最后的联接值为一个静态值，优化器是不会使用索引的。假设有一张职工表（employee），对于一个职工的姓名分成两列存放在（FIRST_NAME）和(LAST_NAME),现在要查询一个叫做比尔.克林顿（Bill Cliton）的职工。</p>
+<p>下面是一个采用联接查询的SQL语句：</p>
+<pre><code>select * from employee where first_name||&quot;||last_name =&quot;Bill Cliton&quot;;
+</code></pre><p>上面这条语句完全可以查询出是否有Bill Cliton这个员工，但是这里需要注意，系统优化器对基于last_name创建的索引没有使用。</p>
+<p>当使用下面这种SQL语句的编写，Oracle系统就可以采用基于last_name创建的索引。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employee <span class="keyword">where</span> FIRST_NAME=<span class="string">'Bill'</span> <span class="keyword">and</span> last_name=<span class="string">'Cliton'</span>;</div></pre></td></tr></table></figure>
+<h2 id="带通配符（-）的like语句"><a href="#带通配符（-）的like语句" class="headerlink" title="带通配符（%）的like语句"></a>带通配符（%）的like语句</h2><p>同样以上面的例子来看这种情况。目前的需求是这样的，要求在职工表中查询名字中包含（cliton）的人。可以采用如下的查询SQL语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from employee where last_name like &apos;%cliton%&apos;;</div></pre></td></tr></table></figure></p>
+<p>这里由于通配符（%）在搜寻词首出现，所以Oracle系统不使用last_name的索引。在很多情况下可能无法避免这种情况，但是一定要心中有底，通配符如此使用会降低查询速度。然而当通配符出现在字符串其他位置时，优化器就能利用索引。在下面的查询索引中得到使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from employee where last_name like &apos;c%&apos;</div></pre></td></tr></table></figure></p>
+<h2 id="Order-by语句"><a href="#Order-by语句" class="headerlink" title="Order by语句"></a>Order by语句</h2><p>ORDER By语句决定了如何将返回的查询结果排序。Order By语句对排序的列没有什么特别的限制，也可以将函数加入列中（像联接或者附加等）。任何在Order By语句的非索引项或者有计算表达式都将降低查询速度。</p>
+<p>仔细检查Order By 语句以找出非索引项或者表达式，他们会降低性能。解决这个问题的办法就是重写Order By语句以使用索引，也可以为所使用的列建另一个索引，同事应该绝对避免在Order By子句中使用表达式。</p>
+<h2 id="Not"><a href="#Not" class="headerlink" title="Not"></a>Not</h2><p>我们在查询时经常在where子句使用一些逻辑表达式，如大于、小于、等于以及不等于等等。也可以使用and、or、以及not（非）。NOT可以用来对任何逻辑运算符取反。下面是NOT子句的例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">... where NOT (status=‘INVALID’)</div></pre></td></tr></table></figure></p>
+<p>如果使用Not，则应在取反的短语前面加上括号，并在短语前面加上NOT运算符。NOT运算符包含在另一个逻辑运算符中，这就是不等于（&lt;&gt;）运算符。换句话说，即使不在查询where子句中显示地加入NOT词，NOT仍在运算符中。见下例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">... where status &lt;&gt; &apos;INVALID&apos;;</div></pre></td></tr></table></figure></p>
+<p>对于这个查询，可以改写为不使用NOT：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select *from employee where salary&lt;3000 or salary&gt;3000 ;</div></pre></td></tr></table></figure>
+<p>虽然这两种查询结果一样，但是第二种查询方案回避第一种查询方案更快一些。第二种查询允许Oracle对salary列使用索引，而第一种查询则不能使用索引。</p>
+<h1 id="写出性能优良的SQL"><a href="#写出性能优良的SQL" class="headerlink" title="写出性能优良的SQL"></a>写出性能优良的SQL</h1><ol>
+<li>选择最优效率的表明顺序（只在给予规则的优化器中有效）：Oracle的解析按照从右到左的顺序处理FROM子句的表明，FROM子句中卸载后面的表（基础表driving table）将被优先处理，在FROM子句中包含多个表的情况下,你必须选择记录条数最少的表作为基础表。如果有3个以上的表连接查询，那就需要选择交叉表（intersection table）作为基表，交叉表指的是哪个被其他表所引用的表</li>
+<li>Where子句中连接顺序：ORACLE采用自伤而下的顺序解析Where子句，根据这个原理，表之间的连接必须写在其他Where条件之前，哪些可以过滤掉最大数量记录的条件必须卸载Where子句的末尾。</li>
+<li>Select子句中避免使用‘<em>’：Oracle在解析的过程中，会将‘</em>’依次转换成所有的列名，这个工作是通过查询数据字典完成的，这意味着将耗费更多的时间。</li>
+<li>减少数据库访问的次数：Oracle在内部执行了许多工作：解析SQL语句，估算索引的利用率，绑定变量，读取数据库块等；</li>
+<li>在SQL<em>Plus,SQL</em>Forms和Pro*C中重新设置ArraySiz参数，可以参考增加每次数据库访问的检索数量。</li>
+<li>使用DeCode函数来减少处理时间：在DeCode函数可以避免重复扫描相同记录或重复连接相同的表</li>
+<li>整合简单，无关的数据访问：如果有几个简单的数据库查询语句，可以把他们整合到一个查询中（即使他们之间没有关系）</li>
+<li><p>删除重复记录：最高效的删除重复记录方法（因为使用了ROWID）例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Delete From EMP E Where E.ROWID&gt;(Select MIN(X.ROWID) FROM EMP X Where X.EMP_NO=E.EMP_NO);</div></pre></td></tr></table></figure>
+</li>
+<li><p>用TRUNCATE代替DELETE：当删除表中的记录时，在通常情况下，回滚段(rollback segments)用来存放可以恢复的信息，如果你没有Commit事务，Oracle会将数据恢复到删除之前的状态（准确的说是恢复到执行删除命令之前的状况）而当运用TRUNCATE时候，回滚段不再存放任何可以被恢复的信息，当命令执行后，数据不能被恢复，因此很少资源被调用。执行时间也会很短。</p>
+</li>
+<li>尽量多使用Commit：只要有可能，在程序中尽量多使用Commit，这样程序的性能得到提高，需求也会因Commit所释放的资源而减少。</li>
+</ol>
+<p>Commit所释放的资源：</p>
+<p>1) 回滚段上用于恢复数据的信息。<br>2) 被程序语句获得的锁。<br>3) redo log buffer中的空间。<br>4) Oracle为管理上述3种资源的内部花费。</p>
+<ol>
+<li>用Where子句代替Having子句：避免使用Having子句，Having只会在检索出所有记录之后才对结果集进行过滤，这个处理需要排序，总计等操作。如果能够通过Where子句限制记录的数目，那就能减少这方面的开销，（非Oracle中）on,where,having这三个都可以加条件的子句中，On是最先执行，wher次之，having最后。因为On先把不符合条件的记录过滤后菜进行统计，它就可以减少中间运算要处理的数据，按理说应该速度是最快的。where也应该比having快一点。因为他过滤数据后菜进行sum，在两个表联接时才用on，所以在一个表的时候，就剩下where跟having比较了。在这单表查询统计的情况下，如果要过滤的条件没有涉及到要计算字段，那它们的结果是一样的，只是where可以使用rushmore技术，而having就不能，在速度上后者要慢如果要涉及到计算的字 段，就表示在没计算之前，这个字段的值是不确定的，根据上篇写的工作流程，where的作用时间是在计算之前就完成的，而having就是在计算后才起作 用的，所以在这种情况下，两者的结果会不同。在多表联接查询时，on比where更早起作用。系统首先根据各个表之间的联接条件，把多个表合成一个临时表 后，再由where进行过滤，然后再计算，计算完后再由having进行过滤。由此可见，要想过滤条件起到正确的作用，首先要明白这个条件应该在什么时候起作用，然后再决定放在那里。</li>
+<li><p>减少对表的查询：<br>在含有子查询的SQL语句中,要特别注意减少对表的查询.例子： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">SELECT TAB_NAME </div><div class="line">FROM TABLES </div><div class="line">WHERE </div><div class="line">(TAB_NAME,DB_VER) = </div><div class="line">( SELECT TAB_NAME,DB_VER FROM  TAB_COLUMNS  WHERE  VERSION = 604)</div></pre></td></tr></table></figure>
+</li>
+<li><p>通过内部函数提高SQL效率：复杂的SQL往往牺牲了执行效率. 能够掌握上面的运用函数解决问题的方法在实际工作中是非常有意义的。</p>
+</li>
+<li>使用表的别名(Alias)：当在SQL语句中连接多个表时, 请使用表的别名并把别名前缀于每个Column上.这样一来,就可以减少解析的时间并减少那些由Column歧义引起的语法错误. </li>
+<li>用EXISTS替代IN、用NOT EXISTS替代NOT IN：<br>在许多基于基础表的查询中,为了满足一个条件,往往需要对另一个表进行联接.在这种情况下, 使用EXISTS(或NOT EXISTS)通常将提高查询的效率. 在子查询中,NOT IN子句将执行一个内部的排序和合并. 无论在哪种情况下,NOT IN都是最低效的 (因为它对子查询中的表执行了一个全表遍历). 为了避免使用NOT IN ,我们可以把它改写成外连接(Outer Joins)或NOT EXISTS.<br>例子： </li>
+</ol>
+<p>(高效)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT * FROM  EMP (基础表)  WHERE  EMPNO &gt; 0  AND  EXISTS (SELECT ‘X’  FROM DEPT  WHERE  DEPT.DEPTNO = EMP.DEPTNO  AND  LOC = ‘MELB’)</div></pre></td></tr></table></figure></p>
+<p>(低效)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT  * FROM  EMP (基础表)  WHERE  EMPNO &gt; 0  AND  DEPTNO IN(SELECT DEPTNO  FROM  DEPT  WHERE  LOC = ‘MELB’)</div></pre></td></tr></table></figure></p>
+<ol>
+<li><p>识别’低效执行’的SQL语句：<br>虽然目前各种关于SQL优化的图形化工具层出不穷,但是写出自己的SQL工具来解决问题始终是一个最好的方法： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">SELECT  EXECUTIONS , DISK_READS, BUFFER_GETS, </div><div class="line">ROUND((BUFFER_GETS-DISK_READS)/BUFFER_GETS,2) Hit_radio, </div><div class="line">ROUND(DISK_READS/EXECUTIONS,2) Reads_per_run, </div><div class="line">SQL_TEXT </div><div class="line">FROM  V$SQLAREA </div><div class="line">WHERE  EXECUTIONS&gt;0 </div><div class="line">AND  BUFFER_GETS &gt; 0 </div><div class="line">AND  (BUFFER_GETS-DISK_READS)/BUFFER_GETS &lt; 0.8 </div><div class="line">ORDER BY  4 DESC;</div></pre></td></tr></table></figure>
+</li>
+<li><p>用索引提高效率：<br>索引是表的一个概念部分,用来提高检索数据的效率，ORACLE使用了一个复杂的自平衡B-tree结构. 通常,通过索引查询数据比全表扫描要快. 当ORACLE找出执行查询和Update语句的最佳路径时, ORACLE优化器将使用索引. 同样在联结多个表时使用索引也可以提高效率. 另一个使用索引的好处是,它提供了主键(primary key)的唯一性验证.。那些LONG或LONG RAW数据类型, 你可以索引几乎所有的列. 通常, 在大型表中使用索引特别有效. 当然,你也会发现, 在扫描小表时,使用索引同样能提高效率. 虽然使用索引能得到查询效率的提高,但是我们也必须注意到它的代价. 索引需要空间来存储,也需要定期维护, 每当有记录在表中增减或索引列被修改时, 索引本身也会被修改. 这意味着每条记录的INSERT , DELETE , UPDATE将为此多付出4 , 5 次的磁盘I/O . 因为索引需要额外的存储空间和处理,那些不必要的索引反而会使查询反应时间变慢.。定期的重构索引是有必要的.：<br>ALTER  INDEX <indexname> REBUILD <tablespacename> </tablespacename></indexname></p>
+</li>
+<li>用EXISTS替换DISTINCT：<br>当提交一个包含一对多表信息(比如部门表和雇员表)的查询时,避免在SELECT子句中使用DISTINCT. 一般可以考虑用EXIST替换, EXISTS 使查询更为迅速,因为RDBMS核心模块将在子查询的条件一旦满足后,立刻返回结果. 例子： </li>
+</ol>
+<p>(低效):<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">SELECT  DISTINCT  DEPT_NO,DEPT_NAME  FROM  DEPT D , EMP E </div><div class="line">WHERE  D.DEPT_NO = E.DEPT_NO</div></pre></td></tr></table></figure></p>
+<p>(高效):<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">SELECT  DEPT_NO,DEPT_NAME  FROM  DEPT D  WHERE  EXISTS ( SELECT ‘X’ </div><div class="line">FROM  EMP E  WHERE E.DEPT_NO = D.DEPT_NO);</div></pre></td></tr></table></figure></p>
+<ol>
+<li>sql语句用大写的；因为oracle总是先解析sql语句，把小写的字母转换成大写的再执行 </li>
+<li>在java代码中尽量少用连接符“＋”连接字符串！ </li>
+<li>避免在索引列上使用NOT 通常，　<br>我们要避免在索引列上使用NOT, NOT会产生在和在索引列上使用函数相同的影响. 当ORACLE”遇到”NOT,他就会停止使用索引转而执行全表扫描.</li>
+<li>避免在索引列上使用计算．<br>WHERE子句中，如果索引列是函数的一部分．优化器将不使用索引而使用全表扫描．<br>举例: </li>
+</ol>
+<p>低效：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT … FROM  DEPT  WHERE SAL * 12 &gt; 25000;</div></pre></td></tr></table></figure></p>
+<p>高效:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT … FROM DEPT WHERE SAL &gt; 25000/12;</div></pre></td></tr></table></figure></p>
+<ol>
+<li>用&gt;=替代&gt;<br>高效: <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT * FROM  EMP  WHERE  DEPTNO &gt;=4</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>低效:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT * FROM EMP WHERE DEPTNO &gt;3</div></pre></td></tr></table></figure></p>
+<p>两者的区别在于, 前者DBMS将直接跳到第一个DEPT等于4的记录而后者将首先定位到DEPTNO=3的记录并且向前扫描到第一个DEPT大于3的记录. </p>
+<ol>
+<li>用UNION替换OR (适用于索引列)<br>通常情况下, 用UNION替换WHERE子句中的OR将会起到较好的效果. 对索引列使用OR将造成全表扫描. 注意, 以上规则只针对多个索引列有效. 如果有column没有被索引, 查询效率可能会因为你没有选择OR而降低. 在下面的例子中, LOC_ID 和REGION上都建有索引. </li>
+</ol>
+<p>高效:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">SELECT LOC_ID , LOC_DESC , REGION </div><div class="line">FROM LOCATION </div><div class="line">WHERE LOC_ID = 10 </div><div class="line">UNION </div><div class="line">SELECT LOC_ID , LOC_DESC , REGION </div><div class="line">FROM LOCATION </div><div class="line">WHERE REGION = “MELBOURNE”</div></pre></td></tr></table></figure></p>
+<p>低效:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">SELECT LOC_ID , LOC_DESC , REGION </div><div class="line">FROM LOCATION </div><div class="line">WHERE LOC_ID = 10 OR REGION = “MELBOURNE”</div></pre></td></tr></table></figure></p>
+<p>如果你坚持要用OR, 那就需要返回记录最少的索引列写在最前面. </p>
+<ol>
+<li>用IN来替换OR<br>这是一条简单易记的规则，但是实际的执行效果还须检验，在ORACLE8i下，两者的执行路径似乎是相同的．　 </li>
+</ol>
+<p>低效:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT…. FROM LOCATION WHERE LOC_ID = 10 OR LOC_ID = 20 OR LOC_ID = 30</div></pre></td></tr></table></figure></p>
+<p>高效<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT… FROM LOCATION WHERE LOC_IN  IN (10,20,30);</div></pre></td></tr></table></figure></p>
+<ol>
+<li>避免在索引列上使用IS NULL和IS NOT NULL<br>避免在索引中使用任何可以为空的列，ORACLE将无法使用该索引．对于单列索引，如果列包含空值，索引中将不存在此记录. 对于复合索引，如果每个列都为空，索引中同样不存在此记录.　如果至少有一个列不为空，则记录存在于索引中．举例: 如果唯一性索引建立在表的A列和B列上, 并且表中存在一条记录的A,B值为(123,null) , ORACLE将不接受下一条具有相同A,B值（123,null）的记录(插入). 然而如果所有的索引列都为空，ORACLE将认为整个键值为空而空不等于空. 因此你可以插入1000 条具有相同键值的记录,当然它们都是空! 因为空值不存在于索引列中,所以WHERE子句中对索引列进行空值比较将使ORACLE停用该索引. </li>
+</ol>
+<p>低效: (索引失效)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT … FROM  DEPARTMENT  WHERE  DEPT_CODE IS NOT NULL;</div></pre></td></tr></table></figure></p>
+<p>高效: (索引有效) </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT … FROM  DEPARTMENT  WHERE  DEPT_CODE &gt;=0;</div></pre></td></tr></table></figure>
+<ol>
+<li>总是使用索引的第一个列：<br>如果索引是建立在多个列上, 只有在它的第一个列(leading column)被where子句引用时,优化器才会选择使用该索引. 这也是一条简单而重要的规则，当仅引用索引的第二个列时,优化器使用了全表扫描而忽略了索引 </li>
+<li>用UNION-ALL 替换UNION ( 如果有可能的话)：<br>当SQL 语句需要UNION两个查询结果集合时,这两个结果集合会以UNION-ALL的方式被合并, 然后在输出最终结果前进行排序. 如果用UNION ALL替代UNION, 这样排序就不是必要了. 效率就会因此得到提高. 需要注意的是，UNION ALL 将重复输出两个结果集合中相同记录. 因此各位还是要从业务需求分析使用UNION ALL的可行性. UNION 将对结果集合排序,这个操作会使用到SORT_AREA_SIZE这块内存. 对于这块内存的优化也是相当重要的. 下面的SQL可以用来查询排序的消耗量 </li>
+</ol>
+<p>低效：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">SELECT  ACCT_NUM, BALANCE_AMT </div><div class="line">FROM  DEBIT_TRANSACTIONS </div><div class="line">WHERE TRAN_DATE = ’31-DEC-95′ </div><div class="line">UNION </div><div class="line">SELECT ACCT_NUM, BALANCE_AMT </div><div class="line">FROM DEBIT_TRANSACTIONS </div><div class="line">WHERE TRAN_DATE = ’31-DEC-95′</div></pre></td></tr></table></figure></p>
+<p>高效:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">SELECT ACCT_NUM, BALANCE_AMT </div><div class="line">FROM DEBIT_TRANSACTIONS </div><div class="line">WHERE TRAN_DATE = ’31-DEC-95′ </div><div class="line">UNION ALL </div><div class="line">SELECT ACCT_NUM, BALANCE_AMT </div><div class="line">FROM DEBIT_TRANSACTIONS </div><div class="line">WHERE TRAN_DATE = ’31-DEC-95′</div></pre></td></tr></table></figure></p>
+<ol>
+<li>用WHERE替代ORDER BY：<br>ORDER BY 子句只在两种严格的条件下使用索引.<br>ORDER BY中所有的列必须包含在相同的索引中并保持在索引中的排列顺序.<br>ORDER BY中所有的列必须定义为非空.<br>WHERE子句使用的索引和ORDER BY子句中所使用的索引不能并列.<br>例如: </li>
+</ol>
+<p>表DEPT包含以下列:<br>DEPT_CODE PK NOT NULL<br>DEPT_DESC NOT NULL<br>DEPT_TYPE NULL </p>
+<p>低效: (索引不被使用)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT DEPT_CODE FROM  DEPT  ORDER BY  DEPT_TYPE</div></pre></td></tr></table></figure></p>
+<p>高效: (使用索引)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT DEPT_CODE  FROM  DEPT  WHERE  DEPT_TYPE &gt; 0</div></pre></td></tr></table></figure></p>
+<ol>
+<li>避免改变索引列的类型.:<br>当比较不同数据类型的数据时, ORACLE自动对列进行简单的类型转换. </li>
+</ol>
+<p>假设 EMPNO是一个数值类型的索引列.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT …  FROM EMP  WHERE  EMPNO = ‘123′</div></pre></td></tr></table></figure></p>
+<p>实际上,经过ORACLE类型转换, 语句转化为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT …  FROM EMP  WHERE  EMPNO = TO_NUMBER(‘123′)</div></pre></td></tr></table></figure></p>
+<p>幸运的是,类型转换没有发生在索引列上,索引的用途没有被改变. </p>
+<p>现在,假设EMP_TYPE是一个字符类型的索引列.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT …  FROM EMP  WHERE EMP_TYPE = 123</div></pre></td></tr></table></figure></p>
+<p>这个语句被ORACLE转换为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT …  FROM EMP  WHERETO_NUMBER(EMP_TYPE)=123</div></pre></td></tr></table></figure></p>
+<p>因为内部发生的类型转换, 这个索引将不会被用到! 为了避免ORACLE对你的SQL进行隐式的类型转换, 最好把类型转换用显式表现出来. 注意当字符和数值比较时, ORACLE会优先转换数值类型到字符类型 </p>
+<ol>
+<li>需要当心的WHERE子句:<br>某些SELECT 语句中的WHERE子句不使用索引. 这里有一些例子.<br>在下面的例子里, (1)‘!=’ 将不使用索引. 记住, 索引只能告诉你什么存在于表中, 而不能告诉你什么不存在于表中. (2) ‘ ¦ ¦’是字符连接函数. 就象其他函数那样, 停用了索引. (3) ‘+’是数学函数. 就象其他数学函数那样, 停用了索引. (4)相同的索引列不能互相比较,这将会启用全表扫描. </li>
+<li>a. 如果检索数据量超过30%的表中记录数.使用索引将没有显著的效率提高.<br>b. 在特定情况下, 使用索引也许会比全表扫描慢, 但这是同一个数量级上的区别. 而通常情况下,使用索引比全表扫描要块几倍乃至几千倍! </li>
+<li>避免使用耗费资源的操作:<br>带有DISTINCT,UNION,MINUS,INTERSECT,ORDER BY的SQL语句会启动SQL引擎<br>执行耗费资源的排序(SORT)功能. DISTINCT需要一次排序操作, 而其他的至少需要执行两次排序. 通常, 带有UNION, MINUS , INTERSECT的SQL语句都可以用其他方式重写. 如果你的数据库的SORT_AREA_SIZE调配得好, 使用UNION , MINUS, INTERSECT也是可以考虑的, 毕竟它们的可读性很强 </li>
+<li>优化GROUP BY:<br>提高GROUP BY 语句的效率, 可以通过将不需要的记录在GROUP BY 之前过滤掉.下面两个查询返回相同结果但第二个明显就快了许多. </li>
+</ol>
+<p>低效:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">SELECT JOB , AVG(SAL) </div><div class="line">FROM EMP </div><div class="line">GROUP by JOB </div><div class="line">HAVING JOB = ‘PRESIDENT’ </div><div class="line">OR JOB = ‘MANAGER’</div></pre></td></tr></table></figure></p>
+<p>高效:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">SELECT JOB , AVG(SAL) </div><div class="line">FROM EMP </div><div class="line">WHERE JOB = ‘PRESIDENT’ </div><div class="line">OR JOB = ‘MANAGER’ </div><div class="line">GROUP by JOB</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/09/25/数据库SQL优化/" class="archive-article-date">
+  	<time datetime="2018-09-25T02:17:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-09-25</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL/">SQL</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-Nginx_Config" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1196,307 +1362,6 @@ export CATALINA_OPTS=&quot;$CATALINA_OPTS -XX:MaxPermSize=256m&quot;
 
 
   
-    <article id="post-Spring-webSocket" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/22/Spring-webSocket/">关于Spring boot webSocket使用方式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>1.添加Socket Maven依赖</p>
-<pre><code>&lt;dependency&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-starter-websocket&lt;/artifactId&gt;
-&lt;/dependency&gt;
-</code></pre><p>2.配置WebSocket，通过继承AbstractWebSocketMessageBrokerConfigurer类，重写其方法来配置WebSocket。需要在配置类上开启Spring boot STOMP协议（@EnableWebSocketMessageBroker）来传输message broker的消息。使控制器支持@MessageMapping。</p>
-<p>3.注册STOMP协议的节点，并映射的指定URL。</p>
-<p>4.注册一个STOMP的endpoint，并指定使用SockJS协议</p>
-<p>5.配置消息代理。</p>
-<p>6.点对点式增加一个/queue消息代理，广播式应配置一个/topic消息代理</p>
-<pre><code>@Configuration
-@EnableWebSocketMessageBroker//2
-public class SocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
-@Override
-public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {//3
-    stompEndpointRegistry.addEndpoint(&quot;/endpointWisely&quot;).withSockJS();//4
-    stompEndpointRegistry.addEndpoint(&quot;/endpointChat&quot;).withSockJS();//
-}
-
-@Override
-public void configureMessageBroker(MessageBrokerRegistry registry) {//5
-    registry.enableSimpleBroker(&quot;/queue&quot;,&quot;/topic&quot;);//6
-    }
-}
-</code></pre><h1 id="配置Controller"><a href="#配置Controller" class="headerlink" title="配置Controller"></a>配置Controller</h1><p>1.配置对象Response,以及客户侧消息对象。</p>
-<p>2.后台定义/subscription发送消息的地址，@SendTo(“/topic/response”)表示服务器有消息时，会将消息推送到这个地址。如果用户订阅了这个通知，则消息的到达浏览器端。—-这是广播式的通知方式。</p>
-<p>3.”/chat”表示浏览器端发送消息的地址。</p>
-<p>4.SimpMessagingTemplate该对象主要用到两个方法，通知类的消息使用</p>
-<pre><code>SimpMessagingTemplate.convertAndSend(&quot;/topic/response&quot;, ResultUtil.success(new Date()));
-</code></pre><p>对于某用户发送消息则为</p>
-<pre><code>SimpMessagingTemplate.convertAndSendToUser(&quot;zhyx&quot;,&quot;/queue/notifications&quot;,sdf.format(new Date()));
-</code></pre><p>通过这两种方式实现针对于点对点的消息发送方式，以及针对于广播式的消息发送方式。</p>
-<pre><code>@Controller
-public class SocketController {
-private static Logger logger = LoggerFactory.getLogger(SocketController.class);
-
- @Autowired
-private SimpMessagingTemplate simpMessagingTemplate;//通过SimpMessageTemplate向浏览器发送消息
-
-@MessageMapping(&quot;/subscription&quot;)
-@SendTo(&quot;/topic/response&quot;)
-public Response subscription(ClientMessage clientMessage){
-    logger.info(&quot;{}用户连接了Socket了！&quot;,clientMessage.getUserId());
-    return ResultUtil.success();
-}
-
-@MessageMapping(&quot;/chat&quot;)
-public void handleChat(Principal principal,String msg){//在Spring MVC中，可以直接在参数中获得principal，pinciple中包含当前用户的信息。
-    logger.info(&quot;当前发送消息者是{}&quot;,principal.getName());
-    simpMessagingTemplate.convertAndSendToUser(principal.getName(),&quot;/queue/notifications&quot;,principal.getName()+&quot;-send:&quot;+msg);
-    }
-}
-</code></pre><p>5.针对于principal对象，做以下说明，该对象属于Spring security的一个对象这里主要作用是用于获取当前发送者id。这里为什么能够直接拿到这个对象。原因如下:</p>
-<p>5.1增加Spring boot security依赖</p>
-<pre><code>&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt;
-&lt;/dependency&gt;
-</code></pre><p>5.1 开启了Spring boot WebSecurity支持。在内存中增加了两个默认的用户，当用户登录成功之后， 就可以通过该对象拿到访问者的id.</p>
-<pre><code>@Configuration
-@EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-private static Logger logger = LoggerFactory.getLogger(WebSecurityConfigurerAdapter.class);
-@Override
-protected void configure(HttpSecurity http) throws Exception {
-    logger.info(&quot;WebSecurityConfig的HttpSecurity config&quot;);
-    http
-            .authorizeRequests()
-            .antMatchers(&quot;/&quot;,&quot;/login&quot;).permitAll()//1根路径和/login路径不拦截
-            .anyRequest().authenticated()//任何没有匹配上的其他的url请求，只需要用户被验证。
-            .and()
-            .formLogin()
-            .loginPage(&quot;/login&quot;) //2登陆页面
-            .defaultSuccessUrl(&quot;/chat&quot;) //3登陆成功转向该页面
-            .permitAll()
-            .and()
-            .logout()
-            .permitAll();
-}
-
-//内存中分配两个用户密码与账户名一样，角色为USER.
-@Override
-protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    logger.info(&quot;WebSecurityConfig的AuthenticationManagerBuilder config&quot;);
-    auth
-            .inMemoryAuthentication()//内存认证模式
-            .withUser(&quot;zhyx&quot;)
-            .password(&quot;zhyx&quot;)
-            .roles(&quot;USER&quot;)
-            .and()
-            .withUser(&quot;test&quot;)
-            .password(&quot;test&quot;)
-            .roles(&quot;USER&quot;);
-}
-
-@Override
-public void configure(WebSecurity web) throws Exception {
-    logger.info(&quot;WebSecurityConfig的WebSecurity config&quot;);
-    web.ignoring().antMatchers(&quot;/resources/static/**&quot;);//静态资源不拦截。
-    super.configure(web);
-}
-}
-</code></pre><h1 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h1><p>1.前端对接，广播式对接方式。</p>
-<p>1.1引入sockjs.min.js，stomp.min.js，jquery.js支持。</p>
-<p>1.2连接SockJS的endpoint是“endpointWisely”，与后台代码中注册的endpoint要一样。</p>
-<p>1.3创建STOMP协议的webSocket客户端。</p>
-<p>1.4连接webSocket的服务端。</p>
-<p>1.5通过stompClient.subscribe（）订阅服务器的目标是’/topic/response’发送过来的地址，与@SendTo中的地址对应。</p>
-<p>1.6通过stompClient.send（）向地址为”/subscription”的服务器地址发起请求，与@MessageMapping里的地址对应。</p>
-<pre><code>&lt;!DOCTYPE html&gt;
-&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
-&lt;head&gt;
-&lt;meta charset=&quot;UTF-8&quot; /&gt;
-&lt;title&gt;Spring Boot+WebSocket+广播式&lt;/title&gt;
-
-&lt;/head&gt;
-&lt;body onload=&quot;disconnect()&quot;&gt;
-&lt;noscript&gt;&lt;h2 style=&quot;color: #ff0000&quot;&gt;貌似你的浏览器不支持websocket&lt;/h2&gt;&lt;/noscript&gt;
-&lt;div&gt;
-&lt;div&gt;
-    &lt;button id=&quot;connect&quot; onclick=&quot;connect();&quot;&gt;连接&lt;/button&gt;
-    &lt;button id=&quot;disconnect&quot; disabled=&quot;disabled&quot; onclick=&quot;disconnect();&quot;&gt;断开连接&lt;/button&gt;
-&lt;/div&gt;
-&lt;div id=&quot;conversationDiv&quot;&gt;
-    &lt;label&gt;输入你的名字&lt;/label&gt;&lt;input type=&quot;text&quot; id=&quot;name&quot; /&gt;
-    &lt;button id=&quot;sendName&quot; onclick=&quot;sendName();&quot;&gt;发送&lt;/button&gt;
-    &lt;p id=&quot;response&quot;&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;script th:src=&quot;@{/js/sockjs.min.js}&quot;&gt;&lt;/script&gt;
-&lt;script th:src=&quot;@{/js/stomp.min.js}&quot;&gt;&lt;/script&gt;
-&lt;script th:src=&quot;@{/js/jquery.js}&quot;&gt;&lt;/script&gt;
-&lt;script type=&quot;text/javascript&quot;&gt;
-var stompClient = null;
-
-function setConnected(connected) {
-    document.getElementById(&apos;connect&apos;).disabled = connected;
-    document.getElementById(&apos;disconnect&apos;).disabled = !connected;
-    document.getElementById(&apos;conversationDiv&apos;).style.visibility = connected ? &apos;visible&apos; : &apos;hidden&apos;;
-    $(&apos;#response&apos;).html();
-}
-
-function connect() {
-    var socket = new SockJS(&apos;/endpointWisely&apos;); //1
-    stompClient = Stomp.over(socket);
-    stompClient.connect({}, function(frame) {
-        setConnected(true);
-        console.log(&apos;Connected: &apos; + frame);
-        stompClient.subscribe(&apos;/topic/response&apos;, function(respnose){ //2
-            showResponse(JSON.parse(respnose.body).result);
-        });
-    });
-}
-
-
-function disconnect() {
-    if (stompClient != null) {
-        stompClient.disconnect();
-    }
-    setConnected(false);
-    console.log(&quot;Disconnected&quot;);
-}
-
-function sendName() {
-    var name = $(&apos;#name&apos;).val();
-       //3
-    stompClient.send(&quot;/subscription&quot;, {}, JSON.stringify({ &apos;userId&apos;: name,&apos;business&apos;:[&apos;2&apos;,&apos;3&apos;,&apos;4&apos;] }));
-}
-
-function showResponse(message) {
-      var response = $(&quot;#response&quot;);
-      response.html(message);
-}
-&lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre><p>2.前端对接，点对点对接方式。</p>
-<pre><code>7.1登录成功，登录转向chat页面。@{/login｝是权限管理配置的可访问路径以及登录页。
-
-
-&lt;!DOCTYPE html&gt;
-&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xmlns:th=&quot;http://www.thymeleaf.org&quot;
-  xmlns:sec=&quot;http://www.thymeleaf.org/thymeleaf-extras-springsecurity3&quot;&gt;
-&lt;meta charset=&quot;UTF-8&quot; /&gt;
-&lt;head&gt;
-&lt;title&gt;登陆页面&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;div th:if=&quot;${param.error}&quot;&gt;
-无效的账号和密码
-&lt;/div&gt;
-&lt;div th:if=&quot;${param.logout}&quot;&gt;
-你已注销
-&lt;/div&gt;
-&lt;form th:action=&quot;@{/login}&quot; method=&quot;post&quot;&gt;
-&lt;div&gt;&lt;label&gt; 账号 : &lt;input type=&quot;TEXT&quot; name=&quot;username&quot;/&gt; &lt;/label&gt;&lt;/div&gt;
-&lt;div&gt;&lt;label&gt; 密码: &lt;input type=&quot;password&quot; name=&quot;password&quot;/&gt; &lt;/label&gt;&lt;/div&gt;
-&lt;div&gt;&lt;input type=&quot;submit&quot; value=&quot;登陆&quot;/&gt;&lt;/div&gt;
-&lt;/form&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre><p>2.2聊天页面</p>
-<pre><code>2.2.1页面初始化简历SockJS连接，过程与广播连接一样。
-
-&lt;!DOCTYPE html&gt;
-
-&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
-&lt;meta charset=&quot;UTF-8&quot; /&gt;
-&lt;head&gt;
-&lt;title&gt;Home&lt;/title&gt;
-&lt;script th:src=&quot;@{js/sockjs.min.js}&quot;&gt;&lt;/script&gt;
-&lt;script th:src=&quot;@{js/stomp.min.js}&quot;&gt;&lt;/script&gt;
-&lt;script th:src=&quot;@{js/jquery.js}&quot;&gt;&lt;/script&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;p&gt;
-聊天室
-&lt;/p&gt;
-
-&lt;form id=&quot;wiselyForm&quot;&gt;
-&lt;textarea rows=&quot;4&quot; cols=&quot;60&quot; name=&quot;text&quot;&gt;&lt;/textarea&gt;
-    &lt;input type=&quot;submit&quot;/&gt;
-&lt;/form&gt;
-
-&lt;script th:inline=&quot;javascript&quot;&gt;
-$(&apos;#wiselyForm&apos;).submit(function(e){
-    e.preventDefault();
-    var text = $(&apos;#wiselyForm&apos;).find(&apos;textarea[name=&quot;text&quot;]&apos;).val();
-    sendSpittle(text);
-});
-
-var sock = new SockJS(&quot;/cmsService/endpointChat&quot;); //1
-var stomp = Stomp.over(sock);
-stomp.connect(&apos;guest&apos;, &apos;guest&apos;, function(frame) {
-    stomp.subscribe(&quot;/user/queue/notifications&quot;, handleNotification);//2
-});
-
-
-
-function handleNotification(message) {
-    $(&apos;#output&apos;).append(&quot;&lt;b&gt;Received: &quot; + message.body + &quot;&lt;/b&gt;&lt;br/&gt;&quot;)
-}
-
-function sendSpittle(text) {
-    stomp.send(&quot;/chat&quot;, {}, text);//3
-}
-$(&apos;#stop&apos;).click(function() {sock.close()});
-&lt;/script&gt;
-
-&lt;div id=&quot;output&quot;&gt;&lt;/div&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/11/22/Spring-webSocket/" class="archive-article-date">
-  	<time datetime="2017-11-22T01:21:53.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-11-22</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/">Spring</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1585,7 +1450,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown-Study/" style="font-size: 15px;">Markdown Study</a> <a href="/tags/Nginx/" style="font-size: 10px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 15px;">Oracle</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+    				<a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown-Study/" style="font-size: 15px;">Markdown Study</a> <a href="/tags/Nginx/" style="font-size: 10px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 15px;">Oracle</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
     			</div>
     	</section>
     

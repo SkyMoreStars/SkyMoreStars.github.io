@@ -135,6 +135,307 @@
       <div class="body-wrap">
         
   
+    <article id="post-Spring-webSocket" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/22/Spring-webSocket/">关于Spring boot webSocket使用方式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>1.添加Socket Maven依赖</p>
+<pre><code>&lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-websocket&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre><p>2.配置WebSocket，通过继承AbstractWebSocketMessageBrokerConfigurer类，重写其方法来配置WebSocket。需要在配置类上开启Spring boot STOMP协议（@EnableWebSocketMessageBroker）来传输message broker的消息。使控制器支持@MessageMapping。</p>
+<p>3.注册STOMP协议的节点，并映射的指定URL。</p>
+<p>4.注册一个STOMP的endpoint，并指定使用SockJS协议</p>
+<p>5.配置消息代理。</p>
+<p>6.点对点式增加一个/queue消息代理，广播式应配置一个/topic消息代理</p>
+<pre><code>@Configuration
+@EnableWebSocketMessageBroker//2
+public class SocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
+@Override
+public void registerStompEndpoints(StompEndpointRegistry stompEndpointRegistry) {//3
+    stompEndpointRegistry.addEndpoint(&quot;/endpointWisely&quot;).withSockJS();//4
+    stompEndpointRegistry.addEndpoint(&quot;/endpointChat&quot;).withSockJS();//
+}
+
+@Override
+public void configureMessageBroker(MessageBrokerRegistry registry) {//5
+    registry.enableSimpleBroker(&quot;/queue&quot;,&quot;/topic&quot;);//6
+    }
+}
+</code></pre><h1 id="配置Controller"><a href="#配置Controller" class="headerlink" title="配置Controller"></a>配置Controller</h1><p>1.配置对象Response,以及客户侧消息对象。</p>
+<p>2.后台定义/subscription发送消息的地址，@SendTo(“/topic/response”)表示服务器有消息时，会将消息推送到这个地址。如果用户订阅了这个通知，则消息的到达浏览器端。—-这是广播式的通知方式。</p>
+<p>3.”/chat”表示浏览器端发送消息的地址。</p>
+<p>4.SimpMessagingTemplate该对象主要用到两个方法，通知类的消息使用</p>
+<pre><code>SimpMessagingTemplate.convertAndSend(&quot;/topic/response&quot;, ResultUtil.success(new Date()));
+</code></pre><p>对于某用户发送消息则为</p>
+<pre><code>SimpMessagingTemplate.convertAndSendToUser(&quot;zhyx&quot;,&quot;/queue/notifications&quot;,sdf.format(new Date()));
+</code></pre><p>通过这两种方式实现针对于点对点的消息发送方式，以及针对于广播式的消息发送方式。</p>
+<pre><code>@Controller
+public class SocketController {
+private static Logger logger = LoggerFactory.getLogger(SocketController.class);
+
+ @Autowired
+private SimpMessagingTemplate simpMessagingTemplate;//通过SimpMessageTemplate向浏览器发送消息
+
+@MessageMapping(&quot;/subscription&quot;)
+@SendTo(&quot;/topic/response&quot;)
+public Response subscription(ClientMessage clientMessage){
+    logger.info(&quot;{}用户连接了Socket了！&quot;,clientMessage.getUserId());
+    return ResultUtil.success();
+}
+
+@MessageMapping(&quot;/chat&quot;)
+public void handleChat(Principal principal,String msg){//在Spring MVC中，可以直接在参数中获得principal，pinciple中包含当前用户的信息。
+    logger.info(&quot;当前发送消息者是{}&quot;,principal.getName());
+    simpMessagingTemplate.convertAndSendToUser(principal.getName(),&quot;/queue/notifications&quot;,principal.getName()+&quot;-send:&quot;+msg);
+    }
+}
+</code></pre><p>5.针对于principal对象，做以下说明，该对象属于Spring security的一个对象这里主要作用是用于获取当前发送者id。这里为什么能够直接拿到这个对象。原因如下:</p>
+<p>5.1增加Spring boot security依赖</p>
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-security&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre><p>5.1 开启了Spring boot WebSecurity支持。在内存中增加了两个默认的用户，当用户登录成功之后， 就可以通过该对象拿到访问者的id.</p>
+<pre><code>@Configuration
+@EnableWebSecurity
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+private static Logger logger = LoggerFactory.getLogger(WebSecurityConfigurerAdapter.class);
+@Override
+protected void configure(HttpSecurity http) throws Exception {
+    logger.info(&quot;WebSecurityConfig的HttpSecurity config&quot;);
+    http
+            .authorizeRequests()
+            .antMatchers(&quot;/&quot;,&quot;/login&quot;).permitAll()//1根路径和/login路径不拦截
+            .anyRequest().authenticated()//任何没有匹配上的其他的url请求，只需要用户被验证。
+            .and()
+            .formLogin()
+            .loginPage(&quot;/login&quot;) //2登陆页面
+            .defaultSuccessUrl(&quot;/chat&quot;) //3登陆成功转向该页面
+            .permitAll()
+            .and()
+            .logout()
+            .permitAll();
+}
+
+//内存中分配两个用户密码与账户名一样，角色为USER.
+@Override
+protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    logger.info(&quot;WebSecurityConfig的AuthenticationManagerBuilder config&quot;);
+    auth
+            .inMemoryAuthentication()//内存认证模式
+            .withUser(&quot;zhyx&quot;)
+            .password(&quot;zhyx&quot;)
+            .roles(&quot;USER&quot;)
+            .and()
+            .withUser(&quot;test&quot;)
+            .password(&quot;test&quot;)
+            .roles(&quot;USER&quot;);
+}
+
+@Override
+public void configure(WebSecurity web) throws Exception {
+    logger.info(&quot;WebSecurityConfig的WebSecurity config&quot;);
+    web.ignoring().antMatchers(&quot;/resources/static/**&quot;);//静态资源不拦截。
+    super.configure(web);
+}
+}
+</code></pre><h1 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h1><p>1.前端对接，广播式对接方式。</p>
+<p>1.1引入sockjs.min.js，stomp.min.js，jquery.js支持。</p>
+<p>1.2连接SockJS的endpoint是“endpointWisely”，与后台代码中注册的endpoint要一样。</p>
+<p>1.3创建STOMP协议的webSocket客户端。</p>
+<p>1.4连接webSocket的服务端。</p>
+<p>1.5通过stompClient.subscribe（）订阅服务器的目标是’/topic/response’发送过来的地址，与@SendTo中的地址对应。</p>
+<p>1.6通过stompClient.send（）向地址为”/subscription”的服务器地址发起请求，与@MessageMapping里的地址对应。</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot; /&gt;
+&lt;title&gt;Spring Boot+WebSocket+广播式&lt;/title&gt;
+
+&lt;/head&gt;
+&lt;body onload=&quot;disconnect()&quot;&gt;
+&lt;noscript&gt;&lt;h2 style=&quot;color: #ff0000&quot;&gt;貌似你的浏览器不支持websocket&lt;/h2&gt;&lt;/noscript&gt;
+&lt;div&gt;
+&lt;div&gt;
+    &lt;button id=&quot;connect&quot; onclick=&quot;connect();&quot;&gt;连接&lt;/button&gt;
+    &lt;button id=&quot;disconnect&quot; disabled=&quot;disabled&quot; onclick=&quot;disconnect();&quot;&gt;断开连接&lt;/button&gt;
+&lt;/div&gt;
+&lt;div id=&quot;conversationDiv&quot;&gt;
+    &lt;label&gt;输入你的名字&lt;/label&gt;&lt;input type=&quot;text&quot; id=&quot;name&quot; /&gt;
+    &lt;button id=&quot;sendName&quot; onclick=&quot;sendName();&quot;&gt;发送&lt;/button&gt;
+    &lt;p id=&quot;response&quot;&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;script th:src=&quot;@{/js/sockjs.min.js}&quot;&gt;&lt;/script&gt;
+&lt;script th:src=&quot;@{/js/stomp.min.js}&quot;&gt;&lt;/script&gt;
+&lt;script th:src=&quot;@{/js/jquery.js}&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+var stompClient = null;
+
+function setConnected(connected) {
+    document.getElementById(&apos;connect&apos;).disabled = connected;
+    document.getElementById(&apos;disconnect&apos;).disabled = !connected;
+    document.getElementById(&apos;conversationDiv&apos;).style.visibility = connected ? &apos;visible&apos; : &apos;hidden&apos;;
+    $(&apos;#response&apos;).html();
+}
+
+function connect() {
+    var socket = new SockJS(&apos;/endpointWisely&apos;); //1
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function(frame) {
+        setConnected(true);
+        console.log(&apos;Connected: &apos; + frame);
+        stompClient.subscribe(&apos;/topic/response&apos;, function(respnose){ //2
+            showResponse(JSON.parse(respnose.body).result);
+        });
+    });
+}
+
+
+function disconnect() {
+    if (stompClient != null) {
+        stompClient.disconnect();
+    }
+    setConnected(false);
+    console.log(&quot;Disconnected&quot;);
+}
+
+function sendName() {
+    var name = $(&apos;#name&apos;).val();
+       //3
+    stompClient.send(&quot;/subscription&quot;, {}, JSON.stringify({ &apos;userId&apos;: name,&apos;business&apos;:[&apos;2&apos;,&apos;3&apos;,&apos;4&apos;] }));
+}
+
+function showResponse(message) {
+      var response = $(&quot;#response&quot;);
+      response.html(message);
+}
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>2.前端对接，点对点对接方式。</p>
+<pre><code>7.1登录成功，登录转向chat页面。@{/login｝是权限管理配置的可访问路径以及登录页。
+
+
+&lt;!DOCTYPE html&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xmlns:th=&quot;http://www.thymeleaf.org&quot;
+  xmlns:sec=&quot;http://www.thymeleaf.org/thymeleaf-extras-springsecurity3&quot;&gt;
+&lt;meta charset=&quot;UTF-8&quot; /&gt;
+&lt;head&gt;
+&lt;title&gt;登陆页面&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div th:if=&quot;${param.error}&quot;&gt;
+无效的账号和密码
+&lt;/div&gt;
+&lt;div th:if=&quot;${param.logout}&quot;&gt;
+你已注销
+&lt;/div&gt;
+&lt;form th:action=&quot;@{/login}&quot; method=&quot;post&quot;&gt;
+&lt;div&gt;&lt;label&gt; 账号 : &lt;input type=&quot;TEXT&quot; name=&quot;username&quot;/&gt; &lt;/label&gt;&lt;/div&gt;
+&lt;div&gt;&lt;label&gt; 密码: &lt;input type=&quot;password&quot; name=&quot;password&quot;/&gt; &lt;/label&gt;&lt;/div&gt;
+&lt;div&gt;&lt;input type=&quot;submit&quot; value=&quot;登陆&quot;/&gt;&lt;/div&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>2.2聊天页面</p>
+<pre><code>2.2.1页面初始化简历SockJS连接，过程与广播连接一样。
+
+&lt;!DOCTYPE html&gt;
+
+&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
+&lt;meta charset=&quot;UTF-8&quot; /&gt;
+&lt;head&gt;
+&lt;title&gt;Home&lt;/title&gt;
+&lt;script th:src=&quot;@{js/sockjs.min.js}&quot;&gt;&lt;/script&gt;
+&lt;script th:src=&quot;@{js/stomp.min.js}&quot;&gt;&lt;/script&gt;
+&lt;script th:src=&quot;@{js/jquery.js}&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;p&gt;
+聊天室
+&lt;/p&gt;
+
+&lt;form id=&quot;wiselyForm&quot;&gt;
+&lt;textarea rows=&quot;4&quot; cols=&quot;60&quot; name=&quot;text&quot;&gt;&lt;/textarea&gt;
+    &lt;input type=&quot;submit&quot;/&gt;
+&lt;/form&gt;
+
+&lt;script th:inline=&quot;javascript&quot;&gt;
+$(&apos;#wiselyForm&apos;).submit(function(e){
+    e.preventDefault();
+    var text = $(&apos;#wiselyForm&apos;).find(&apos;textarea[name=&quot;text&quot;]&apos;).val();
+    sendSpittle(text);
+});
+
+var sock = new SockJS(&quot;/cmsService/endpointChat&quot;); //1
+var stomp = Stomp.over(sock);
+stomp.connect(&apos;guest&apos;, &apos;guest&apos;, function(frame) {
+    stomp.subscribe(&quot;/user/queue/notifications&quot;, handleNotification);//2
+});
+
+
+
+function handleNotification(message) {
+    $(&apos;#output&apos;).append(&quot;&lt;b&gt;Received: &quot; + message.body + &quot;&lt;/b&gt;&lt;br/&gt;&quot;)
+}
+
+function sendSpittle(text) {
+    stomp.send(&quot;/chat&quot;, {}, text);//3
+}
+$(&apos;#stop&apos;).click(function() {sock.close()});
+&lt;/script&gt;
+
+&lt;div id=&quot;output&quot;&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/11/22/Spring-webSocket/" class="archive-article-date">
+  	<time datetime="2017-11-22T01:21:53.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-11-22</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/">Spring</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-hexo操作相关命令" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -418,6 +719,68 @@ public class Card {
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SSL/">SSL</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-HotSpot虚拟机对象探秘" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/05/HotSpot虚拟机对象探秘/">HotSpot虚拟机对象探秘</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="对象的创建"><a href="#对象的创建" class="headerlink" title="对象的创建"></a>对象的创建</h2><p>虚拟机遇到一条new指令时，首先将去检查这个指令的参数是否能在常量池中定位到一个类的符号引用，并且检查这个符号引用代表的类是否已被加载，解析和初始化过。</p>
+<p>在类加载检查通过后，接下来虚拟机将为新生对象分配内存。对象所需要的内存大小已经在类加载完成后便可以完全确定，为对象分配空间的认为等同于把一块确定大小的内存从Java堆中划分出来。</p>
+<p>在Java堆内存规整的情况下，对象内存分配是将临界指针往空闲部分的内存区偏移新生对象大小的距离。</p>
+<p>若Java堆内存并非规整，虚拟机维护一个列表，记录哪些内存块是可用的，在分配的时候找到一块足够大的内存空间划分给对象实例，并更新列表上的记录。这种分配方式称为“空闲列表”。</p>
+<p>决定哪种分配方式是由Java堆决定的，而Java堆是否规整又由所采用的垃圾收集器是否带有压缩整理功能决定的。</p>
+<h2 id="对象的内存布局"><a href="#对象的内存布局" class="headerlink" title="对象的内存布局"></a>对象的内存布局</h2><p>对象在内存中存储的布局可以分为3块区域：对象头(Header),实例数据(Instance Data)和对齐填充(Padding)<br>对象头包括两部分信息，第一部分用于存储自身的运行时数据，如哈希码，GC分代龄，锁状态标志，线程持有的锁，偏向线程的ID，偏向时间戳等。第二部分是类型指针，即对象指向它的类元数据的指针。</p>
+<p>实例数据是对象真正存储的有效信息，这部分的存储顺序会受到虚拟机分配策略和字段在Java源码中定义的顺序的影响。</p>
+<p>对齐填充并不是必然存在的，也没有特别的含义，它仅仅起着占位符的作用。</p>
+<h2 id="对象的访问定位"><a href="#对象的访问定位" class="headerlink" title="对象的访问定位"></a>对象的访问定位</h2><p>目前主流的访问方式有使用句柄和直接指针的两种方式。</p>
+<h2 id="使用句柄访问"><a href="#使用句柄访问" class="headerlink" title="使用句柄访问"></a>使用句柄访问</h2><p><img src="http://www.zmxtea.com/resource/2.png" alt="image"><br>定义: Java堆中将会划分出一块内存来作为句柄池,refenerce中存储的就是对象的句柄的地址,而句柄中包 含了对象实例数据与类型数据各自的具体地址信息</p>
+<p>优点 : 最大的好处就是reference中存储的是稳定的句柄的地址,在对象被移动(垃圾回收时移动对象是很常见的行为)时只会改变句柄中的实例数据的地址,而reference本身不需要修改</p>
+<h2 id="直接指针"><a href="#直接指针" class="headerlink" title="直接指针"></a>直接指针</h2><p><img src="http://www.zmxtea.com/resource/3.png" alt="image"><br>定义 : reference中存储直接对象的地址,但是必须考虑放置访问类型数据的相关信息</p>
+<p>优点 : 访问速度快,节省了一次指针定位的时间开销</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/06/05/HotSpot虚拟机对象探秘/" class="archive-article-date">
+  	<time datetime="2017-06-05T01:40:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-06-05</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/">JVM</a></li></ul>
 	</div>
 
       
@@ -832,166 +1195,6 @@ catch (Exception e) {
 
 
   
-    <article id="post-fastJSON 转泛型对象" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/06/04/fastJSON 转泛型对象/">fastJSON 转泛型对象</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="fastJSON-转泛型对象"><a href="#fastJSON-转泛型对象" class="headerlink" title="fastJSON 转泛型对象"></a>fastJSON 转泛型对象</h1><p>fastJSON在实际的使用过程中，需要将JSON字符串转成带有泛型的对象。普通的方式无法实现。查询相关的资料最后得到的结果如下：</p>
-<pre><code>public List&lt;ResInnoIds&gt; callStatByInno(List&lt;Integer&gt; innoIds){
-    Map&lt;String,Object&gt; request = new HashMap&lt;&gt;();
-    request.put(&quot;ccId&quot;,inputParamHead.getCcId());
-    request.put(&quot;vdnId&quot;,inputParamHead.getVdnId());
-    if(innoIds!=null&amp;&amp;innoIds.isEmpty()){
-        request.put(&quot;innoIds&quot;,innoIds);
-    }
-    String url = CmsEndPoint.get(&quot;real.accesscode.callstatbyinno&quot;);
-    String response = HttpUtil.post(url,request);
-    Response&lt;List&lt;ResInnoIds&gt;&gt; res= JSON.parseObject(response,new TypeReference&lt;Response&lt;List&lt;ResInnoIds&gt;&gt;&gt;(){});
-    return res.getResult();
-}
-</code></pre><p>由于<code>Response&lt;List&lt;ResInnoIds&gt;&gt;</code>是一个泛型对象。<br>使用JSON.toJavaObject(json,Response.class）无法将其转成Response<list<resinnoids>&gt;。<br>必须使用</list<resinnoids></p>
-<pre><code>JSON.parseObject(response,new TypeReference&lt;Response&lt;List&lt;ResInnoIds&gt;&gt;&gt;(){});
-</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/06/04/fastJSON 转泛型对象/" class="archive-article-date">
-  	<time datetime="2016-06-04T07:43:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-06-04</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-Spring注解" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/06/04/Spring注解/">Spring注解泛解</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Spring注解泛解"><a href="#Spring注解泛解" class="headerlink" title="Spring注解泛解"></a>Spring注解泛解</h1><h2 id="1-Autowired"><a href="#1-Autowired" class="headerlink" title="1. @Autowired"></a>1. @Autowired</h2><p> @Autowired注解用于bean注入与@Resource等效，被注入的bean必须为Spring IOC容器管理的bean。<br> Spring管理的bean有如下特点：</p>
-<ol>
-<li>@Component, @Repository, @Controller, @Service, @Configration这些注解都是把你要实例化的对象转化成一个Bean，放在IoC容器中，等你要用的时候，它会和上面的@Autowired , @Resource配合到一起，把对象、属性、方法完美组装。</li>
-</ol>
-<h2 id="2-Controller"><a href="#2-Controller" class="headerlink" title="2.@Controller"></a>2.@Controller</h2><p>@Controller是控制层声明的注解，该注解声明了本类是控制层，常与@ResponseBody一起使用，主要功能返回一个JSP页面，而如果单独使用@Controller则返回值就为return 的返回值。而在Spring boot中常常使用@RestController。可以简单的理解为@RestController=@ResponseBody+@Controller。</p>
-<h2 id="3-Repository"><a href="#3-Repository" class="headerlink" title="3.@Repository"></a>3.@Repository</h2><p>@Repository注解主要用于dao层（持久化层），声明该类属于数据层，主要用于对数据CRUD操作的层。</p>
-<h2 id="4-Service"><a href="#4-Service" class="headerlink" title="4.@Service"></a>4.@Service</h2><p>@Service 注解主要用于Service层，使用该注解一般为业务层。主要功能实现业务逻辑。</p>
-<h2 id="5-Component"><a href="#5-Component" class="headerlink" title="5.@Component"></a>5.@Component</h2><p>@Component注解主要用于组件注解，如定时器，工具bean等。</p>
-<h2 id="6-RequestMapping"><a href="#6-RequestMapping" class="headerlink" title="6.@RequestMapping"></a>6.@RequestMapping</h2><p>@RequestMapping是一个用来处理请求地址映射的注解，可用于类或方法上。用于类上，表示类中的所有响应请求的方法都是以该地址作为父路径。</p>
-<h2 id="7-PathVariable"><a href="#7-PathVariable" class="headerlink" title="7.@PathVariable"></a>7.@PathVariable</h2><p>@PathVariable是获取路径中的通配符的注解。该注解可以用于Restful请求获取路径中的参数开发。<br>例子：</p>
-<pre><code>@RequestMapping(value = &quot;/history/{method}&quot;, method = RequestMethod.POST,consumes=&quot;appplication/json&quot;)
-public Response historyMonitor(@PathVariable @Valid @NotNull(message = &quot;method不能为空&quot;) String method, @RequestBody @Valid ParamIndex paramIndex, BindingResult bindingResult) {
-    logger.info(&quot;入参：method={},paramIndex={}&quot;,method,JSON.toJSONString(paramIndex));
-    if (bindingResult.hasErrors()) {
-        return CheckParam.getErrors(bindingResult);    
-    }
-    logger.info(&quot;params={}&quot;, JSON.toJSONString(paramIndex));
-    List&lt;String&gt; result = checkIndicator(paramIndex.getIndexIds());
-    if(!result.isEmpty()){
-        return new Response().setRetcode(&quot;-1&quot;).setMessage(&quot;部分指标不存在！&quot;).setResult(result);
-    }
-    switch (method) {
-        case &quot;agent&quot;:
-            return agentMonitorService.hindexAgent(paramIndex);
-        case &quot;ivr&quot;:
-            return ivrMonitorService.hindexIvr(paramIndex);
-        case &quot;skill&quot;:
-            return skillMonitorService.hindexSkill(paramIndex);
-        case &quot;vdn&quot;:
-            return vdnMonitorService.hindexVdn(paramIndex);
-    }
-    return new Response().setMessage(&quot;访问路径不存在/indicators/history/&quot;+method).setRetcode(&quot;-1&quot;);
-}
-</code></pre><h2 id="8-Valid"><a href="#8-Valid" class="headerlink" title="8.@Valid"></a>8.@Valid</h2><p>@Valid注解用于校验，所属包为：javax.validation.Valid。</p>
-<p>① 首先需要在实体类的相应字段上添加用于充当校验条件的注解，如：@Min,如下代码（age属于Girl类中的属性）：</p>
-<pre><code>@Min(value = 18,message = &quot;未成年禁止入内&quot;)  
-private Integer age;  
-</code></pre><p>② 其次在controller层的方法的要校验的参数上添加@Valid注解，并且需要传入BindingResult对象，用于获取校验失败情况下的反馈信息，如下代码：</p>
-<pre><code>@PostMapping(&quot;/girls&quot;)  
-public Girl addGirl(@Valid Girl girl, BindingResult bindingResult) {  
-    if(bindingResult.hasErrors()){  
-        System.out.println(bindingResult.getFieldError().getDefaultMessage());  
-        return null;  
-    }  
-    return girlResposity.save(girl);  
-}  
-</code></pre><p><strong>bindingResult.getFieldError.getDefaultMessage()</strong> 用于获取相应字段上添加的message中的内容，如：@Min注解中message属性的内容</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/06/04/Spring注解/" class="archive-article-date">
-  	<time datetime="2016-06-04T07:43:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-06-04</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/">Spring</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -1080,7 +1283,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown-Study/" style="font-size: 15px;">Markdown Study</a> <a href="/tags/Nginx/" style="font-size: 10px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 15px;">Oracle</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+    				<a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown-Study/" style="font-size: 15px;">Markdown Study</a> <a href="/tags/Nginx/" style="font-size: 10px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 15px;">Oracle</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
     			</div>
     	</section>
     

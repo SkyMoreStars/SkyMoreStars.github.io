@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>数据库SQL优化 | o(^▽^)o</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="数据库的优化问题一、SQL语句编写注意问题
+1.IS NULL 与 IS NOT NULL不能使用null作索引，任何包含null值的列都将不会被包含索引中。即使索引有多列这样的情况下，只要这些列中有一列含有null，该列就会从索引中排除。也就是所如果牟烈存在空值，即使对该列建索引页不会提高性能。
+任何在where子句中使用is null或is not null的语句优化器是不会允许使用索引。
+联">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库SQL优化">
+<meta property="og:url" content="http://yoursite.com/2018/09/25/数据库SQL优化/index.html">
+<meta property="og:site_name" content="o(^▽^)o">
+<meta property="og:description" content="数据库的优化问题一、SQL语句编写注意问题
+1.IS NULL 与 IS NOT NULL不能使用null作索引，任何包含null值的列都将不会被包含索引中。即使索引有多列这样的情况下，只要这些列中有一列含有null，该列就会从索引中排除。也就是所如果牟烈存在空值，即使对该列建索引页不会提高性能。
+任何在where子句中使用is null或is not null的语句优化器是不会允许使用索引。
+联">
+<meta property="og:updated_time" content="2018-10-25T02:18:13.312Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据库SQL优化">
+<meta name="twitter:description" content="数据库的优化问题一、SQL语句编写注意问题
+1.IS NULL 与 IS NOT NULL不能使用null作索引，任何包含null值的列都将不会被包含索引中。即使索引有多列这样的情况下，只要这些列中有一列含有null，该列就会从索引中排除。也就是所如果牟烈存在空值，即使对该列建索引页不会提高性能。
+任何在where子句中使用is null或is not null的语句优化器是不会允许使用索引。
+联">
+  
+    <link rel="alternative" href="/atom.xml" title="o(^▽^)o" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.png">
+  
+  <script src="/style.js"></script>
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://47.93.240.52/1.png" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">满天繁星</a></h1>
+		</hgroup>
+
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/tags/随笔">随笔</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/SkyMoreStars" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="http://weibo.com/zyxno1/home" title="weibo">weibo</a>
+		        
+					<a class="rss" target="_blank" href="#" title="rss">rss</a>
+		        
+					<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">满天繁星</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://47.93.240.52/1.png" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">满天繁星</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/tags/随笔">随笔</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/SkyMoreStars" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/zyxno1/home" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-数据库SQL优化" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      数据库SQL优化
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="数据库的优化问题"><a href="#数据库的优化问题" class="headerlink" title="数据库的优化问题"></a>数据库的优化问题</h1><p>一、SQL语句编写注意问题</p>
+<h2 id="1-IS-NULL-与-IS-NOT-NULL"><a href="#1-IS-NULL-与-IS-NOT-NULL" class="headerlink" title="1.IS NULL 与 IS NOT NULL"></a>1.IS NULL 与 IS NOT NULL</h2><p>不能使用null作索引，任何包含null值的列都将不会被包含索引中。即使索引有多列这样的情况下，只要这些列中有一列含有null，该列就会从索引中排除。也就是所如果牟烈存在空值，即使对该列建索引页不会提高性能。</p>
+<p>任何在where子句中使用is null或is not null的语句优化器是不会允许使用索引。</p>
+<h2 id="联接列"><a href="#联接列" class="headerlink" title="联接列"></a>联接列</h2><p>对于有联接的列，即使最后的联接值为一个静态值，优化器是不会使用索引的。假设有一张职工表（employee），对于一个职工的姓名分成两列存放在（FIRST_NAME）和(LAST_NAME),现在要查询一个叫做比尔.克林顿（Bill Cliton）的职工。</p>
+<p>下面是一个采用联接查询的SQL语句：</p>
+<pre><code>select * from employee where first_name||&quot;||last_name =&quot;Bill Cliton&quot;;
+</code></pre><p>上面这条语句完全可以查询出是否有Bill Cliton这个员工，但是这里需要注意，系统优化器对基于last_name创建的索引没有使用。</p>
+<p>当使用下面这种SQL语句的编写，Oracle系统就可以采用基于last_name创建的索引。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> employee <span class="keyword">where</span> FIRST_NAME=<span class="string">'Bill'</span> <span class="keyword">and</span> last_name=<span class="string">'Cliton'</span>;</div></pre></td></tr></table></figure>
+<h2 id="带通配符（-）的like语句"><a href="#带通配符（-）的like语句" class="headerlink" title="带通配符（%）的like语句"></a>带通配符（%）的like语句</h2><p>同样以上面的例子来看这种情况。目前的需求是这样的，要求在职工表中查询名字中包含（cliton）的人。可以采用如下的查询SQL语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from employee where last_name like &apos;%cliton%&apos;;</div></pre></td></tr></table></figure></p>
+<p>这里由于通配符（%）在搜寻词首出现，所以Oracle系统不使用last_name的索引。在很多情况下可能无法避免这种情况，但是一定要心中有底，通配符如此使用会降低查询速度。然而当通配符出现在字符串其他位置时，优化器就能利用索引。在下面的查询索引中得到使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select * from employee where last_name like &apos;c%&apos;</div></pre></td></tr></table></figure></p>
+<h2 id="Order-by语句"><a href="#Order-by语句" class="headerlink" title="Order by语句"></a>Order by语句</h2><p>ORDER By语句决定了如何将返回的查询结果排序。Order By语句对排序的列没有什么特别的限制，也可以将函数加入列中（像联接或者附加等）。任何在Order By语句的非索引项或者有计算表达式都将降低查询速度。</p>
+<p>仔细检查Order By 语句以找出非索引项或者表达式，他们会降低性能。解决这个问题的办法就是重写Order By语句以使用索引，也可以为所使用的列建另一个索引，同事应该绝对避免在Order By子句中使用表达式。</p>
+<h2 id="Not"><a href="#Not" class="headerlink" title="Not"></a>Not</h2><p>我们在查询时经常在where子句使用一些逻辑表达式，如大于、小于、等于以及不等于等等。也可以使用and、or、以及not（非）。NOT可以用来对任何逻辑运算符取反。下面是NOT子句的例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">... where NOT (status=‘INVALID’)</div></pre></td></tr></table></figure></p>
+<p>如果使用Not，则应在取反的短语前面加上括号，并在短语前面加上NOT运算符。NOT运算符包含在另一个逻辑运算符中，这就是不等于（&lt;&gt;）运算符。换句话说，即使不在查询where子句中显示地加入NOT词，NOT仍在运算符中。见下例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">... where status &lt;&gt; &apos;INVALID&apos;;</div></pre></td></tr></table></figure></p>
+<p>对于这个查询，可以改写为不使用NOT：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">select *from employee where salary&lt;3000 or salary&gt;3000 ;</div></pre></td></tr></table></figure>
+<p>虽然这两种查询结果一样，但是第二种查询方案回避第一种查询方案更快一些。第二种查询允许Oracle对salary列使用索引，而第一种查询则不能使用索引。</p>
+<h1 id="写出性能优良的SQL"><a href="#写出性能优良的SQL" class="headerlink" title="写出性能优良的SQL"></a>写出性能优良的SQL</h1><ol>
+<li>选择最优效率的表明顺序（只在给予规则的优化器中有效）：Oracle的解析按照从右到左的顺序处理FROM子句的表明，FROM子句中卸载后面的表（基础表driving table）将被优先处理，在FROM子句中包含多个表的情况下,你必须选择记录条数最少的表作为基础表。如果有3个以上的表连接查询，那就需要选择交叉表（intersection table）作为基表，交叉表指的是哪个被其他表所引用的表</li>
+<li>Where子句中连接顺序：ORACLE采用自伤而下的顺序解析Where子句，根据这个原理，表之间的连接必须写在其他Where条件之前，哪些可以过滤掉最大数量记录的条件必须卸载Where子句的末尾。</li>
+<li>Select子句中避免使用‘<em>’：Oracle在解析的过程中，会将‘</em>’依次转换成所有的列名，这个工作是通过查询数据字典完成的，这意味着将耗费更多的时间。</li>
+<li>减少数据库访问的次数：Oracle在内部执行了许多工作：解析SQL语句，估算索引的利用率，绑定变量，读取数据库块等；</li>
+<li>在SQL<em>Plus,SQL</em>Forms和Pro*C中重新设置ArraySiz参数，可以参考增加每次数据库访问的检索数量。</li>
+<li>使用DeCode函数来减少处理时间：在DeCode函数可以避免重复扫描相同记录或重复连接相同的表</li>
+<li>整合简单，无关的数据访问：如果有几个简单的数据库查询语句，可以把他们整合到一个查询中（即使他们之间没有关系）</li>
+<li><p>删除重复记录：最高效的删除重复记录方法（因为使用了ROWID）例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Delete From EMP E Where E.ROWID&gt;(Select MIN(X.ROWID) FROM EMP X Where X.EMP_NO=E.EMP_NO);</div></pre></td></tr></table></figure>
+</li>
+<li><p>用TRUNCATE代替DELETE：当删除表中的记录时，在通常情况下，回滚段(rollback segments)用来存放可以恢复的信息，如果你没有Commit事务，Oracle会将数据恢复到删除之前的状态（准确的说是恢复到执行删除命令之前的状况）而当运用TRUNCATE时候，回滚段不再存放任何可以被恢复的信息，当命令执行后，数据不能被恢复，因此很少资源被调用。执行时间也会很短。</p>
+</li>
+<li>尽量多使用Commit：只要有可能，在程序中尽量多使用Commit，这样程序的性能得到提高，需求也会因Commit所释放的资源而减少。</li>
+</ol>
+<p>Commit所释放的资源：</p>
+<p>1) 回滚段上用于恢复数据的信息。<br>2) 被程序语句获得的锁。<br>3) redo log buffer中的空间。<br>4) Oracle为管理上述3种资源的内部花费。</p>
+<ol>
+<li>用Where子句代替Having子句：避免使用Having子句，Having只会在检索出所有记录之后才对结果集进行过滤，这个处理需要排序，总计等操作。如果能够通过Where子句限制记录的数目，那就能减少这方面的开销，（非Oracle中）on,where,having这三个都可以加条件的子句中，On是最先执行，wher次之，having最后。因为On先把不符合条件的记录过滤后菜进行统计，它就可以减少中间运算要处理的数据，按理说应该速度是最快的。where也应该比having快一点。因为他过滤数据后菜进行sum，在两个表联接时才用on，所以在一个表的时候，就剩下where跟having比较了。在这单表查询统计的情况下，如果要过滤的条件没有涉及到要计算字段，那它们的结果是一样的，只是where可以使用rushmore技术，而having就不能，在速度上后者要慢如果要涉及到计算的字 段，就表示在没计算之前，这个字段的值是不确定的，根据上篇写的工作流程，where的作用时间是在计算之前就完成的，而having就是在计算后才起作 用的，所以在这种情况下，两者的结果会不同。在多表联接查询时，on比where更早起作用。系统首先根据各个表之间的联接条件，把多个表合成一个临时表 后，再由where进行过滤，然后再计算，计算完后再由having进行过滤。由此可见，要想过滤条件起到正确的作用，首先要明白这个条件应该在什么时候起作用，然后再决定放在那里。</li>
+<li><p>减少对表的查询：<br>在含有子查询的SQL语句中,要特别注意减少对表的查询.例子： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">SELECT TAB_NAME </div><div class="line">FROM TABLES </div><div class="line">WHERE </div><div class="line">(TAB_NAME,DB_VER) = </div><div class="line">( SELECT TAB_NAME,DB_VER FROM  TAB_COLUMNS  WHERE  VERSION = 604)</div></pre></td></tr></table></figure>
+</li>
+<li><p>通过内部函数提高SQL效率：复杂的SQL往往牺牲了执行效率. 能够掌握上面的运用函数解决问题的方法在实际工作中是非常有意义的。</p>
+</li>
+<li>使用表的别名(Alias)：当在SQL语句中连接多个表时, 请使用表的别名并把别名前缀于每个Column上.这样一来,就可以减少解析的时间并减少那些由Column歧义引起的语法错误. </li>
+<li>用EXISTS替代IN、用NOT EXISTS替代NOT IN：<br>在许多基于基础表的查询中,为了满足一个条件,往往需要对另一个表进行联接.在这种情况下, 使用EXISTS(或NOT EXISTS)通常将提高查询的效率. 在子查询中,NOT IN子句将执行一个内部的排序和合并. 无论在哪种情况下,NOT IN都是最低效的 (因为它对子查询中的表执行了一个全表遍历). 为了避免使用NOT IN ,我们可以把它改写成外连接(Outer Joins)或NOT EXISTS.<br>例子： </li>
+</ol>
+<p>(高效)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT * FROM  EMP (基础表)  WHERE  EMPNO &gt; 0  AND  EXISTS (SELECT ‘X’  FROM DEPT  WHERE  DEPT.DEPTNO = EMP.DEPTNO  AND  LOC = ‘MELB’)</div></pre></td></tr></table></figure></p>
+<p>(低效)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT  * FROM  EMP (基础表)  WHERE  EMPNO &gt; 0  AND  DEPTNO IN(SELECT DEPTNO  FROM  DEPT  WHERE  LOC = ‘MELB’)</div></pre></td></tr></table></figure></p>
+<ol>
+<li><p>识别’低效执行’的SQL语句：<br>虽然目前各种关于SQL优化的图形化工具层出不穷,但是写出自己的SQL工具来解决问题始终是一个最好的方法： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">SELECT  EXECUTIONS , DISK_READS, BUFFER_GETS, </div><div class="line">ROUND((BUFFER_GETS-DISK_READS)/BUFFER_GETS,2) Hit_radio, </div><div class="line">ROUND(DISK_READS/EXECUTIONS,2) Reads_per_run, </div><div class="line">SQL_TEXT </div><div class="line">FROM  V$SQLAREA </div><div class="line">WHERE  EXECUTIONS&gt;0 </div><div class="line">AND  BUFFER_GETS &gt; 0 </div><div class="line">AND  (BUFFER_GETS-DISK_READS)/BUFFER_GETS &lt; 0.8 </div><div class="line">ORDER BY  4 DESC;</div></pre></td></tr></table></figure>
+</li>
+<li><p>用索引提高效率：<br>索引是表的一个概念部分,用来提高检索数据的效率，ORACLE使用了一个复杂的自平衡B-tree结构. 通常,通过索引查询数据比全表扫描要快. 当ORACLE找出执行查询和Update语句的最佳路径时, ORACLE优化器将使用索引. 同样在联结多个表时使用索引也可以提高效率. 另一个使用索引的好处是,它提供了主键(primary key)的唯一性验证.。那些LONG或LONG RAW数据类型, 你可以索引几乎所有的列. 通常, 在大型表中使用索引特别有效. 当然,你也会发现, 在扫描小表时,使用索引同样能提高效率. 虽然使用索引能得到查询效率的提高,但是我们也必须注意到它的代价. 索引需要空间来存储,也需要定期维护, 每当有记录在表中增减或索引列被修改时, 索引本身也会被修改. 这意味着每条记录的INSERT , DELETE , UPDATE将为此多付出4 , 5 次的磁盘I/O . 因为索引需要额外的存储空间和处理,那些不必要的索引反而会使查询反应时间变慢.。定期的重构索引是有必要的.：<br>ALTER  INDEX <indexname> REBUILD <tablespacename> </tablespacename></indexname></p>
+</li>
+<li>用EXISTS替换DISTINCT：<br>当提交一个包含一对多表信息(比如部门表和雇员表)的查询时,避免在SELECT子句中使用DISTINCT. 一般可以考虑用EXIST替换, EXISTS 使查询更为迅速,因为RDBMS核心模块将在子查询的条件一旦满足后,立刻返回结果. 例子： </li>
+</ol>
+<p>(低效):<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">SELECT  DISTINCT  DEPT_NO,DEPT_NAME  FROM  DEPT D , EMP E </div><div class="line">WHERE  D.DEPT_NO = E.DEPT_NO</div></pre></td></tr></table></figure></p>
+<p>(高效):<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">SELECT  DEPT_NO,DEPT_NAME  FROM  DEPT D  WHERE  EXISTS ( SELECT ‘X’ </div><div class="line">FROM  EMP E  WHERE E.DEPT_NO = D.DEPT_NO);</div></pre></td></tr></table></figure></p>
+<ol>
+<li>sql语句用大写的；因为oracle总是先解析sql语句，把小写的字母转换成大写的再执行 </li>
+<li>在java代码中尽量少用连接符“＋”连接字符串！ </li>
+<li>避免在索引列上使用NOT 通常，　<br>我们要避免在索引列上使用NOT, NOT会产生在和在索引列上使用函数相同的影响. 当ORACLE”遇到”NOT,他就会停止使用索引转而执行全表扫描.</li>
+<li>避免在索引列上使用计算．<br>WHERE子句中，如果索引列是函数的一部分．优化器将不使用索引而使用全表扫描．<br>举例: </li>
+</ol>
+<p>低效：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT … FROM  DEPT  WHERE SAL * 12 &gt; 25000;</div></pre></td></tr></table></figure></p>
+<p>高效:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT … FROM DEPT WHERE SAL &gt; 25000/12;</div></pre></td></tr></table></figure></p>
+<ol>
+<li>用&gt;=替代&gt;<br>高效: <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT * FROM  EMP  WHERE  DEPTNO &gt;=4</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>低效:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT * FROM EMP WHERE DEPTNO &gt;3</div></pre></td></tr></table></figure></p>
+<p>两者的区别在于, 前者DBMS将直接跳到第一个DEPT等于4的记录而后者将首先定位到DEPTNO=3的记录并且向前扫描到第一个DEPT大于3的记录. </p>
+<ol>
+<li>用UNION替换OR (适用于索引列)<br>通常情况下, 用UNION替换WHERE子句中的OR将会起到较好的效果. 对索引列使用OR将造成全表扫描. 注意, 以上规则只针对多个索引列有效. 如果有column没有被索引, 查询效率可能会因为你没有选择OR而降低. 在下面的例子中, LOC_ID 和REGION上都建有索引. </li>
+</ol>
+<p>高效:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">SELECT LOC_ID , LOC_DESC , REGION </div><div class="line">FROM LOCATION </div><div class="line">WHERE LOC_ID = 10 </div><div class="line">UNION </div><div class="line">SELECT LOC_ID , LOC_DESC , REGION </div><div class="line">FROM LOCATION </div><div class="line">WHERE REGION = “MELBOURNE”</div></pre></td></tr></table></figure></p>
+<p>低效:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">SELECT LOC_ID , LOC_DESC , REGION </div><div class="line">FROM LOCATION </div><div class="line">WHERE LOC_ID = 10 OR REGION = “MELBOURNE”</div></pre></td></tr></table></figure></p>
+<p>如果你坚持要用OR, 那就需要返回记录最少的索引列写在最前面. </p>
+<ol>
+<li>用IN来替换OR<br>这是一条简单易记的规则，但是实际的执行效果还须检验，在ORACLE8i下，两者的执行路径似乎是相同的．　 </li>
+</ol>
+<p>低效:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT…. FROM LOCATION WHERE LOC_ID = 10 OR LOC_ID = 20 OR LOC_ID = 30</div></pre></td></tr></table></figure></p>
+<p>高效<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT… FROM LOCATION WHERE LOC_IN  IN (10,20,30);</div></pre></td></tr></table></figure></p>
+<ol>
+<li>避免在索引列上使用IS NULL和IS NOT NULL<br>避免在索引中使用任何可以为空的列，ORACLE将无法使用该索引．对于单列索引，如果列包含空值，索引中将不存在此记录. 对于复合索引，如果每个列都为空，索引中同样不存在此记录.　如果至少有一个列不为空，则记录存在于索引中．举例: 如果唯一性索引建立在表的A列和B列上, 并且表中存在一条记录的A,B值为(123,null) , ORACLE将不接受下一条具有相同A,B值（123,null）的记录(插入). 然而如果所有的索引列都为空，ORACLE将认为整个键值为空而空不等于空. 因此你可以插入1000 条具有相同键值的记录,当然它们都是空! 因为空值不存在于索引列中,所以WHERE子句中对索引列进行空值比较将使ORACLE停用该索引. </li>
+</ol>
+<p>低效: (索引失效)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT … FROM  DEPARTMENT  WHERE  DEPT_CODE IS NOT NULL;</div></pre></td></tr></table></figure></p>
+<p>高效: (索引有效) </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT … FROM  DEPARTMENT  WHERE  DEPT_CODE &gt;=0;</div></pre></td></tr></table></figure>
+<ol>
+<li>总是使用索引的第一个列：<br>如果索引是建立在多个列上, 只有在它的第一个列(leading column)被where子句引用时,优化器才会选择使用该索引. 这也是一条简单而重要的规则，当仅引用索引的第二个列时,优化器使用了全表扫描而忽略了索引 </li>
+<li>用UNION-ALL 替换UNION ( 如果有可能的话)：<br>当SQL 语句需要UNION两个查询结果集合时,这两个结果集合会以UNION-ALL的方式被合并, 然后在输出最终结果前进行排序. 如果用UNION ALL替代UNION, 这样排序就不是必要了. 效率就会因此得到提高. 需要注意的是，UNION ALL 将重复输出两个结果集合中相同记录. 因此各位还是要从业务需求分析使用UNION ALL的可行性. UNION 将对结果集合排序,这个操作会使用到SORT_AREA_SIZE这块内存. 对于这块内存的优化也是相当重要的. 下面的SQL可以用来查询排序的消耗量 </li>
+</ol>
+<p>低效：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">SELECT  ACCT_NUM, BALANCE_AMT </div><div class="line">FROM  DEBIT_TRANSACTIONS </div><div class="line">WHERE TRAN_DATE = ’31-DEC-95′ </div><div class="line">UNION </div><div class="line">SELECT ACCT_NUM, BALANCE_AMT </div><div class="line">FROM DEBIT_TRANSACTIONS </div><div class="line">WHERE TRAN_DATE = ’31-DEC-95′</div></pre></td></tr></table></figure></p>
+<p>高效:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">SELECT ACCT_NUM, BALANCE_AMT </div><div class="line">FROM DEBIT_TRANSACTIONS </div><div class="line">WHERE TRAN_DATE = ’31-DEC-95′ </div><div class="line">UNION ALL </div><div class="line">SELECT ACCT_NUM, BALANCE_AMT </div><div class="line">FROM DEBIT_TRANSACTIONS </div><div class="line">WHERE TRAN_DATE = ’31-DEC-95′</div></pre></td></tr></table></figure></p>
+<ol>
+<li>用WHERE替代ORDER BY：<br>ORDER BY 子句只在两种严格的条件下使用索引.<br>ORDER BY中所有的列必须包含在相同的索引中并保持在索引中的排列顺序.<br>ORDER BY中所有的列必须定义为非空.<br>WHERE子句使用的索引和ORDER BY子句中所使用的索引不能并列.<br>例如: </li>
+</ol>
+<p>表DEPT包含以下列:<br>DEPT_CODE PK NOT NULL<br>DEPT_DESC NOT NULL<br>DEPT_TYPE NULL </p>
+<p>低效: (索引不被使用)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT DEPT_CODE FROM  DEPT  ORDER BY  DEPT_TYPE</div></pre></td></tr></table></figure></p>
+<p>高效: (使用索引)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT DEPT_CODE  FROM  DEPT  WHERE  DEPT_TYPE &gt; 0</div></pre></td></tr></table></figure></p>
+<ol>
+<li>避免改变索引列的类型.:<br>当比较不同数据类型的数据时, ORACLE自动对列进行简单的类型转换. </li>
+</ol>
+<p>假设 EMPNO是一个数值类型的索引列.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT …  FROM EMP  WHERE  EMPNO = ‘123′</div></pre></td></tr></table></figure></p>
+<p>实际上,经过ORACLE类型转换, 语句转化为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT …  FROM EMP  WHERE  EMPNO = TO_NUMBER(‘123′)</div></pre></td></tr></table></figure></p>
+<p>幸运的是,类型转换没有发生在索引列上,索引的用途没有被改变. </p>
+<p>现在,假设EMP_TYPE是一个字符类型的索引列.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT …  FROM EMP  WHERE EMP_TYPE = 123</div></pre></td></tr></table></figure></p>
+<p>这个语句被ORACLE转换为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SELECT …  FROM EMP  WHERETO_NUMBER(EMP_TYPE)=123</div></pre></td></tr></table></figure></p>
+<p>因为内部发生的类型转换, 这个索引将不会被用到! 为了避免ORACLE对你的SQL进行隐式的类型转换, 最好把类型转换用显式表现出来. 注意当字符和数值比较时, ORACLE会优先转换数值类型到字符类型 </p>
+<ol>
+<li>需要当心的WHERE子句:<br>某些SELECT 语句中的WHERE子句不使用索引. 这里有一些例子.<br>在下面的例子里, (1)‘!=’ 将不使用索引. 记住, 索引只能告诉你什么存在于表中, 而不能告诉你什么不存在于表中. (2) ‘ ¦ ¦’是字符连接函数. 就象其他函数那样, 停用了索引. (3) ‘+’是数学函数. 就象其他数学函数那样, 停用了索引. (4)相同的索引列不能互相比较,这将会启用全表扫描. </li>
+<li>a. 如果检索数据量超过30%的表中记录数.使用索引将没有显著的效率提高.<br>b. 在特定情况下, 使用索引也许会比全表扫描慢, 但这是同一个数量级上的区别. 而通常情况下,使用索引比全表扫描要块几倍乃至几千倍! </li>
+<li>避免使用耗费资源的操作:<br>带有DISTINCT,UNION,MINUS,INTERSECT,ORDER BY的SQL语句会启动SQL引擎<br>执行耗费资源的排序(SORT)功能. DISTINCT需要一次排序操作, 而其他的至少需要执行两次排序. 通常, 带有UNION, MINUS , INTERSECT的SQL语句都可以用其他方式重写. 如果你的数据库的SORT_AREA_SIZE调配得好, 使用UNION , MINUS, INTERSECT也是可以考虑的, 毕竟它们的可读性很强 </li>
+<li>优化GROUP BY:<br>提高GROUP BY 语句的效率, 可以通过将不需要的记录在GROUP BY 之前过滤掉.下面两个查询返回相同结果但第二个明显就快了许多. </li>
+</ol>
+<p>低效:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">SELECT JOB , AVG(SAL) </div><div class="line">FROM EMP </div><div class="line">GROUP by JOB </div><div class="line">HAVING JOB = ‘PRESIDENT’ </div><div class="line">OR JOB = ‘MANAGER’</div></pre></td></tr></table></figure></p>
+<p>高效:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">SELECT JOB , AVG(SAL) </div><div class="line">FROM EMP </div><div class="line">WHERE JOB = ‘PRESIDENT’ </div><div class="line">OR JOB = ‘MANAGER’ </div><div class="line">GROUP by JOB</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/09/25/数据库SQL优化/" class="archive-article-date">
+  	<time datetime="2018-09-25T02:17:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-09-25</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL/">SQL</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2018/07/19/Nginx_Config/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Nginx Suse 11开机自动启动脚本</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="数据库SQL优化" data-title="数据库SQL优化" data-url="http://yoursite.com/2018/09/25/数据库SQL优化/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2018 满天繁星
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/"
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/JVM/" style="font-size: 10px;">JVM</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Linux/" style="font-size: 20px;">Linux</a> <a href="/tags/Markdown-Study/" style="font-size: 15px;">Markdown Study</a> <a href="/tags/Nginx/" style="font-size: 10px;">Nginx</a> <a href="/tags/Oracle/" style="font-size: 15px;">Oracle</a> <a href="/tags/SQL/" style="font-size: 10px;">SQL</a> <a href="/tags/SSL/" style="font-size: 10px;">SSL</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a> <a href="/tags/maven/" style="font-size: 10px;">maven</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://blog.mazengyi.com/">Demien</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">至虚极,宁静笃。&lt;br/&gt;&lt;br/&gt;衣带渐宽终不悔，&lt;br/&gt;为伊消得人憔悴。&lt;br/&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;---by 2016-09-23</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
