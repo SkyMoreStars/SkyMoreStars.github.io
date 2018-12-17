@@ -29,7 +29,7 @@
 	<header id="header" class="inner">
 		<a href="/" class="profilepic">
 			
-			<img src="http://47.93.240.52/1.png" class="js-avatar">
+			<img src="http://47.93.240.52/resource/1.png" class="js-avatar">
 			
 		</a>
 
@@ -99,7 +99,7 @@
 		<header id="header" class="inner">
 			<div class="profilepic">
 				
-					<img src="http://47.93.240.52/1.png" class="js-avatar">
+					<img src="http://47.93.240.52/resource/1.png" class="js-avatar">
 				
 			</div>
 			<hgroup>
@@ -134,70 +134,6 @@
 
       <div class="body-wrap">
         
-  
-    <article id="post-fastJSON 转泛型对象" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/06/04/fastJSON 转泛型对象/">fastJSON 转泛型对象</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="fastJSON-转泛型对象"><a href="#fastJSON-转泛型对象" class="headerlink" title="fastJSON 转泛型对象"></a>fastJSON 转泛型对象</h1><p>fastJSON在实际的使用过程中，需要将JSON字符串转成带有泛型的对象。普通的方式无法实现。查询相关的资料最后得到的结果如下：</p>
-<pre><code>public List&lt;ResInnoIds&gt; callStatByInno(List&lt;Integer&gt; innoIds){
-    Map&lt;String,Object&gt; request = new HashMap&lt;&gt;();
-    request.put(&quot;ccId&quot;,inputParamHead.getCcId());
-    request.put(&quot;vdnId&quot;,inputParamHead.getVdnId());
-    if(innoIds!=null&amp;&amp;innoIds.isEmpty()){
-        request.put(&quot;innoIds&quot;,innoIds);
-    }
-    String url = CmsEndPoint.get(&quot;real.accesscode.callstatbyinno&quot;);
-    String response = HttpUtil.post(url,request);
-    Response&lt;List&lt;ResInnoIds&gt;&gt; res= JSON.parseObject(response,new TypeReference&lt;Response&lt;List&lt;ResInnoIds&gt;&gt;&gt;(){});
-    return res.getResult();
-}
-</code></pre><p>由于<code>Response&lt;List&lt;ResInnoIds&gt;&gt;</code>是一个泛型对象。<br>使用JSON.toJavaObject(json,Response.class）无法将其转成Response<list<resinnoids>&gt;。<br>必须使用</list<resinnoids></p>
-<pre><code>JSON.parseObject(response,new TypeReference&lt;Response&lt;List&lt;ResInnoIds&gt;&gt;&gt;(){});
-</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/06/04/fastJSON 转泛型对象/" class="archive-article-date">
-  	<time datetime="2016-06-04T07:43:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-06-04</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
   
     <article id="post-Spring注解" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -276,6 +212,70 @@ public Girl addGirl(@Valid Girl girl, BindingResult bindingResult) {
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/">Spring</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-fastJSON 转泛型对象" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/04/fastJSON 转泛型对象/">fastJSON 转泛型对象</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="fastJSON-转泛型对象"><a href="#fastJSON-转泛型对象" class="headerlink" title="fastJSON 转泛型对象"></a>fastJSON 转泛型对象</h1><p>fastJSON在实际的使用过程中，需要将JSON字符串转成带有泛型的对象。普通的方式无法实现。查询相关的资料最后得到的结果如下：</p>
+<pre><code>public List&lt;ResInnoIds&gt; callStatByInno(List&lt;Integer&gt; innoIds){
+    Map&lt;String,Object&gt; request = new HashMap&lt;&gt;();
+    request.put(&quot;ccId&quot;,inputParamHead.getCcId());
+    request.put(&quot;vdnId&quot;,inputParamHead.getVdnId());
+    if(innoIds!=null&amp;&amp;innoIds.isEmpty()){
+        request.put(&quot;innoIds&quot;,innoIds);
+    }
+    String url = CmsEndPoint.get(&quot;real.accesscode.callstatbyinno&quot;);
+    String response = HttpUtil.post(url,request);
+    Response&lt;List&lt;ResInnoIds&gt;&gt; res= JSON.parseObject(response,new TypeReference&lt;Response&lt;List&lt;ResInnoIds&gt;&gt;&gt;(){});
+    return res.getResult();
+}
+</code></pre><p>由于<code>Response&lt;List&lt;ResInnoIds&gt;&gt;</code>是一个泛型对象。<br>使用JSON.toJavaObject(json,Response.class）无法将其转成Response<list<resinnoids>&gt;。<br>必须使用</list<resinnoids></p>
+<pre><code>JSON.parseObject(response,new TypeReference&lt;Response&lt;List&lt;ResInnoIds&gt;&gt;&gt;(){});
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/06/04/fastJSON 转泛型对象/" class="archive-article-date">
+  	<time datetime="2016-06-04T07:43:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-06-04</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
 	</div>
 
       
